@@ -1,0 +1,31 @@
+black-styles/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes/
+│   │   │   ├── __init__.py
+│   │   │   └── image.py         # Handles image upload + color extraction
+│   │   ├── services/
+│   │   │   ├── __init__.py
+│   │   │   └── color_palette.py # Color extraction logic
+│   │   └── utils/
+│   │       └── image_tools.py   # Helper functions (e.g. OpenCV ops)
+│   ├── run.py                   # Flask app entrypoint
+│   ├── requirements.txt
+│   └── config.py
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── UploadForm.jsx   # Upload/camera interface
+│   │   ├── pages/
+│   │   │   └── Home.jsx
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js           # Or webpack.config.js if not using Vite
+│
+├── .gitignore
+├── README.md
+└── LICENSE (optional)

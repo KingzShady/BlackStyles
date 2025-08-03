@@ -1,0 +1,111 @@
+Great—let's make sure what you've built so far is working **end-to-end**, and then I'll guide you through your **first Git commits** with clear messages. You’ll:
+
+1. ✅ Run and test the backend (Flask)
+2. ✅ Run and test the frontend (React)
+3. ✅ Confirm communication between them
+4. ✅ Do your first commits with meaningful messages
+
+---
+
+## ✅ STEP A: Test the Backend (Flask)
+
+### 1. 📦 Set up a virtual environment (in `black-styles/backend/`):
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 2. ▶️ Run the Flask server:
+
+```bash
+python run.py
+```
+
+It should print something like:
+
+```
+* Running on http://127.0.0.1:5000
+```
+
+> **NOTE:** If you haven't added `/api/image/upload` yet, you won’t get a response from the frontend just yet, but you can confirm the Flask server runs and CORS isn’t blocking anything.
+
+---
+
+## ✅ STEP B: Test the Frontend (React)
+
+### 1. 📦 Install dependencies:
+
+Inside `black-styles/frontend/`:
+
+```bash
+npm install
+```
+
+### 2. ▶️ Run the React dev server:
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:5173` (or whatever port it shows).
+
+If everything is set up, your `UploadForm.jsx` should show a file input and an upload button. Console will likely show a failed upload (until we implement the backend endpoint), but React works.
+
+---
+
+## ✅ STEP C: GitHub Commits — What & Why
+
+You want **frequent, descriptive commits** based on logical progress.
+
+### 📂 Recommended First Commits
+
+> You can commit from either terminal or Git panel in VS Code.
+
+### 1. 🔧 Initialize repo + folders
+
+```bash
+git add .
+git commit -m "chore: initialize project structure with frontend and backend folders"
+```
+
+### 2. 🖥️ Frontend setup
+
+```bash
+cd frontend
+git add .
+git commit -m "feat(frontend): set up React with Vite and basic UploadForm component"
+```
+
+### 3. ⚙️ Backend setup
+
+```bash
+cd ../backend
+git add .
+git commit -m "feat(backend): set up Flask app structure with placeholder services and routes"
+```
+
+### 4. 🚀 Connect both (if backend and frontend are talking)
+
+```bash
+git commit -am "feat: connect frontend upload form to Flask backend (test route)"
+```
+
+---
+
+## ✅ Optional: Push to GitHub
+
+Make sure you’ve created the GitHub repo already using:
+
+```bash
+gh repo create black-styles --public --source=. --remote=origin
+```
+
+Then push:
+
+```bash
+git push -u origin main
+```
+
+---

@@ -1,0 +1,31 @@
+Before
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   └── components/
+│   │       └── UploadForm.jsx
+│   └── index.html
+
+
+After
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes.py         # ✅ upload route, file validation, logging, error handling
+│   │   └── utils.py          # ✅ cropping and color extraction helpers
+│   └── run.py                # ✅ create_app with CORS and route registration
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   └── components/
+│   │       └── UploadForm.jsx
+│   └── index.html

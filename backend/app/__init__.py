@@ -14,7 +14,7 @@ def create_app():
     from .routes.test import test_routes # Registering new test route for backend verification
     
     # Register image-related routes under /api/image
-    app.register_blueprint(image_routes)
+    app.register_blueprint(image_routes, url_prefix="/api/image") # This allows image upload and color extraction functionality
 
     # Register test routes under /api/test
     app.register_blueprint(test_routes) # This allows quick health checks of the backend

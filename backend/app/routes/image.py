@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@image_routes.route("/upload", methods=["POST"])
+@image_routes.route('/upload', methods=["POST"])
 def upload_image():
     # Get the file from the request payload
     file = request.files.get('image')

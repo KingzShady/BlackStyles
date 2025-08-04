@@ -46,28 +46,34 @@ def upload_image():
         file.save(image_path)
 
     try:
-        # Read image via OpenCV in BGR color space
-        image = cv2.imread(image_path)
-        if image is None:
-            raise ValueError("Invalid image file")
+        # Read image data from uploaded file buffer into a NumPy array
+        data = np.frombuffer(file.read(), dtype=np.uint8)
+
+        # Decode image from memory buffer (BGR color space)
+        image = cv2.imdecode(data, cv2.IMREAD_COLOR)
+
+        # Validate decoded image is not None or empty
+        if image is None or image.size == 0:
+            raise ValueError("OpenCV failed to decode image.")
         
         # Crop the center 200x200 pixels from the image (adjust size as needed)
         cropped_img = crop_center(image, 200, 200)
 
-        # save the cropped image temporarily for palette extraction
-        cropped_path = image_path + "_cropped.jpg"
-        cv2.imwrite(cropped_path, cropped_img)
+        # Save cropped image temporarily for palette extraction
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp_cropped:
+            cropped_path = temp_cropped.name
+            cv2.imwrite(cropped_path, cropped_img)
 
         # Extract the top 5 dominant colors from the image
         palette = extract_palette(cropped_path, k=5)
-
         return jsonify({"palette": palette})
     
     except Exception as e:
-        # Return any error that occurred during processing
-        return jsonify({"error": str(e)}), 500
+        # Log the error and respond with a user-friendly message
+        logging.error(f"[ERROR] Failed to process image: {str(e)}")
+        return jsonify({"error": "Failed to read or process image. Please upload a valid JPG, JPEG or PNG."}), 400
+
     finally:
-        # Clean up temporary files
-        os.remove(image_path)
-        if os.path.exists(cropped_path):
+        # Clean up any temporary files if created
+        if 'cropped_path' in locals() and os.path.exists(cropped_path):
             os.remove(cropped_path)

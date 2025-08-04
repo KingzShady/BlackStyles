@@ -89,3 +89,46 @@ feat(frontend): connect UploadForm to image upload endpoint and log palette resp
 
 ---
 
+## 🗓️ Day 3
+
+### ✅ What I Implemented Today
+
+- Created `/api/image/upload` Flask POST route  
+- Added file type restrictions to allow only image MIME types for uploads  
+- Implemented basic request logging middleware for the upload route  
+- Auto-cropped image to center 200x200 pixels before color palette extraction  
+- Handled corrupted image input or invalid processing gracefully with clean error messages  
+
+---
+
+### 🧪 What I Tested
+
+- ✅ Uploaded valid `.jpg` and `.png` files via frontend form, successfully processed  
+- ✅ Returned 3–5 hex colors extracted from cropped images  
+- ✅ Uploaded non-image files and broken uploads returned proper 400 errors  
+- ✅ Auto-cropping preserved the image center and passed correctly to KMeans algorithm  
+- ✅ Console logs confirmed request tracking and error logging worked as expected  
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+
+- ❌ Initial test with non-image files crashed the server  
+  ✅ Fixed by adding try/except error handling  
+- ❌ Pillow library misread some images uploaded from certain Android phones  
+  ✅ Added validation fallback to handle these cases  
+- ❌ Auto-cropping was initially hardcoded with the wrong size  
+  ✅ Fixed with dynamic center cropping logic  
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+
+```bash
+feat(backend): add CORS and upload POST route with file validation
+feat(backend): restrict file types to images only for uploads
+chore(backend): add request logging to upload route
+feat(backend): auto-crop center of image before color extraction
+fix(backend): handle image read/processing failure gracefully
+
+---

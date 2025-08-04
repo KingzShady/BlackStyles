@@ -6,7 +6,7 @@ from flask import Blueprint, jsonify
 test_routes = Blueprint("test_routes", __name__)
 
 # Define a simple GET route to verify the API is responsive
-@test_routes.route("/api/test", methods=["GET"])
+@test_routes.route('/api/test', methods=["GET"])
 def test_api():
     # Return a JSON response with a success message and HTTP 200 status
     return jsonify({

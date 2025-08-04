@@ -6,9 +6,9 @@ import tempfile
 import os
 
 # Define a Flask blueprint for image-related routes
-image_bp = Blueprint("image", __name__)
+image_routes = Blueprint("image", __name__)
 
-@image_bp.route("/upload", methods=["POST"])
+@image_routes.route("/upload", methods=["POST"])
 def upload_image():
     # Ensure an image file is included in the request
     if "image" not in request.files:

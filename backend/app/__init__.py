@@ -1,3 +1,4 @@
+# backend/app/__init__.py
 from flask import Flask
 from flask_cors import CORS # Allows cross-origin requests (essential for frontend-backend communication)
 
@@ -9,8 +10,14 @@ def create_app():
     CORS(app)
 
     # Import and register the image-related routes as a blueprint
-    from .routes.image import image_bp
-    app.register_blueprint(image_bp, url_prefix="/api/image") # All image routes will be under /api/image
+    from .routes.image import image_routes
+    from .routes.test import test_routes # Registering new test route for backend verification
+    
+    # Register image-related routes under /api/image
+    app.register_blueprint(image_routes)
 
-    # Return the configured Flask app instance
+    # Register test routes under /api/test
+    app.register_blueprint(test_routes) # This allows quick health checks of the backend
+
+    # Return the fully configured app instance
     return app

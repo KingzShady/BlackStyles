@@ -1,9 +1,13 @@
 # backend/app/routes/image.py
 
+import logging # Enables backend event tracking
 from flask import Blueprint, request, jsonify
 from app.services.color_palette import extract_palette
 import tempfile
 import os
+
+# Set up basic logging configuration
+logging.basicConfig(level=logging.INFO)
 
 # Define a Flask blueprint for image-related routes
 image_routes = Blueprint("image", __name__)
@@ -27,6 +31,11 @@ def upload_image():
     # Check if the file has an allowed extension (JPG, JPEG, or PNG)
     if not allowed_file(file.filename):
         return jsonify({"error": "Unsupported file type. Please upload a JPG, JPEG, or PNG image."}), 400
+
+    # Log request and file metadata for debugging and audit purposes
+    logging.info(f"[UPLOAD] Received request from {request.remote_addr}")
+    logging.info(f"[UPLOAD] Filename: {file.filename}")
+    logging.info(f"[UPLOAD] Content-Type: {file.content_type}")
 
     # Create a temporary file to safely store the uploaded image
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp:

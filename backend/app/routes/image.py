@@ -8,18 +8,30 @@ import os
 # Define a Flask blueprint for image-related routes
 image_routes = Blueprint("image", __name__)
 
+# Define allowed image extensions for upload security
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
+
+# Helper function to check file extension
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @image_routes.route("/upload", methods=["POST"])
 def upload_image():
-    # Ensure an image file is included in the request
-    if "image" not in request.files:
-        return jsonify({"error": "No image uploaded"}), 400
+    # Get the file from the request payload
+    file = request.files.get('image')
 
-    image_file = request.files["image"]
+    # Check if file exists and has a valid name
+    if file is None or file.filename == '':
+        return jsonify({"error": "No file provided"}), 400
+    
+    # Check if the file has an allowed extension (JPG, JPEG, or PNG)
+    if not allowed_file(file.filename):
+        return jsonify({"error": "Unsupported file type. Please upload a JPG, JPEG, or PNG image."}), 400
 
     # Create a temporary file to safely store the uploaded image
     with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp:
         image_path = temp.name
-        image_file.save(image_path)
+        file.save(image_path)
 
     try:
         # Extract the top 5 dominant colors from the image

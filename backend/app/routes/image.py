@@ -5,6 +5,9 @@ from flask import Blueprint, request, jsonify
 from app.services.color_palette import extract_palette
 import tempfile
 import os
+import cv2
+import numpy as np
+from app.utils.image_utils import crop_center # Utility to crop image center
 
 # Set up basic logging configuration
 logging.basicConfig(level=logging.INFO)
@@ -43,12 +46,28 @@ def upload_image():
         file.save(image_path)
 
     try:
+        # Read image via OpenCV in BGR color space
+        image = cv2.imread(image_path)
+        if image is None:
+            raise ValueError("Invalid image file")
+        
+        # Crop the center 200x200 pixels from the image (adjust size as needed)
+        cropped_img = crop_center(image, 200, 200)
+
+        # save the cropped image temporarily for palette extraction
+        cropped_path = image_path + "_cropped.jpg"
+        cv2.imwrite(cropped_path, cropped_img)
+
         # Extract the top 5 dominant colors from the image
-        palette = extract_palette(image_path, k=5)
+        palette = extract_palette(cropped_path, k=5)
+
         return jsonify({"palette": palette})
+    
     except Exception as e:
         # Return any error that occurred during processing
         return jsonify({"error": str(e)}), 500
     finally:
-        # Always clean up the temp file, even if an error occurred
+        # Clean up temporary files
         os.remove(image_path)
+        if os.path.exists(cropped_path):
+            os.remove(cropped_path)

@@ -1,0 +1,121 @@
+## ✅ STEP D: Test Frontend ↔ Backend Integration
+
+Now that both the frontend and backend are working independently, let’s verify the full **upload and color extraction flow** step by step.
+
+---
+
+### 1. 🔁 Upload an image from the React frontend
+
+* Go to your running React app in the browser (e.g. `http://localhost:5173`)
+* Use the file input in the `UploadForm.jsx` component to select an image
+  → You can test with a picture of clothing or any image with distinct colors.
+
+---
+
+### 2. 📤 Confirm the request reaches the Flask backend
+
+* After clicking "Upload", check the Flask server terminal (`python run.py`)
+  You should **not** see any errors.
+
+* Flask should:
+
+  * Accept the `POST` request at `/api/image/upload`
+  * Save the image temporarily
+  * Extract the top 5 dominant colors
+  * Delete the temp file after processing
+
+---
+
+### 3. 💡 Check the React console output
+
+* Open the browser dev tools (`F12` or `Ctrl+Shift+I`)
+* Look at the **Console** tab
+
+You should see something like:
+
+```
+Extracted palette: ["#9f84aa", "#21313a", "#eee7e3", "#a4424f", "#5b697c"]
+```
+
+These are **5 HEX color codes**, extracted using KMeans and returned by the Flask backend.
+
+---
+
+### 4. ✅ What Passed
+
+* ✅ Upload via `multipart/form-data` worked
+* ✅ Temp file created and deleted successfully
+* ✅ OpenCV loaded and processed the image
+* ✅ KMeans extracted 5 dominant colors
+* ✅ Palette successfully returned as HEX and logged in browser console
+
+---
+
+### ⚠️ What Needs Refinement
+
+These aren’t bugs — just the next improvements to work on:
+
+* ⚠️ **No image preview** yet on the page
+* ⚠️ **No UI feedback** if the upload fails (only shows error in console)
+* ⚠️ **Palette is not displayed visually** (only logged in console)
+
+We’ll improve all of these soon.
+
+---
+
+
+---
+
+## 🧪 `TESTING.md` – Color Extraction API (Day 2)
+
+```md
+# 🧪 Testing Log – Black Styles
+
+## Day 2 – Flask Upload & Color Palette Extraction
+
+---
+
+### 📍 Test 1: Valid Image Upload
+
+**Input**: JPEG clothing image  
+**Process**:
+- Image uploaded via `UploadForm.jsx`
+- Received by Flask route `/api/image/upload`
+- Temporarily saved and read by OpenCV
+- Flattened and clustered with KMeans
+- Colors converted to hex strings
+
+**Expected Output**:
+- `200 OK`
+- JSON: `{"palette": ["#aa1122", "#ffcc00", "#223344", ...]}`
+
+**Result**: ✅ Passed
+
+---
+
+### 📍 Test 2: Missing Image Field
+
+**Input**: No image attached in form  
+**Expected Output**: `400 Bad Request`, error message  
+**Result**: ✅ Passed
+
+---
+
+### 📍 Test 3: Non-image File Upload
+
+**Input**: PDF or text file  
+**Expected**: `500 Internal Server Error` or custom error  
+**Result**: 🟡 No file-type validation yet (TODO)
+
+---
+
+### 📍 Test 4: Poor Image Quality (blurry, small)
+
+**Expected**: Less accurate palette, but no crash  
+**Result**: ✅ Passed, but output less meaningful
+
+---
+
+## Notes
+- KMeans gives distinct, stylized output, but background/skin tones can influence results.
+- Consider cropping or masking image in later update.

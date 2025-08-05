@@ -1,0 +1,178 @@
+````md
+# 🧪 Testing Log – Black Styles
+
+## Day 3 – Backend & Frontend Integration
+
+---
+
+## ✅ Task 1 — Add /api/test route to backend for dev use
+
+### 🧪 Testing Log
+* Tested via browser and Postman
+* **Result**: ✅ Route returned expected JSON
+* **Issues**: 🧠 No issues encountered
+
+---
+
+## ✅ Task 2 — Restrict File Types on Upload
+
+### 🧪 Testing Goal
+Ensure the `/api/image/upload` endpoint:
+* ✅ Accepts valid image formats: `.jpg`, `.jpeg`, `.png`
+* ❌ Rejects unsupported formats: `.gif`, `.pdf`, `.txt`, etc.
+
+### 🧪 Step-by-Step Testing Instructions
+* **Tools Needed**: Postman (or cURL or your React upload form), sample image and non-image files.
+
+1.  **✅ Test 1: Upload a Valid .jpg Image**
+    * **Action**: `POST` to `http://localhost:5000/api/image/upload` with a `.jpg` file.
+    * **Expected Result**: `{ "message": "Image uploaded successfully." }`
+
+2.  **✅ Test 2: Upload a .png Image**
+    * **Action**: Same as Test 1, but with a `.png` file.
+    * **Expected Result**: Should be accepted and processed.
+
+3.  **❌ Test 3: Upload a .pdf File**
+    * **Action**: Same as Test 1, but with a `.pdf` file.
+    * **Expected Result**: `{ "error": "Unsupported file type. Please upload a JPG or PNG image." }` with Status Code `400`.
+
+4.  **❌ Test 4: Upload a .gif, .txt, or .exe**
+    * **Action**: Use any unsupported file type.
+    * **Expected Result**: Same error response as above.
+
+5.  **❌ Test 5: Leave File Blank**
+    * **Action**: Submit the form without a file.
+    * **Expected Result**: `{ "error": "No file provided" }` with Status Code `400`.
+
+---
+
+## ✅ Task 3: Add Request Logging to Upload Route
+
+### 🎯 Goal
+Ensure that the backend logs useful request information for image uploads to the Flask server terminal.
+
+### 🧪 Testing Steps
+1.  **✅ Test 1: Valid .jpg Image Upload**
+    * **Action**: `POST` a `.jpg` image via Postman.
+    * **Expected Terminal Logs**:
+        ```
+        [UPLOAD] Received request from 127.0.0.1
+        [UPLOAD] Filename: yourfile.jpg
+        [UPLOAD] Content-Type: image/jpeg
+        ```
+    * **Expected API Response**: `{ "message": "Image uploaded successfully" }`
+
+2.  **❌ Test 2: Invalid File Type (e.g., .pdf)**
+    * **Action**: `POST` a `.pdf` file.
+    * **Expected Terminal Logs**:
+        ```
+        [UPLOAD] Received request from 127.0.0.1
+        [UPLOAD] Filename: example.pdf
+        [UPLOAD] Content-Type: application/pdf
+        ```
+    * **Expected API Response**: `{ "error": "Unsupported file type. Please upload a JPG or PNG image." }`
+
+3.  **❌ Test 3: No File Uploaded**
+    * **Action**: Submit a request with no file.
+    * **Expected Terminal Logs**: No file info logged.
+    * **Expected Response**: `{ "error": "No file provided" }`
+
+---
+
+## ✅ Task 4: Auto-Crop Center of Image Before Processing
+
+### 🎯 Goal
+Verify that images are correctly loaded, cropped at the center, and processed without crashing.
+
+### 🧪 Prerequisites
+* Flask server is running.
+* Cropping logic is implemented.
+* Images for testing are larger than 300×300 pixels.
+
+### 🧪 Testing Steps
+1.  **Test 1: Upload a Valid Large Image**
+    * **Action**: `POST` a large `.jpg` image (e.g., 1000×800 px).
+    * **Expected API Response**: `{ "message": "Image uploaded and cropped successfully" }`
+
+2.  **Test 2: Upload a Small Image (< 300x300)**
+    * **Action**: `POST` a small image (e.g., 100×100 px).
+    * **Expected Result**: The server should not crash and should return a success response.
+
+3.  **Test 3: Upload a Corrupted or Invalid Image**
+    * **Action**: `POST` a corrupted `.jpg` file.
+    * **Expected Result**: Should fail gracefully at the OpenCV decode step without crashing (this is handled in Task 5).
+
+---
+
+## ✅ Task 5: Handle image read/processing failure gracefully
+
+### 🧪 Step-by-Step Testing Instructions
+1.  **A. Trigger a Failure Case**
+    * Rename a non-image file (e.g., `.txt`) to a `.jpg` or `.png` extension and upload it.
+    * Alternatively, use a genuinely corrupted image file.
+
+2.  **B. What to Observe**
+    * **Expected API Response**:
+        ```json
+        {
+          "error": "Failed to process image. Ensure the file is a valid image."
+        }
+        ```
+    * The HTTP Status Code should be `400 Bad Request`.
+    * There should be no server crash or unhandled exception.
+
+3.  **C. How to View Logs**
+    * In the Flask terminal, you should see: `[ERROR] Failed to process image: <error message>`
+
+---
+
+## ✅ STEP D: Test Frontend ↔ Backend Integration
+
+### Now that both the frontend and backend are working independently, let’s verify the full **upload and color extraction flow** step by step.
+
+---
+
+### 1. 🔁 Upload an image from the React frontend
+* Go to your running React app in the browser (e.g. `http://localhost:5173`)
+* Use the file input in the `UploadForm.jsx` component to select an image.
+
+---
+
+### 2. 📤 Confirm the request reaches the Flask backend
+* After clicking "Upload", check the Flask server terminal (`python run.py`).
+* Flask should:
+    * Accept the `POST` request at `/api/image/upload`.
+    * Save the image temporarily.
+    * Extract the top 5 dominant colors.
+    * Delete the temporary file after processing.
+
+---
+
+### 3. 💡 Check the React console output
+* Open the browser dev tools (`F12` or `Ctrl+Shift+I`).
+* Look at the **Console** tab.
+* You should see something like:
+    ```
+    Extracted palette: ["#9f84aa", "#21313a", "#eee7e3", "#a4424f", "#5b697c"]
+    ```
+These are **5 HEX color codes**, extracted using KMeans and returned by the Flask backend.
+
+---
+
+### 4. ✅ What Passed
+* ✅ Upload via `multipart/form-data` worked.
+* ✅ Temp file created and deleted successfully.
+* ✅ OpenCV loaded and processed the image.
+* ✅ KMeans extracted 5 dominant colors.
+* ✅ Palette successfully returned as HEX and logged in browser console.
+
+---
+
+### ⚠️ What Needs Refinement
+* ⚠️ **No image preview** yet on the page.
+* ⚠️ **No UI feedback** if the upload fails (only shows error in console).
+* ⚠️ **Palette is not displayed visually** (only logged in console).
+*We'll improve all of these soon.*
+
+---
+````

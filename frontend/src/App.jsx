@@ -6,6 +6,7 @@ function App() {
   return (
     // Appied base styling to give the app a clean, modern look
     <div style={{ fontFamily: "system-ui, sans-serif", padding: 24}}>
+      
       {/* App title */}
       <h1>Black Styles</h1>
 

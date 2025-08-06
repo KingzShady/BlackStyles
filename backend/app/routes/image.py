@@ -46,15 +46,12 @@ def upload_image():
         file.save(image_path)
 
     try:
-        # Read image data from uploaded file buffer into a NumPy array
-        data = np.frombuffer(file.read(), dtype=np.uint8)
+        # Load the image from saved file
+        image = cv2.imread(image_path)
 
-        # Decode image from memory buffer (BGR color space)
-        image = cv2.imdecode(data, cv2.IMREAD_COLOR)
-
-        # Validate decoded image is not None or empty
+        # Check if the image was loaded successfully
         if image is None or image.size == 0:
-            raise ValueError("OpenCV failed to decode image.")
+            raise ValueError("Failed to load image from file.")
         
         # Crop the center 200x200 pixels from the image (adjust size as needed)
         cropped_img = crop_center(image, 200, 200)

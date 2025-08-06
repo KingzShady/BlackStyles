@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ColorSwatches from "./ColorSwatches";
+import ColourSwatches from "./ColourSwatches";
 
 function UploadForm() {
   // Store the selected file from input
@@ -102,7 +102,7 @@ function UploadForm() {
       {palette.length > 0 && (
         <div style={{ marginTop: 16 }}>
           <h3>Extracted Palette</h3>
-          <ColorSwatches colors={palette} />
+          <ColourSwatches colors={palette} />
         </div>
       )}
     </div>

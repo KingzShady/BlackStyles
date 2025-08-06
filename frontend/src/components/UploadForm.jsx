@@ -38,6 +38,7 @@ function UploadForm() {
 
       // If palette is returned, slice top 3–5 colors
       if (res.data && res.data.palette) {
+        console.log("🎨 Palette from backend:", res.data.palette);
         setPalette(res.data.palette.slice(0, 5));
       } else {
         setError("Unexpected response format.");
@@ -98,11 +99,11 @@ function UploadForm() {
         </div>
       )}
 
-      {/* Display extracted color swatches */}
+      {/* Display extracted colour swatches */}
       {palette.length > 0 && (
         <div style={{ marginTop: 16 }}>
           <h3>Extracted Palette</h3>
-          <ColourSwatches colors={palette} />
+          <ColourSwatches colours={palette} />
         </div>
       )}
     </div>

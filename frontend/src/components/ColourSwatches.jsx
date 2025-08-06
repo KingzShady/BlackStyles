@@ -1,5 +1,4 @@
 // React is the core library for building UI components
-import e from 'express';
 import React from 'react';
 
 // Define a reusable style object for each colour box (swatch)

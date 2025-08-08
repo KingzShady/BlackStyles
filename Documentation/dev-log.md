@@ -38,7 +38,7 @@
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
+
 chore: initialize project structure with frontend and backend folders
 feat(frontend): set up React with Vite and basic UploadForm component
 fix(frontend): render UploadForm component in App.jsx
@@ -130,5 +130,33 @@ feat(backend): restrict file types to images only for uploads
 chore(backend): add request logging to upload route
 feat(backend): auto-crop center of image before color extraction
 fix(backend): handle image read/processing failure gracefully
+
+---
+
+# Black Styles — Day 4 Frontend Development Summary
+
+## Features Implemented
+- Added `ColorSwatches` component to render extracted color palette visually.
+- Integrated palette into `UploadForm`, showing top 3–5 hex colors with swatches.
+- Implemented loading state to indicate upload in progress.
+- Added error UI for failed uploads or missing files.
+
+## Stack
+- Frontend: React (Vite)
+- Communication: Axios POST to Flask backend
+- Visualization: Dynamic swatches with hex labels
+
+## Testing
+- Verified swatches appear with correct hex values after successful upload.
+- Loading indicator displays during request.
+- Error messages surface with meaningful backend feedback.
+
+## Branch
+- `feat/day4-palette-ui-frontend`
+
+## Next Goals
+- Clipboard copy for hex codes.
+- Persistent recent palettes.
+- Styling polish (Tailwind integration).
 
 ---

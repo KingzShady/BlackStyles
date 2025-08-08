@@ -1,0 +1,101 @@
+# 🧪 Testing Log – Black Styles
+
+## Day 4 – Inspect Upload Request in Firefox & Frontend ↔ Backend Integration
+
+---
+
+## ✅ Task 1 — Inspect `/api/image/upload` Request in Firefox
+
+### 🧪 Testing Goal
+Verify that the image upload request to `http://localhost:5000/api/image/upload` can be inspected and validated using Firefox Developer Tools.
+
+### 🧪 Step-by-Step Testing Instructions
+* **Tools Needed**: Firefox browser
+
+1.  **Open Firefox Developer Tools**
+    * Right-click on the React app page and select **"Inspect"**.
+    * Go to the **Network** tab.
+
+2.  **Clear Existing Network Logs**
+    * Click the trash can icon to clear previous requests.
+
+3.  **Perform Image Upload**
+    * Use the upload form in your React app to select and submit an image file.
+
+4.  **Find the Upload Request**
+    * Look for the `POST` request to `http://localhost:5000/api/image/upload` in the Network tab.
+    * Make sure the filter is set to "All" to see all requests.
+
+5.  **Inspect Request Details**
+    * Click the upload request.
+    * Review the **Headers** tab to check the method, URL, and content-type.
+    * Review the **Request Payload** tab to confirm the uploaded file is included.
+    * Review the **Response** tab for backend JSON response.
+
+---
+
+## ✅ Task 2 — Verify Backend Response and Frontend Console Logging
+
+### 🧪 Testing Goal
+Ensure the Flask backend correctly processes the image upload and returns the extracted color palette, which is then logged in the React frontend console.
+
+### 🧪 Testing Steps
+
+1.  **Upload an Image from React Frontend**
+    * Use the file input and click "Upload" in the React app.
+
+2.  **Check Backend Flask Logs**
+    * In the Flask server terminal, verify the request is received and processed.
+
+3.  **Inspect Network Response in Firefox**
+    * Confirm the response contains JSON like:
+      ```json
+      {
+        "palette": ["#112233", "#445566", "#778899"]
+      }
+      ```
+
+4.  **Check React Browser Console**
+    * Open the Console tab in Firefox Developer Tools.
+    * Confirm the extracted palette hex codes are logged, e.g.:
+      ```
+      Extracted palette: ["#9f84aa", "#21313a", "#eee7e3", "#a4424f", "#5b697c"]
+      ```
+
+---
+
+## ✅ Task 3 — Identify and Fix Prop Name Mismatch Causing Empty Color Swatches
+
+### 🧪 Issue Description
+The main issue is a prop name mismatch between `UploadForm.jsx` and `ColourSwatches.jsx`:  
+- `UploadForm` passes the palette as a prop named **`colors`**,  
+- but `ColourSwatches` expects a prop named **`colours`**.  
+
+This causes `ColourSwatches` to receive an empty array and render nothing.
+
+### 🧪 How to Fix
+* Rename the prop in `ColourSwatches.jsx` from `colours` to `colors`,  
+**OR**  
+* Change the prop name passed from `UploadForm.jsx` to `colours`.
+
+### 🧪 Additional Fix
+In `ColourSwatches.jsx`, there is an extra `]` character mistakenly included inside a comment:  
+
+{/* Hex code below the swatch */}
+
+### 🧪 Expected Outcome
+* Fixing these issues will allow the color swatches to display properly below the “Extracted Palette” heading.
+
+## ✅ Summary of What Passed
+* ✅ Able to open Firefox Developer Tools and locate the upload request.
+* ✅ Confirmed request uses POST method and correct endpoint.
+* ✅ Verified the image file is sent as payload.
+* ✅ Backend returns JSON with the extracted color palette.
+* ✅ React frontend successfully logs the color palette to the console.
+* ⚠️ Prop name mismatch and comment typo identified as cause of missing swatches.
+
+## ⚠️ What Needs Improvement
+* ⚠️ UI feedback for success or failure after upload is minimal or missing.
+* ⚠️ No visual display of extracted colors on the webpage yet (fixed by addressing prop mismatch).
+* ⚠️ Error handling on frontend can be improved for upload failures.
+```jsx

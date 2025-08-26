@@ -1,11 +1,10 @@
 // frontend/src/utils/localStorageUtils.js
-// Utility functions to manage saved outfits in localStorage.
-// This helps keep all storage logic in one place instead of scattering it across components.
+// Small helper to manage saved outfits in localStorage
 
 const STORAGE_KEY = "black_styles_outfits"; // Unque key to avoid clashes with other apps in the browser
 
 
-// Get saved outfits array (or empty array if nothing is stored or JSON parsing fails)
+// Get saved outfits array (or empty array if nothing is stored)
 export function getSavedOutfits() {
 try{
     const raw = localStorage.getItem(STORAGE_KEY); 
@@ -22,7 +21,7 @@ try{
  * - Caps stored outfits at 20 to avoid unbounded growth.
  * Outfits shape: {id, imageData, palette, theme, savedAt}
  */
-export function savedOutfit(outfit){
+export function saveOutfit(outfit){
     const arr = getSavedOutfits();
     arr.unshift(outfit); // Add new outfit to the start
     if (arr,length > 20) arr.pop(); // Keep size capped at 20
@@ -40,6 +39,6 @@ export function deleteOutfit(id) {
 /**
  * Delete all saved outfits.
  */
-export function deleteAllOutfits() {
+export function clearSavedOutfits() {
     localStorage.removeItem(STORAGE_KEY); // Remove the entire key
 }

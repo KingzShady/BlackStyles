@@ -2,9 +2,9 @@
 import React, {useState} from 'react';
 
 /*
-  ColorSwatches Component
+  ColourSwatches Component
   -----------------------
-  - Input: `colors` (array of hex strings e.g. ['#aabbcc', '#ff0000'])
+  - Input: `colours` (array of hex strings e.g. ['#aabbcc', '#ff0000'])
   - Displays swatches with hex code below
   - Each swatch has a "Copy" button that copies the hex code to clipboard
   - Shows "Copied ✓" feedback briefly after copying

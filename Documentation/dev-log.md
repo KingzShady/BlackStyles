@@ -160,3 +160,48 @@ fix(backend): handle image read/processing failure gracefully
 - Styling polish (Tailwind integration).
 
 ---
+
+# Black Styles — Day 5 & Project Documentation
+
+## 📆 Day 5 — Testing Log
+
+**Date:** (fill in date)
+
+### Tests performed
+- **End-to-end upload → palette → theme**
+  - Sent image via frontend upload; backend returned palette; `/api/theme` returned theme label. ✅
+- **Copy-to-clipboard**
+  - Clicked Copy under swatches; clipboard contains hex codes. ✅
+- **Save Outfit**
+  - Saved outfit (preview base64 + palette + theme) to localStorage under `black_styles_outfits`. ✅
+  - RecentOutfits displays saved items across reloads. ✅
+- **Error handling**
+  - Renamed `.txt` to `.jpg` caused backend rejection; frontend shows backend message; server did not crash. ✅
+- **Manual theme endpoint test**
+  - Postman: `POST /api/theme` → returned theme for sample palette. ✅
+
+### Issues found
+- If backend not running, frontend times out — handled and shows error message.
+- Theme mapping is simple and will be refined.
+
+---
+
+## ✅ Day 5 — Daily Dev Log
+
+**What I implemented today**
+- Added copy-to-clipboard in `ColorSwatches.jsx`.
+- Implemented Save Outfit feature (preview + palette + theme) and localStorage utilities (`localStorageUtils.js`).
+- Created `RecentOutfits.jsx` component to show saved outfit thumbnails and palettes.
+- Added lightweight backend theme matching (`theme_matcher.py`) and route `/api/theme`.
+
+**What I tested**
+- Frontend upload and palette extraction.
+- Copying hex to clipboard.
+- Saving outfits and viewing recent items across reloads.
+- Backend `/api/theme` via Postman and frontend.
+
+**Issues / notes**
+- Theme matcher is deterministic and basic — fine for Day 5 scaffolding.
+- Consider server-side persistence (MongoDB) next.
+
+**Git commits (examples)**

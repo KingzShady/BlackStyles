@@ -62,7 +62,11 @@ export default function ColourSwatches({ colours = [] }) {
 
     return (
         <div style={{ marginTop: 12}}>
-            <div style={{ display: "flex", alignItems: "flez-start", gap: 12, flexWrap: "wrap", // Responsive Wrap for smaller screens
+            <div style={{ 
+                display: "flex", 
+                alignItems: "flex-start", 
+                gap: 12, 
+                flexWrap: "wrap", // Responsive Wrap for smaller screens
             }} 
             >
                 {colours.map((hex, idx) => (
@@ -73,7 +77,7 @@ export default function ColourSwatches({ colours = [] }) {
                             aria-label={`Color ${hex}`}
                             style={{ ...swatchStyle, backgroundColor: hex }}
                         />
-                        {/* Hex code below the swatch */}]
+                        {/* Hex code below the swatch */}
                         <div style={{marginTop: 6, fontSize: 12, fontFamily: "monospace"}}>
                             {hex}
                         </div>

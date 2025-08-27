@@ -108,7 +108,7 @@ export default function UploadForm() {
 
   // Save the current preview + palette + theme to localStorage for later browsing
   const handleSaveOutfit = () => {
-    if(!previewDataUrl || palette.length){
+    if(!previewDataUrl || !palette.length){
       setError("Cannot save — no preview or palette found.");
       return;
     }
@@ -122,7 +122,7 @@ export default function UploadForm() {
     };
     saveOutfit(outfit);
     setSavedMsg("Saved! See Recently Saved Outfits below.");
-
+  };
   return (
     <div style={{ maxWidth: 680 }}>
       <h2>Upload an Image</h2>
@@ -131,7 +131,14 @@ export default function UploadForm() {
       <input type="file" accept="image/*" onChange={handleFileChange} />
       
       {/* Controls row: upload button + preview thumbnail + loading indicator */}
-      <div style={{ marginTop: 10,  display: "flex", gap: 12, alignContents: "center" }}>
+      <div 
+      style={{ 
+        marginTop: 10, 
+        display: "flex", 
+        gap: 12, 
+        alignItems: "center" 
+        }}
+      >
         <button onClick={handleUpload} disabled={loading}>
           {loading ? "Uploading..." : "Upload"}
         </button>
@@ -177,6 +184,4 @@ export default function UploadForm() {
       <RecentOutfits />
     </div>
   );
-};
-
 }

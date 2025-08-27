@@ -24,7 +24,7 @@ try{
 export function saveOutfit(outfit){
     const arr = getSavedOutfits();
     arr.unshift(outfit); // Add new outfit to the start
-    if (arr,length > 20) arr.pop(); // Keep size capped at 20
+    if (arr.length > 20) arr.pop(); // Keep size capped at 20
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); // Save back to localStorage
 }
 

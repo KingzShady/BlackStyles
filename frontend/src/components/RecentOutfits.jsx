@@ -81,12 +81,15 @@ export default function RecentOutfits() {
                 {/* Clear all outfits button */}
                 <div>
                     <button
-                      onClick={() => handleDelete(o.id)}
+                      onClick={() => {
+                        clearSavedOutfits();
+                        setItems([]);
+
+                      }}
                       style={{
                         padding: "6px 10px",
                         borderRadius: 6,
                         border: "1px solid #ddd",
-                        background: "#fff",
                         cursor: "pointer",
                       }}
                       >

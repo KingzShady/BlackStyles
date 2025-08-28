@@ -5,7 +5,7 @@ black-styles/
 │   ├── app/
 │   │   ├── __init__.py
 │   │   ├── routes/
-│   │   │   ├── routes.py        # ✅ upload route, file validation, logging, error handling
+│   │   │   ├── image.py        # ✅ upload route, file validation, logging, error handling
 │   │   │   ├── test.py          # ✅ unit tests for routes
 │   │   │   └── theme.py         # New: theme matching logic
 │   │   ├── services/
@@ -32,7 +32,7 @@ black-styles/
 │   ├── app/
 │   │   ├── __init__.py
 │   │   ├── routes/
-│   │   │   ├── routes.py            # Modified: upload + new save/recent routes
+│   │   │   ├── image.py            # Modified: upload + new save/recent routes
 │   │   │   ├── palettes.py          # New: routes to save/fetch palettes
 │   │   │   ├── test.py              # Expanded tests for palettes
 |   |   |   └── theme.py             # Theme logic remains here

@@ -46,7 +46,7 @@ def save_palette(image_url, colours, theme):
         "colours": colours,
         "theme": theme
     }
-    data.insert(o, entry) # push new entry to the front
+    data.insert(0, entry) # push new entry to the front
     _save_data(data)
     return entry
 

@@ -165,8 +165,6 @@ fix(backend): handle image read/processing failure gracefully
 
 ## 📆 Day 5 — Testing Log
 
-**Date:** (fill in date)
-
 ### Tests performed
 - **End-to-end upload → palette → theme**
   - Sent image via frontend upload; backend returned palette; `/api/theme` returned theme label. ✅
@@ -205,3 +203,12 @@ fix(backend): handle image read/processing failure gracefully
 - Consider server-side persistence (MongoDB) next.
 
 **Git commits (examples)**
+- ✨ feat(utils): Add localStorage utility for managing saved outfits with limit & safety checks
+- Add copy-to-clipboard feature to ColourSwatches
+- Update prop and component naming to 'ColourSwatches'
+- refactor(utils): fix saveOutfit & clearSavedOutfits
+- feat(RecentOutfits): display saved outfits with palette, theme & delete
+- feat: add image preview, theme lookup, save outfit & recent outfits UI
+- feat: add lightweight hex palette → seasonal theme matcher
+- feat: add POST /api/theme route for palette → theme matching
+

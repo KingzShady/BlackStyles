@@ -1,4 +1,4 @@
-Before:
+Before Day 5:
 black-styles/
 │
 ├── backend/
@@ -20,7 +20,7 @@ black-styles/
     │       └── ColorSwatches.jsx       # New: visual swatch + hex list
     └── App.jsx                     # Ensure it's using UploadForm
 
-After:
+After Day 5:
 black-styles/
 │
 ├── backend/

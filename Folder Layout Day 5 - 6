@@ -1,0 +1,56 @@
+Before Day 6:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes/
+│   │   │   ├── routes.py        # ✅ upload route, file validation, logging, error handling
+│   │   │   ├── test.py          # ✅ unit tests for routes
+│   │   │   └── theme.py         # New: theme matching logic
+│   │   ├── services/
+│   │   │   ├── color_palette.py # ✅ upload route, file validation, logging, error handling
+│   │   │   └── theme_matcher.py # New: theme matching logic
+│   │   └── utils/
+│   │       └── image_utils.py   # ✅ cropping and color extraction helpers
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   └── components/
+│   │       ├── UploadForm.jsx          # Modified: loading, error, palette display
+│   │       ├── ColorSwatches.jsx       # New: visual swatch + hex list
+│   │       └── RecentOutfits.jsx       # New: display recent outfits with themes
+│   │   └── utils/
+│   │       └── localStorageUtils.js    # New: local storage helpers for outfits
+│   └── App.jsx                         # Ensure it's using UploadForm and ThemeMatcher
+
+After Day 6:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes/
+│   │   │   ├── routes.py            # Modified: upload + new save/recent routes
+│   │   │   ├── palettes.py          # New: routes to save/fetch palettes
+│   │   │   └── test.py              # Expanded tests for palettes
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   └── palette_service.py   # New: handles DB/JSON persistence
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadForm.jsx        # Modified: trigger save to backend
+│   │   │   ├── ColorSwatches.jsx     # Display palette swatches
+│   │   │   ├── RecentOutfits.jsx     # Modified: now fetches from backend
+│   │   │   └── ThemeTag.jsx          # New: show assigned theme (season)
+│   │   └── utils/
+│   │       ├── localStorageUtils.js  # Keep for offline fallback
+│   │       └── api.js                # New: Axios helpers for backend calls
+│   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag

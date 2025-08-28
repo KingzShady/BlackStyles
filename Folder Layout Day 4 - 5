@@ -27,7 +27,7 @@ black-styles/
 │   ├── app/
 │   │   ├── __init__.py
 │   │   ├── routes/
-│   │   │   ├── routes.py        # ✅ upload route, file validation, logging, error handling
+│   │   │   ├── image.py        # ✅ upload route, file validation, logging, error handling
 │   │   │   ├── test.py          # ✅ unit tests for routes
 │   │   │   └── theme.py         # New: theme matching logic
 │   │   ├── services/

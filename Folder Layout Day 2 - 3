@@ -4,7 +4,7 @@ black-styles/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   ├── routes.py
+│   │   ├── image.py
 │   └── run.py
 ├── frontend/
 │   ├── public/
@@ -20,7 +20,7 @@ black-styles/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   ├── routes.py         # ✅ upload route, file validation, logging, error handling
+│   │   ├── image.py         # ✅ upload route, file validation, logging, error handling
 │   │   └── utils.py          # ✅ cropping and color extraction helpers
 │   └── run.py                # ✅ create_app with CORS and route registration
 ├── frontend/

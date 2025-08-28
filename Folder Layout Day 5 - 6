@@ -34,7 +34,8 @@ black-styles/
 │   │   ├── routes/
 │   │   │   ├── routes.py            # Modified: upload + new save/recent routes
 │   │   │   ├── palettes.py          # New: routes to save/fetch palettes
-│   │   │   └── test.py              # Expanded tests for palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   └── theme.py             # Theme logic remains here
 │   │   ├── services/
 │   │   │   ├── color_palette.py     # Extract colors
 │   │   │   ├── theme_matcher.py     # Theme logic

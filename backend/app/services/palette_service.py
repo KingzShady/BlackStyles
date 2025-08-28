@@ -50,7 +50,7 @@ def save_palette(image_url, colours, theme):
     _save_data(data)
     return entry
 
-def get_recent_palettes(limit=5)
+def get_recent_palettes(limit=5):
     """
     Retrieve the most recent colour palettes.
     - Default limit is 5 newest entries.

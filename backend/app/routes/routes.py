@@ -9,6 +9,9 @@ import cv2
 import numpy as np
 from app.utils.image_utils import crop_center # Utility to crop image center
 
+# ✅ NEW: persistence service to save palettes
+from app.services.palette_service import save_palette
+
 # ✅ NEW: allow palette routes (history, retrieval, etc.)
 from app.routes.palettes import palettes_bp
 

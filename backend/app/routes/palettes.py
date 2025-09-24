@@ -50,8 +50,8 @@ def save_palette():
         # Catch-all for unexpected runtime errors
         return jsonify({"error": str(e)}), 500
     
-    @palettes_bp.route("/recent", methods=["GET"])
-    def get_recent_palettes():
+@palettes_bp.route("/recent", methods=["GET"])
+def get_recent_palettes():
         """
         Fetch the most recent palettes.
         Optional query param:

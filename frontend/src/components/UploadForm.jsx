@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import ColourSwatches from "./ColourSwatches";
 import RecentOutfits from "./RecentOutfits";
-import { saveOutfit } from "../utils/localStorageUtils";
+//import { saveOutfit } from "../utils/localStorageUtils";
 import { savePalette } from "../utils/api";
 
 /* 
@@ -124,22 +124,22 @@ export default function UploadForm() {
   };
 
   // Save the current preview + palette + theme to localStorage for later browsing
-  const handleSaveOutfit = () => {
+  const handleSaveOutfit = async () => {
     if(!previewDataUrl || !palette.length){
       setError("Cannot save — no preview or palette found.");
       return;
     }
 
-    const outfit = {
-      id: Date.now(), // Unique ID based on timestamp
-      image: previewDataUrl,
-      palette,
-      theme,
-      savedAt: new Date().toISOString(),
-    };
-    saveOutfit(outfit);
-    setSavedMsg("Saved! See Recently Saved Outfits below.");
+    // Call the backend save function
+    try{
+      await savePalette(previewDataUrl, palette, theme || "Unknown");
+      setSavedMsg("Saved! See below for Saved Outfits👇");
+    } catch(err){
+      console.error("Failed to save outfit to backend:", err);
+      setError("Failed to save outfit. Please try again.");
+    }
   };
+  
   return (
     <div style={{ maxWidth: 680 }}>
       <h2>Upload an Image</h2>

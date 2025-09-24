@@ -89,7 +89,7 @@ export default function UploadForm() {
 
       // Optional: ask backend to return human-friendly theme label
       try {
-        const t = await axios.post("http://localhost:5000/api/image/theme", { palette: gotPalette });
+        const t = await axios.post("http://localhost:5000/api/theme", { palette: gotPalette });
         if (t.data && t.data.theme){
           setTheme(t.data.theme);
 

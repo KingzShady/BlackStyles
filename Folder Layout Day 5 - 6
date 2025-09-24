@@ -42,6 +42,8 @@ black-styles/
 │   │   │   └── palette_service.py   # New: handles DB/JSON persistence
 │   │   └── utils/
 │   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                     # New: store palettes JSON
+│   │   └── palettes.json   
 │   └── run.py
 ├── frontend/
 │   ├── public/

@@ -2,6 +2,9 @@
 
 import axios from "axios";
 
+// Define the base URL for your backend API
+const API_BASE = "http://localhost:5000";
+
 // ✅ Base URL for the backend API requests
 // Using the localhost during development; update when deployed
 
@@ -12,7 +15,7 @@ import axios from "axios";
  */
 
 export const savePalette = async (imageUrl, colours, theme) => {
-    const res = await axios.post(`${API_BASE}/palettes/save`, {
+    const res = await axios.post(`${API_BASE}/api/palettes/save`, {
         imageUrl,
         colours,
         theme,
@@ -27,6 +30,6 @@ export const savePalette = async (imageUrl, colours, theme) => {
  */
 
 export const getRecentPalettes = async (limit = 5) => {
-    const res = await axios.get(`${API_BASE}/palettes/recent?count=${limit}`);
+    const res = await axios.get(`${API_BASE}/api/palettes/recent?limit=${limit}`);
     return res.data.palettes;
 };

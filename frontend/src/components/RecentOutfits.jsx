@@ -9,7 +9,7 @@ import { getRecentPalettes } from "../utils/api"; // ✅ New: API import replace
  - Benefits: Palettes persist across sessions/devices + prepares app for user accounts.
 */
 const RecentOutfits = () => {
-    const [recent, setItems] = useState([]);
+    const [recent, setRecent] = useState([]);
 
     // ✅ Fetch recent palettes from backend when component mounts
     useEffect(() => {
@@ -43,7 +43,7 @@ const RecentOutfits = () => {
                 >
                     {/* ✅Outfit Thumbnail*/}
                     <img
-                        src={entry.imageUrl}
+                        src={entry.image_url}
                         alt="outfit"
                         style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 6 }}
                     />
@@ -59,7 +59,7 @@ const RecentOutfits = () => {
 
                         {/* ✅Inline swatches replacing old ColourSwatches component */}
                         <div style={{ display: "flex", gap: 4, marginTop: 6}}>
-                            {entry.colors.map((c, i) => (
+                            {entry.colours.map((c, i) => (
                                 <div
                                     key={i}
                                     style={{

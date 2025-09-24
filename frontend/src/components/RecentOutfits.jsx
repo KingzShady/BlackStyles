@@ -1,102 +1,80 @@
+// frontend/src/components/RecentOutfits.jsx
 import React, {useEffect, useState} from "react";
-import { getSavedOutfits, deleteOutfit, clearSavedOutfits } from "../utils/localStorageUtils";
-import ColourSwatches from "./ColourSwatches";
+import { getRecentPalettes } from "../utils/api"; // ✅ New: API import replaces localStorage utils — fetches from backend persistence
 
 /*
  RecentOutfits Component
- - Displays a list of recently saved outfits from localStorage.
- - Show thumbnail, palette, theme, and saved time.
- - Supports deleting individual outfits or clearing all.
+ - Before: Displayed outfits saved only in localStorage.
+ - After: Now fetches recent palettes from backend via API.
+ - Benefits: Palettes persist across sessions/devices + prepares app for user accounts.
 */
+const RecentOutfits = () => {
+    const [recent, setItems] = useState([]);
 
-export default function RecentOutfits() {
-    const [items, setItems] = useState([]);
-
-    // Load saved outfits on component mount
+    // ✅ Fetch recent palettes from backend when component mounts
     useEffect(() => {
-        setItems(getSavedOutfits());
+        async function fetchRecent() {
+            try {
+                const palettes = await getRecentPalettes();
+                setRecent(palettes);
+            } catch (err) {
+                console.warn("⚠️ Failed to fetch recent palettes:", err);
+            }
+        }
+        fetchRecent();
     }, []);
-
-    // Handle deleting a single outfit and update state
-    const handleDelete = (id) => {
-        deleteOutfit(id);
-        setItems(getSavedOutfits());
-    };
-
-    // No outfits saved, render nothing
-    if (!items || items.length === 0) return null;
 
     return (
         <div style={{ marginTop: 20}} >
             <h3>Recent Outfits</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {items.slice(0,6).map((o) => (
-                    <div
-                       key={o.id}
-                       style={{
+
+            {/* ✅ Render list of recent palettes returned from backend */}
+            {recent.map((entry, idx) => (
+                <div
+                    key={idx}
+                    style={{
                         display: "flex",
                         gap: 12,
                         padding: 10,
                         border: "1px solid #eee",
                         borderRadius: 8,
                         alignItems: "center",
-                        }} 
-                        >
-                            {/* Outfit Thumbnail */}
-                            <img 
-                                src={o.imageData} 
-                                alt="outfit"
-                                style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 6 }}
-                            />
+                    }}
+                >
+                    {/* ✅Outfit Thumbnail*/}
+                    <img
+                        src={entry.imageUrl}
+                        alt="outfit"
+                        style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 6 }}
+                    />
 
-                            {/* Outfit Details: theme, saved date, colour palette */}
-                            <div style = {{ flex: 1 }}>
-                                <div style={{ fontSize: 14, fontWeight: 600}}>
-                                    {o.theme || "Theme: —"}
-                                </div>
-                                <div style={{ fontSize: 12, color: "#666"}}>
-                                    {new Date(o.savedAt).toLocaleString()}
-                                </div>
-                                <ColourSwatches colours={o.palette || []} />
-                            </div>
-                            
-                            {/* Delete single outfit */}
-                            <div>
-                                <button
-                                  onClick={() => handleDelete(o.id)}
-                                  style={{
-                                    padding: "6px 10px",
-                                    borderRadius: 6,
-                                    border: "1px solid #ddd",
-                                    background: "#fff",
-                                    cursor: "pointer",
-                                  }}
-                                  >
-                                    Delete
-                                  </button>
-                            </div>
+                    {/* ✅Palette details (theme _swatches) */}
+                    <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 600}}>
+                            {entry.theme || "Theme: —"}
+                        </div>
+                        <div style={{ fontSize: 12, color: "#666"}}>
+                            {new Date(entry.timestamp).toLocaleString()}
+                        </div>
+
+                        {/* ✅Inline swatches replacing old ColourSwatches component */}
+                        <div style={{ display: "flex", gap: 4, marginTop: 6}}>
+                            {entry.colors.map((c, i) => (
+                                <div
+                                    key={i}
+                                    style={{
+                                        backgroundColor: c,
+                                        width: 20,
+                                        height: 20,
+                                        borderRadius: 4,
+                                    }}
+                                    />
+                            ))}
+                        </div>
                     </div>
-                ))}
-
-                {/* Clear all outfits button */}
-                <div>
-                    <button
-                      onClick={() => {
-                        clearSavedOutfits();
-                        setItems([]);
-
-                      }}
-                      style={{
-                        padding: "6px 10px",
-                        borderRadius: 6,
-                        border: "1px solid #ddd",
-                        cursor: "pointer",
-                      }}
-                      >
-                        Clear All
-                      </button>
                 </div>
-            </div>
+            ))}
         </div>
     );
-}
+};
+export default RecentOutfits;

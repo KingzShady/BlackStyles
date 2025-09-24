@@ -20,7 +20,7 @@ def create_app():
     CORS(app)
 
     # Import and register the image-related routes as a blueprint
-    from .routes.image import image_routes
+    from .routes.routes import image_routes
     from .routes.test import test_routes # Registering new test route for backend verification
     from .routes.theme import theme_bp # Import the new theme routes
     

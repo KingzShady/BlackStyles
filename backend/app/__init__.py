@@ -20,7 +20,7 @@ def create_app():
     CORS(app)
 
     # Import and register the image-related routes as a blueprint
-    from .routes.routes import image_routes
+    from .routes.routes import image_routes, api_bp # Importing existing image and API routes
     from .routes.test import test_routes # Registering new test route for backend verification
     from .routes.theme import theme_bp # Import the new theme routes
     
@@ -32,6 +32,9 @@ def create_app():
 
     # Register theme-related routes under /api/theme
     app.register_blueprint(theme_bp) # This allows palette to theme matching functionality
+
+    # Register the main API blueprint which contains the palettes routes
+    app.register_blueprint(api_bp)
 
     # Return the fully configured app instance
     return app

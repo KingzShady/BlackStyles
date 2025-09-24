@@ -1,8 +1,10 @@
+// frontend/src/components/UploadForm.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import ColourSwatches from "./ColourSwatches";
 import RecentOutfits from "./RecentOutfits";
 import { saveOutfit } from "../utils/localStorageUtils";
+import { savePalette } from "../utils/api";
 
 /* 
 UploadForm Component
@@ -82,13 +84,28 @@ export default function UploadForm() {
       const gotPalette = res.data.palette.slice(0, 5);
       setPalette(gotPalette);
 
+      //✅ Request human-friendly theme label
+      let matchedTheme = "";
+
       // Optional: ask backend to return human-friendly theme label
       try {
         const t = await axios.post("http://localhost:5000/api/image/theme", { palette: gotPalette });
-        if (t.data && t.data.theme) setTheme(t.data.theme);
+        if (t.data && t.data.theme){
+          setTheme(t.data.theme);
+
+          // ✅ store for backend persistence
+          matchedTheme = t.data.theme;
+        }
       } catch (themeErr) {
         // Non-critical, continue if theme service fails
         console.warn("Theme request failed:", themeErr);
+      }
+
+      // ✅ Save extracted palette + theme to backend for persistence layer
+      try {
+        await savePalette(URL.createObjectURL(file), gotPalette, matchedTheme || "Unknown");
+      } catch (persistErr){
+        console.warn("Failed to save palette to backend:", persistErr);
       }
     } catch (err) {
       console.error("Upload failed:", err);

@@ -1,0 +1,98 @@
+## 📝 Day 5: End-to-End Walkthrough
+
+---
+
+### ✅ Preparation
+
+Before we start, let's get our servers up and running. Think of this as getting your kitchen ready before you start cooking!
+
+1.  **Start the Backend Server:**
+    * Open your terminal and navigate to your `black-styles/backend/` directory.
+    * Run the command: `python run.py` (or `flask run`).
+    * You should see a message confirming the server is running, probably at a URL like `http://127.0.0.1:5000`.
+
+2.  **Start the Frontend Server:**
+    * Open a **new** terminal window and navigate to your `black-styles/frontend/` directory.
+    * Run the command: `npm run dev`.
+    * This will start your React development server. It will show you a URL to visit, likely `http://localhost:5173`.
+
+---
+
+### ✅ The Tests
+
+Now that both servers are running, it's time to test the features! 🧪
+
+#### **Test A: Palette & Theme Integration**
+
+This is the main event! We'll check if the core functionality is working.
+
+1.  Navigate to your app's URL in your web browser (e.g., `http://localhost:5173`).
+2.  Use the file input to upload a **clear image**.
+3.  **Confirm the following:**
+    * The "Upload" button's text changes to "Uploading...".
+    * After a moment, an "**Extracted Palette**" section appears.
+    * This section should contain **3–5 color swatches** and a **theme label** next to it (e.g., "— Spring").
+    * You don't see any error messages on the screen.
+
+---
+
+#### **Test B: Copy-to-Clipboard Functionality**
+
+Let's check if you can easily grab the color codes.
+
+1.  Click the "**Copy**" button located below any of the color swatches.
+2.  **Verify that:**
+    * The button text briefly changes to "**Copied ✓**".
+    * Paste the content of your clipboard into a simple text editor (like Notepad or a new browser tab). It should be the **correct hex code** of the color you clicked (e.g., `#ff0000`).
+
+---
+
+#### **Test C: Save Outfits & Local Storage**
+
+This test ensures you can save your results and that they stick around.
+
+1.  After a successful palette extraction (from Test A), click the "**Save Outfit**" button.
+2.  **Confirm that:**
+    * A "**Saved!**" message appears.
+    * A new outfit card is added to the "**Recently Saved Outfits**" list below.
+3.  Now, let's check your browser's memory. Open your browser's Developer Tools (usually by pressing F12 or right-clicking and selecting "Inspect"), then go to the "Application" or "Storage" tab. Find and click on "Local Storage". You should see a key named `black_styles_outfits`.
+4.  **Reload the entire page.** The outfit card you just saved should still be there, confirming it's saved in Local Storage.
+5.  Click the "**Delete**" button on one of the outfit cards.
+6.  **Verify that:**
+    * The outfit card is removed from the list on the page.
+    * The corresponding entry is removed from your browser's Local Storage.
+
+---
+
+#### **Test D: Error Handling**
+
+Good code anticipates things going wrong! Let's check how your app handles mistakes.
+
+1.  **Invalid File:**
+    * Try to upload a file that is **not an image** (e.g., a `.txt` file renamed to `.jpg`).
+    * The frontend should display a **400 Bad Request** error message that came from the backend.
+
+2.  **Connection Error:**
+    * Go back to the terminal where your Flask backend server is running and stop it (e.g., by pressing `Ctrl + C`).
+    * Return to your browser and try to upload a file again.
+    * The frontend should now show a **timeout or connection error message** because it can't talk to the backend.
+
+3.  **Manual Theme Test:**
+    * We'll use a tool called **Postman** (or a similar API client) to test the backend directly.
+    * Send a `POST` request to the URL `http://localhost:5000/api/theme`.
+    * In the request body, use a JSON object like this: `{"palette":["#ff0000","#aa5500"]}`.
+    * When you send the request, the backend should return the expected theme. For the example palette above, it should return a JSON response like: `{"theme":"Autumn"}`.
+
+---
+
+#### **Test E: Edge Cases**
+
+Let's throw some tricky scenarios at your app to make sure it's robust.
+
+1.  **Small Image:**
+    * Find a **very small image** (e.g., 100x100 pixels) and upload it.
+    * Confirm that the process works just like with a normal image and that the backend and frontend **do not crash**.
+
+2.  **Corrupted Image:**
+    * Find a **corrupted or broken image file** and try to upload it.
+    * The backend should gracefully handle this and return a friendly **400 Bad Request** error message.

@@ -9,11 +9,23 @@ import cv2
 import numpy as np
 from app.utils.image_utils import crop_center # Utility to crop image center
 
+# ✅ NEW: persistence service to save palettes
+from app.services.palette_service import save_palette
+
+# ✅ NEW: allow palette routes (history, retrieval, etc.)
+from app.routes.palettes import palettes_bp
+
 # Set up basic logging configuration
 logging.basicConfig(level=logging.INFO)
 
 # Define a Flask blueprint for image-related routes
 image_routes = Blueprint("image", __name__)
+
+# Define a Flask blueprint for API-related routes
+api_bp = Blueprint('api', __name__)
+
+# ✅ Register persistence-related routes under the unified API
+api_bp.register_blueprint(palettes_bp)
 
 # Define allowed image extensions for upload security
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
@@ -24,6 +36,15 @@ def allowed_file(filename):
 
 @image_routes.route('/upload', methods=["POST"])
 def upload_image():
+    """
+    Handle image uploads:
+    - Validate file type (JPG, JPEG, PNG)
+    - Save temporarily for processing
+    - Crop image center (200x200 pixels)
+    - Extract top 5 dominant colors
+    - Return palette as JSON
+    """
+
     # Get the file from the request payload
     file = request.files.get('image')
 

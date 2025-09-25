@@ -38,7 +38,7 @@
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
+
 chore: initialize project structure with frontend and backend folders
 feat(frontend): set up React with Vite and basic UploadForm component
 fix(frontend): render UploadForm component in App.jsx
@@ -132,3 +132,83 @@ feat(backend): auto-crop center of image before color extraction
 fix(backend): handle image read/processing failure gracefully
 
 ---
+
+# Black Styles — Day 4 Frontend Development Summary
+
+## Features Implemented
+- Added `ColorSwatches` component to render extracted color palette visually.
+- Integrated palette into `UploadForm`, showing top 3–5 hex colors with swatches.
+- Implemented loading state to indicate upload in progress.
+- Added error UI for failed uploads or missing files.
+
+## Stack
+- Frontend: React (Vite)
+- Communication: Axios POST to Flask backend
+- Visualization: Dynamic swatches with hex labels
+
+## Testing
+- Verified swatches appear with correct hex values after successful upload.
+- Loading indicator displays during request.
+- Error messages surface with meaningful backend feedback.
+
+## Branch
+- `feat/day4-palette-ui-frontend`
+
+## Next Goals
+- Clipboard copy for hex codes.
+- Persistent recent palettes.
+- Styling polish (Tailwind integration).
+
+---
+
+# Black Styles — Day 5 & Project Documentation
+
+## 📆 Day 5 — Testing Log
+
+### Tests performed
+- **End-to-end upload → palette → theme**
+  - Sent image via frontend upload; backend returned palette; `/api/theme` returned theme label. ✅
+- **Copy-to-clipboard**
+  - Clicked Copy under swatches; clipboard contains hex codes. ✅
+- **Save Outfit**
+  - Saved outfit (preview base64 + palette + theme) to localStorage under `black_styles_outfits`. ✅
+  - RecentOutfits displays saved items across reloads. ✅
+- **Error handling**
+  - Renamed `.txt` to `.jpg` caused backend rejection; frontend shows backend message; server did not crash. ✅
+- **Manual theme endpoint test**
+  - Postman: `POST /api/theme` → returned theme for sample palette. ✅
+
+### Issues found
+- If backend not running, frontend times out — handled and shows error message.
+- Theme mapping is simple and will be refined.
+
+---
+
+## ✅ Day 5 — Daily Dev Log
+
+**What I implemented today**
+- Added copy-to-clipboard in `ColorSwatches.jsx`.
+- Implemented Save Outfit feature (preview + palette + theme) and localStorage utilities (`localStorageUtils.js`).
+- Created `RecentOutfits.jsx` component to show saved outfit thumbnails and palettes.
+- Added lightweight backend theme matching (`theme_matcher.py`) and route `/api/theme`.
+
+**What I tested**
+- Frontend upload and palette extraction.
+- Copying hex to clipboard.
+- Saving outfits and viewing recent items across reloads.
+- Backend `/api/theme` via Postman and frontend.
+
+**Issues / notes**
+- Theme matcher is deterministic and basic — fine for Day 5 scaffolding.
+- Consider server-side persistence (MongoDB) next.
+
+**Git commits (examples)**
+- ✨ feat(utils): Add localStorage utility for managing saved outfits with limit & safety checks
+- Add copy-to-clipboard feature to ColourSwatches
+- Update prop and component naming to 'ColourSwatches'
+- refactor(utils): fix saveOutfit & clearSavedOutfits
+- feat(RecentOutfits): display saved outfits with palette, theme & delete
+- feat: add image preview, theme lookup, save outfit & recent outfits UI
+- feat: add lightweight hex palette → seasonal theme matcher
+- feat: add POST /api/theme route for palette → theme matching
+

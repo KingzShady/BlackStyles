@@ -1,0 +1,101 @@
+# Day 6 — Testing Log (Persist Palettes & Recent Palettes)
+
+**Project:** Black Styles  
+**Date:** 25/09/2025  
+**Branch:** feat/day6-palette-persistence-themes
+
+---
+
+## Summary
+This test plan verifies the new persistence endpoints and frontend integration:
+- `POST /api/palettes/save` — saves palette metadata (image_url, colors, theme)
+- `GET /api/palettes/recent` — returns most recent palettes
+- Frontend: Upload → palette extraction → auto-save → RecentOutfits fetches from backend
+
+All tests below assume backend running at `http://127.0.0.1:5000` and frontend at `http://127.0.0.1:5173`.
+
+---
+
+## Pre-test Setup
+1. Activate backend virtualenv:
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate    # Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+
+2. Start backend:
+   ```bash
+   python run.py
+   # or if Flask app configured: flask run
+
+3. Start frontend:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+
+---
+
+## Backend Testing (Flask API)
+1. Test /api/palettes/save:
+Postman Equivalent:
+- Method: POST
+- URL: http://127.0.0.1:5000/api/palettes/save
+- Body: Raw JSON (as above)
+- Headers: Content-Type: application/json
+
+2. Test /api/palettes/recent:
+Postman Equivalent:
+- Method: GET
+- URL: http://127.0.0.1:5000/api/palettes/recent?limit=2
+
+---
+
+## Frontend Testing (React App)
+1. Upload an image via UploadForm:
+- Observe extracted color palette swatches
+- Palette should be saved to backend
+
+2. Check RecentOutfits component:
+- Displays saved outfits (thumbnails + swatches + theme)
+- Latest uploaded palette appears first
+
+---
+
+## Edge Cases (Postman)
+1. Invalid File Type:
+A. Objective: Test the /api/image/upload endpoint with a file that is not a supported image type (e.g., a text file).
+B. Steps:
+   - Create a new POST request in Postman.
+   - Set the request URL to: http://127.0.0.1:5000/api/image/upload.
+   - Go to the Body tab, select form-data.
+   - In the key-value pairs section, set the Key to image and change its type from Text to File.
+   - Click Select Files and choose a non-image file from your computer (e.g., a .txt or .pdf file).
+   - Hit Send.
+C. Expected Result (400 Bad Request):
+   The server should respond with a 400 status code and a JSON object containing an error message indicating that the file type is not supported.
+   JSON
+   {
+     "error": "Unsupported file type. Please upload a JPG, JPEG, or PNG image."
+   }
+
+2. Missing Data:
+A. Objective: Test the /api/palettes/save endpoint with a request body that is missing required data, such as imageUrl or colours.
+B. Steps:
+   - Create a new POST request in Postman.
+   - Set the request URL to: http://127.0.0.1:5000/api/palettes/save.
+   - Go to the Body tab, select raw, and choose JSON from the dropdown.
+   - Paste the following JSON body, which is missing the colours field:
+     - JSON:
+       {
+        "imageUrl": "https://example.com/missing_colors.png",
+        "theme": "Dark"
+       } 
+   - Hit Send.
+C. Expected Result (400 Bad Request):
+   The server should respond with a 400 status code and a JSON object with a specific error message for the missing data.
+   JSON:
+   {
+    "error": "Missing imageUrl or colours"
+   }

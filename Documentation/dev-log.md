@@ -212,3 +212,47 @@ fix(backend): handle image read/processing failure gracefully
 - feat: add lightweight hex palette → seasonal theme matcher
 - feat: add POST /api/theme route for palette → theme matching
 
+---
+
+
+---
+
+# **📆 Daily Dev Log — Day 6**
+
+```markdown
+## 📆 Daily Dev Log — Black Styles (Day 6)
+
+### ✅ What I Implemented Today
+
+- [x] Backend persistence for color palettes (`palette_service.py`)
+- [x] New Flask routes `/api/palettes/save` and `/api/palettes/recent` (`palettes.py`)
+- [x] Frontend API utilities (`api.js`) for saving and fetching palettes
+- [x] Updated `UploadForm.jsx` to save generated palettes
+- [x] Modified `RecentOutfits.jsx` to fetch from backend instead of localStorage
+- [x] Display theme (season) for each palette (via `ThemeTag.jsx`)
+
+---
+
+### 🧪 What I Tested
+
+- [x] Backend API endpoints with curl/Postman  
+- [x] Upload a photo → palette is generated and saved  
+- [x] `RecentOutfits` fetches latest palettes from backend  
+- [x] Edge cases: missing fields, empty recent list
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+
+- None major; file-based persistence works as fallback if MongoDB unavailable  
+- No frontend crashes; proper error handling displayed in console/log
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+
+```bash
+feat(backend+frontend): add palette persistence and recent outfits UI
+
+---
+

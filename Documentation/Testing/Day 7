@@ -1,0 +1,48 @@
+# 🧪 Testing Log — Day 7 (Frontend Enhancements)
+
+## Features to Test
+- Display top 3–5 hex colors as **color swatches**.
+- Show **hex values** below each swatch.
+- Add a **loading indicator** during file uploads.
+- Display **error messages** if upload fails.
+
+---
+
+## Step 1 — Start Backend + Frontend
+# Backend
+cd backend
+flask run
+
+# Frontend
+cd frontend
+npm run dev
+
+## Step 2 — Upload Image (Success Case)
+# Via UI
+1. Go to http://localhost:5173.
+2. Select a valid image file (.jpg or .png).
+3. Click Upload.
+4. ✅ Verify:
+   - Loading spinner shows.
+   - After processing, 3–5 swatches appear.
+   - Hex values are listed below swatches.
+
+## Step 3 — Invalid File Upload (Error Case)
+# Via UI
+1. Select a .txt file instead of an image.
+2. Click Upload.
+3. ✅ Verify:
+   - Loading spinner shows.
+   - Error message appears: “Invalid file type. Please upload a JPG or PNG.”
+
+## Step 4 — Backend Error Simulation
+1. Temporarily break backend by renaming color_palette.py.
+2. Restart backend.
+3. Upload image via UI.
+4. ✅ Verify:
+   - Error message appears on UI (“Upload failed. Please try again.”)..
+   - Console shows backend error log.
+
+## Step 5 — Edge Cases
+- Upload very large image → App should still return palette (after longer processing).
+- Upload multiple times quickly → Only last upload result should show.

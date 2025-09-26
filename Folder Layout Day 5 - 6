@@ -52,7 +52,6 @@ black-styles/
 │   │   │   ├── UploadForm.jsx        # Modified: trigger save to backend
 │   │   │   ├── ColorSwatches.jsx     # Display palette swatches
 │   │   │   ├── RecentOutfits.jsx     # Modified: now fetches from backend
-│   │   │   └── ThemeTag.jsx          # New: show assigned theme (season)
 │   │   └── utils/
 │   │       ├── localStorageUtils.js  # Keep for offline fallback
 │   │       └── api.js                # New: Axios helpers for backend calls

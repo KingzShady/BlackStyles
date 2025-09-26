@@ -256,3 +256,55 @@ feat(backend+frontend): add palette persistence and recent outfits UI
 
 ---
 
+
+---
+
+# 📆 Daily Dev Log — Day 7
+
+```markdown
+## 📆 Daily Dev Log — Black Styles
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Added **frontend UI for palette visualization**:
+  - Color swatches display with hex values.
+  - Loading indicator during file uploads.
+  - Error message handling for failed uploads.
+- Integrated backend response with new frontend display logic.
+
+---
+
+### 🧪 What I Tested
+- **Frontend**: 
+  - Valid uploads → palette swatches + hex display working.
+  - Invalid uploads → error messages show.
+  - Loading state correctly triggers and clears.
+- **Backend**:
+  - Still returns expected color arrays.
+- Edge cases tested:
+  - Non-image uploads rejected.
+  - Large images processed.
+  - Error state properly displayed.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- Initial issue with loading spinner not hiding → fixed by setting `setLoading(false)` in both success + error cases.
+- Hex values overlapped with swatches until CSS adjusted.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+
+```bash
+feat(frontend): add color swatches component with hex display
+feat(frontend): implement loading indicator during uploads
+feat(frontend): add error handling UI for failed uploads
+fix(frontend): ensure loading spinner hides on error
+style(frontend): adjust CSS for swatch layout and hex labels
+
+---
+

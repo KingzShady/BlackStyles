@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { savePalette } from "../utils/api"; // ✅ unified backend persistence
 import ColourSwatches from "./ColourSwatches";
+import axios from "axios"; 
 
 
 /* 
@@ -28,15 +29,26 @@ const UploadForm = () => {
     setError(null);
 
     try {
-      // 🔹 Placeholder: integrate backend API for palette extraction
-      const data = await extractPaletteFromFile(file);
-      setPalette(data.colours);
+      const formData = new FormData();
+      formData.append("image", file); // Backend expects 'image' field
+
+      // Call backend API to extract colours
+      const response = await axios.post("http://localhost:5000/api/image/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (!response.data || !response.data.palette){
+        throw new Error("Invalid response from server: Missing palette data");
+      }
+      const extractedPalette = response.data.palette; // Expecting array of hex strings
+
+      setPalette(extractedPalette); // Update UI with extracted colours
 
       // For now, assign static theme (TODO: replace with backend theme service)
       const theme = "Summer";
 
       // ✅ Save to backend persistence (instead of localStorage)
-      await savePalette(URL.createObjectURL(file), data.colours, theme);
+      await savePalette(URL.createObjectURL(file), extractedPalette, theme);
       
     } catch (err){
       console.error("Upload error:", err);

@@ -32,3 +32,34 @@ black-styles/
 │   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag
 
 After Day 7:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes/
+│   │   │   ├── image.py            # Modified: upload + new save/recent routes
+│   │   │   ├── palettes.py          # New: routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   └── theme.py             # Theme logic remains here
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   └── palette_service.py   # New: handles DB/JSON persistence
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                     # New: store palettes JSON
+│   │   └── palettes.json   
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadForm.jsx        # Modified: Added loading + error states
+│   │   │   ├── ColorSwatches.jsx     # Modified: Added hex display + copy button
+│   │   │   ├── RecentOutfits.jsx     # Modified: now fetches from backend
+│   │   │   └── ThemeTag.jsx          # New: show assigned theme (season)
+│   │   └── utils/
+│   │       ├── localStorageUtils.js  # Keep for offline fallback
+│   │       └── api.js                # New: Axios helpers for backend calls
+│   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag

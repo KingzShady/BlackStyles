@@ -6,7 +6,7 @@ const OutfitCard = ({ outfit }) => {
     return (
         <div style={{ border: "1px solid #ccc", padding: "10px", margin: "10px"}}>
             <img
-                src={outfit.imageUrl}
+                src={outfit.image_url}
                 alt="Outfit"
                 style={{ width: "100px", borderRadius: "4px" }}
             />

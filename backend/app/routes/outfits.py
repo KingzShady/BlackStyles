@@ -3,9 +3,9 @@ from flask import Blueprint, request, jsonify
 from app.services import outfit_service
 
 # New: Define a Flask Blueprint for outfit-related API routes
-bp = Blueprint("outfits", __name__, url_prefix="/api/outfits")
+outfits_bp = Blueprint("outfits", __name__, url_prefix="/api/outfits")
 
-@bp.route("/save", methods=["POST"])
+@outfits_bp.route("/save", methods=["POST"])
 def save_outfit():
     """
     Save an outfit entry.
@@ -28,7 +28,7 @@ def save_outfit():
     entry = outfit_service.save_outfit(image_url, colours, theme)
     return jsonify({"message": "Outfit saved", "entry": entry}), 201
 
-@bp.route("/recent", methods=["GET"])
+@outfits_bp.route("/recent", methods=["GET"])
 def get_recent_outfits():
     """
     Fetch the most recent outfits.

@@ -13,7 +13,7 @@ const API_BASE = "http://localhost:5000/api";
 
 export async function saveOutfit(imageUrl, colours, theme){
     const res = await axios.post(`${API_BASE}/outfits/save`, {
-        imageUrl,
+        image_url: imageUrl,
         colours,
         theme,
     });

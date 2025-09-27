@@ -1,0 +1,102 @@
+# 🧪 Day 8 — Testing Log
+
+## Features to Test
+- Backend: Save & fetch outfits (`/api/outfits/save`, `/api/outfits/recent`)
+- Frontend: Save outfit after upload, RecentOutfits display with OutfitCard
+- Persistence: Verify outfits.json updated and data survives refresh
+
+---
+
+## Step 1 — Start Backend & Frontend
+# Backend
+cd backend
+flask run
+
+# Frontend
+cd frontend
+npm run dev
+
+Backend: http://127.0.0.1:5000
+Frontend: http://localhost:5173
+
+---
+
+## Step 2 — Backend API Testing
+# Save Outfit (Success Case)
+1. Open Postman.
+2. Create a new POST request.
+3. Set the request URL to: http://127.0.0.1:5000/api/outfits/save
+4. Go to the Headers tab and set:
+   - Key: Content-Type
+   - Value: application/json
+5. Go to the Body tab, select raw, and choose JSON from the dropdown.
+6. Paste the following JSON body:
+    {
+      "imageUrl": "http://example.com/outfit.jpg",
+      "colours": ["#1A1A1A", "#FFFFFF", "#D4AF37"],
+      "theme": "Autumn"
+    }
+7. Click Send.
+8. ✅ Verify:
+   - The HTTP status code is 200 OK.
+   - The response body is similar to:
+    {
+      "message": "Outfit saved",
+      "entry": {
+        "timestamp": "...",
+        "image_url": "http://example.com/outfit.jpg",
+        "colours": ["#1A1A1A", "#FFFFFF", "#D4AF37"],
+        "theme": "Autumn"
+      }
+    }
+
+# Fetch Recent Outfits
+1. Create a new GET request in Postman.
+2. Set the request URL to: http://127.0.0.1:5000/api/outfits/recent?limit=2
+3. Click Send.
+4. ✅ Verify:
+   - The HTTP status code is 200 OK.
+   - The response body contains a list of outfits, including the one saved in Step A, similar to:
+   {
+    "outfits": [
+        {
+          "timestamp": "...",
+          "image_url": "http://example.com/outfit.jpg",
+          "colours": ["#1A1A1A", "#FFFFFF", "#D4AF37"],
+          "theme": "Autumn"
+        }
+    ]
+    }
+
+# Save Outfit (Edge Case — Missing Fields)
+1. Use the POST request created in Step A, or create a new one.
+2. Update the Body (raw, JSON) to only include the colours field:
+    {
+      "colors": ["#FFFFFF"]
+    }
+3. Click Send.
+4. ✅ Verify:
+   - The HTTP status code is 400 Bad Request (or similar client error).
+   - The response body contains an error message, exactly or similar to:
+   { "error": "Missing imageUrl or colors" }
+
+---
+
+## Step 3 — Frontend Testing (UI)
+# Upload Outfit
+1. Visit http://localhost:5173
+2. Select .jpg or .png file → Upload
+3. ✅ Verify:
+   - Loading indicator shows
+   - Palette swatches with hex values
+   - Outfit saved to backend
+
+# Recent Outfits
+1. Refresh webpage
+2. ✅ OutfitCard shows image, theme, and swatches
+
+# Error Handling
+- Upload .txt → ✅ Error message appears, no crash
+
+# Persistence
+- Upload multiple outfits → Refresh page → ✅ Outfits still visible from backend

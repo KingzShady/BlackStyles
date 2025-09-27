@@ -308,3 +308,50 @@ style(frontend): adjust CSS for swatch layout and hex labels
 
 ---
 
+# 📆 Day 8 Daily Dev Log
+
+```markdown
+## 📆 Daily Dev Log — Black Styles (Day 8)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- **Backend**
+  - Added `outfit_service.py` for saving/fetching outfits in `outfits.json`
+  - Created `outfits.py` routes:
+    - `POST /api/outfits/save`
+    - `GET /api/outfits/recent`
+- **Frontend**
+  - Extended `UploadForm.jsx` to save outfit after upload
+  - Added `OutfitCard.jsx` for displaying outfit image + swatches + theme
+  - Updated `RecentOutfits.jsx` to fetch outfits from backend
+  - Expanded `api.js` with `saveOutfit` and `fetchOutfits`
+
+---
+
+### 🧪 What I Tested
+- Backend API routes via curl & Postman
+- Valid uploads → Outfits persisted & visible in RecentOutfits
+- Invalid uploads → Error messages handled
+- Persistence verified via `outfits.json`
+
+---
+
+### 🧠 Issues or Bugs
+- No critical issues; integration worked smoothly
+- Minor tweak: ensured `theme` defaults safely if missing
+
+---
+
+### 💬 Git Commits (Conventional Format)
+```bash
+feat(backend): add outfit service with JSON persistence
+feat(backend): create outfits routes for save + recent
+feat(frontend): extend UploadForm to save outfits
+feat(frontend): add OutfitCard component for displaying outfits
+feat(frontend): update RecentOutfits to fetch from backend
+feat(frontend): expand api.js with saveOutfit + fetchOutfits
+
+---

@@ -1,4 +1,4 @@
-Before Day 7:
+Before Day 8:
 black-styles/
 │
 ├── backend/
@@ -30,34 +30,38 @@ black-styles/
 │   │       └── api.js                # New: Axios helpers for backend calls
 │   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag
 
-After Day 7:
+After Day 8:
 black-styles/
 │
 ├── backend/
 │   ├── app/
-│   │   ├── __init__.py
+│   │   ├── __init__.py              # Modified: register new routes
 │   │   ├── routes/
-│   │   │   ├── image.py            # Modified: upload + new save/recent routes
-│   │   │   ├── palettes.py          # New: routes to save/fetch palettes
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
 │   │   │   ├── test.py              # Expanded tests for palettes
-|   |   |   └── theme.py             # Theme logic remains here
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # New: outfit generation routes
 │   │   ├── services/
 │   │   │   ├── color_palette.py     # Extract colors
 │   │   │   ├── theme_matcher.py     # Theme logic
-│   │   │   └── palette_service.py   # New: handles DB/JSON persistence
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   └── outfit_service.py    # New: handles DB/JSON persistence
 │   │   └── utils/
 │   │       └── image_utils.py       # Cropping + helpers
-│   ├── data/                     # New: store palettes JSON
-│   │   └── palettes.json   
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # New: store outfits
 │   └── run.py
 ├── frontend/
 │   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── UploadForm.jsx        # Modified: trigger save to backend
-│   │   │   ├── ColorSwatches.jsx     # Display palette swatches
-│   │   │   ├── RecentOutfits.jsx     # Modified: now fetches from backend
+│   │   │   ├── UploadForm.jsx        # Modified: save outfit to backend
+│   │   │   ├── ColorSwatches.jsx     # Shows swatches (unchanged from Day 7 fix)
+│   │   │   ├── RecentOutfits.jsx     # Modified: fetch outfits
+│   │   │   └── OutfitCard.jsx        # ✅ New: outfit display card
 │   │   └── utils/
 │   │       ├── localStorageUtils.js  # Keep for offline fallback
-│   │       └── api.js                # New: Axios helpers for backend calls
-│   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag
+│   │       └── api.js                # Modified: saveOutfit + fetchOutfits
+│   └── App.jsx                       # Modified: render RecentOutfits

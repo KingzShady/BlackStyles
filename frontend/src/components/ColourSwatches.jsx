@@ -14,7 +14,7 @@ const ColourSwatches = ({ colours }) => {
     // Handle copying colour hex code to clipboard
     const copyToClipboard = (hex) => {
         navigator.clipboard.writeText(hex); // Modern API support only
-        alert('Copied ${hex} to clipboard!'); // Quick feedback
+        alert(`Copied ${hex} to clipboard!`); // Quick feedback
     };
 
     // Guard: render nothing if colours array is empty

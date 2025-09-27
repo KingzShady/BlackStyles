@@ -53,3 +53,15 @@ black-styles/
 │   │   └── palettes.json            # Store palettes
 │   │   └── outfits.json             # New: store outfits
 │   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadForm.jsx        # Modified: save outfit to backend
+│   │   │   ├── ColorSwatches.jsx     # Shows swatches (unchanged from Day 7 fix)
+│   │   │   ├── RecentOutfits.jsx     # Modified: fetch outfits
+│   │   │   └── OutfitCard.jsx        # ✅ New: outfit display card
+│   │   └── utils/
+│   │       ├── localStorageUtils.js  # Keep for offline fallback
+│   │       └── api.js                # Modified: saveOutfit + fetchOutfits
+│   └── App.jsx                       # Modified: render RecentOutfits

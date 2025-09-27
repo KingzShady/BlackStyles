@@ -31,3 +31,25 @@ black-styles/
 │   └── App.jsx                       # Updated: include RecentOutfits + ThemeTag
 
 After Day 8:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py              # Modified: register new routes
+│   │   ├── routes/
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # New: outfit generation routes
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   └── outfit_service.py    # New: handles DB/JSON persistence
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # New: store outfits
+│   └── run.py

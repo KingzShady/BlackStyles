@@ -27,7 +27,7 @@ const UploadForm = () => {
       formData.append("image", file); // Key "image" must match what backend expects
 
       // Send image to backend for processing
-      const response = await axios.post("http://localhost:5000/api/upload", formData, {
+      const response = await axios.post("http://localhost:5000/api/image/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

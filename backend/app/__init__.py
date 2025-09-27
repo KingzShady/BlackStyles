@@ -14,8 +14,6 @@ Flask App Factory
 from flask import Flask
 from flask_cors import CORS # Allows cross-origin requests (essential for frontend-backend communication)
 
-# ✅ NEW: Import the new outfits blueprint
-from app.routes import outfits 
 
 def create_app():
     # Initialize the Flask app instance
@@ -27,7 +25,8 @@ def create_app():
     # Import existing routes blueprints locally to avoid circular imports
     from .routes.routes import image_routes, api_bp
     from .routes.test import test_routes
-    from .routes.theme import theme_bp 
+    from .routes.theme import theme_bp
+    from .routes.outfits import outfits_bp # ✅ NEW: Import the new outfits blueprint
     
     # Register image routes (upload + extract colours)
     app.register_blueprint(image_routes, url_prefix="/api/image")
@@ -39,10 +38,10 @@ def create_app():
     app.register_blueprint(theme_bp)
 
     # Register palettes routes (already grouped under api_bp)
-    app.register_blueprint(api_bp)
+    # app.register_blueprint(api_bp)
 
     # ✅ NEW: Register outfits persistence routes
-    app.register_blueprint(outfits.bp)
+    app.register_blueprint(outfits_bp)
 
     # Return the fully configured app instance
     return app

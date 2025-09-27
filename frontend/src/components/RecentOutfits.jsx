@@ -1,79 +1,47 @@
 // frontend/src/components/RecentOutfits.jsx
-import React, {useEffect, useState} from "react";
-import { getRecentPalettes } from "../utils/api"; // ✅ New: API import replaces localStorage utils — fetches from backend persistence
+import React, { useEffect, useState } from "react";
+import { fetchOutfits } from "../utils/api"; // ✅ New: Fetch outfits from backend persistence API
+import OutfitCard from "./OutfitCard"; // Reusable card component to render a single outfit
 
 /*
  RecentOutfits Component
- - Before: Displayed outfits saved only in localStorage.
- - After: Now fetches recent palettes from backend via API.
- - Benefits: Palettes persist across sessions/devices + prepares app for user accounts.
+* - Fetches recently saved outfits from backend (persistence layer)
+* - Delegates rendering of each outfit to OutfitCard (keeps this component focused on data + layout)
+* - Why: moving rendering into OutfitCard Keeps code DRY and makes UI easier to test and style
 */
 const RecentOutfits = () => {
-    const [recent, setRecent] = useState([]);
+    const [outfits, setOutfits] = useState([]);
 
-    // ✅ Fetch recent palettes from backend when component mounts
     useEffect(() => {
-        async function fetchRecent() {
+        // load recent outfits when component mounts
+        const loadOutfits = async () => {
             try {
-                const palettes = await getRecentPalettes();
-                setRecent(palettes);
-            } catch (err) {
-                console.warn("⚠️ Failed to fetch recent palettes:", err);
+                // fetchOutfits is expected to call the backend /api/outfits/recent and return {outfits: [...]}
+                const data = await fetchOutfits();
+                setOutfits(data.outfits || []);
+            } catch (err){
+                // Log to console for developers and keep UI silent (could add user-facing error later)
+                console.error("Failed to fetch outfits:", err);
             }
-        }
-        fetchRecent();
+        };
+        loadOutfits();
     }, []);
 
     return (
-        <div style={{ marginTop: 20}} >
-            <h3>Recent Outfits</h3>
+        <div style={{ padding: 12}}>
+            <h2>Recent Outfits</h2>
 
-            {/* ✅ Render list of recent palettes returned from backend */}
-            {recent.map((entry, idx) => (
-                <div
-                    key={idx}
-                    style={{
-                        display: "flex",
-                        gap: 12,
-                        padding: 10,
-                        border: "1px solid #eee",
-                        borderRadius: 8,
-                        alignItems: "center",
-                    }}
-                >
-                    {/* ✅Outfit Thumbnail*/}
-                    <img
-                        src={entry.image_url}
-                        alt="outfit"
-                        style={{ width: 80, height: 80, objectFit: "cover", borderRadius: 6 }}
-                    />
-
-                    {/* ✅Palette details (theme _swatches) */}
-                    <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 14, fontWeight: 600}}>
-                            {entry.theme || "Theme: —"}
-                        </div>
-                        <div style={{ fontSize: 12, color: "#666"}}>
-                            {new Date(entry.timestamp).toLocaleString()}
-                        </div>
-
-                        {/* ✅Inline swatches replacing old ColourSwatches component */}
-                        <div style={{ display: "flex", gap: 4, marginTop: 6}}>
-                            {entry.colours.map((c, i) => (
-                                <div
-                                    key={i}
-                                    style={{
-                                        backgroundColor: c,
-                                        width: 20,
-                                        height: 20,
-                                        borderRadius: 4,
-                                    }}
-                                    />
-                            ))}
-                        </div>
-                    </div>
+            {/* graceful empty state for first-time users */}
+            {outfits.length === 0 ? (
+                <p style={{color: "#666" }}>No outfits saved yet.</p>
+            ) : (
+                <div style={{ display: "flex", gap: 12, flexWrap: "wrap"}}>
+                    {outfits.map((o, idx) => (
+                        // OutfitCard handles thumbnail, theme, colours swatches rendering
+                        <OutfitCard key={idx} outfit={o} />
+                    ))}
                 </div>
-            ))}
+            )}
         </div>
     );
 };

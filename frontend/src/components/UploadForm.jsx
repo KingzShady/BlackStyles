@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import { saveOutfit } from "../utils/api"; // ✅ New: persistence layer for outfits
 import ColourSwatches from "./ColourSwatches";
+import axios from "axios";
+// Add the RecentOutfits component back as your App.jsx expects it to be rendered separately.
+import RecentOutfits from "./RecentOutfits"; 
 
 const UploadForm = () => {
   // UI state flags
@@ -19,19 +22,34 @@ const UploadForm = () => {
     setError(null);
 
     try {
-      // ✅ Temporary mock data until backend pallete extraction is fully integrated
-      const data = { colours: ["#1A1A1A", "#FFFFFF", "#D4AF37"] };
-      setPalette(data.colours);
+      // Actual image upload and palette extraction logic
+      const formData = new FormData();
+      formData.append("image", file); // Key "image" must match what backend expects
 
-      // ✅ Assign placeholder theme (will later come from backend theme matcher)
+      // Send image to backend for processing
+      const response = await axios.post("http://localhost:5000/api/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // Backend returns { "palette": ["#hex1", "#hex2", ...] }
+      if(!response.data || !response.data.palette) {
+        throw new Error("Invalid response from server: Missing palette data");
+      }
+
+      const extractedPalette = response.data.palette;
+      setPalette(extractedPalette); // Use the data from the API response
+
+      // ✅ KEEP: Assign placeholder theme (will later come from backend theme matcher)
       const theme = "Autumn";
 
       // ✅ Save outfit (image + palette + theme) to backend persistence API
-      await saveOutfit(URL.createObjectURL(file), data.colours, theme);
+      await saveOutfit(URL.createObjectURL(file), extractedPalette, theme);
       
     } catch (err){
-      console.error("Upload error:", err);
-      setError("Upload failed. Please try again."); // ✅ clear error message for UX
+      console.error("Upload error:", err); // Keep: Log the error for debugging
+      // 👇 IMPROVE: Check for API error message if available
+      const errMsg = err.response?.data?.error || "Upload failed. Please try again.";
+      setError(errMsg); // ✅ clear error message for UX
     } finally {
       setLoading(false); // Always stop spinner
     }

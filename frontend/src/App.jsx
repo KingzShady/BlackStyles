@@ -1,4 +1,4 @@
-// src/App.jsx
+// frontend/src/App.jsx
 import React from "react";
 import UploadForm from "./components/UploadForm";
 import RecentOutfits from "./components/RecentOutfits"; // ✅ Added new component import

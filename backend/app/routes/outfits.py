@@ -25,7 +25,7 @@ def save_outfit():
         return jsonify({"error": "Missing imageUrl or colours fields"}), 400
     
     # Save ourfit via service layer (keeps routes thin & clean)
-    entry = outfit_service.save_outfit(image_url, colours, theme)
+    entry = outfit_service._save_outfit(image_url, colours, theme)
     return jsonify({"message": "Outfit saved", "entry": entry}), 201
 
 @outfits_bp.route("/recent", methods=["GET"])

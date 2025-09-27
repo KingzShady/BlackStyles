@@ -1,0 +1,40 @@
+# backend/app/routes/outfits.py
+from flask import Blueprint, request, jsonify
+from app.services import outfit_service
+
+# New: Define a Flask Blueprint for outfit-related API routes
+bp = Blueprint("outfits", __name__, url_prefix="/api/outfits")
+
+@bp.route("/save", methods=["POST"])
+def save_outfit():
+    """
+    Save an outfit entry.
+    Expects JSON body containing:
+    - image_url: URL of the outfit image
+    - colours: extracted colour palette (list of hex values)
+    - theme: dectected theme for the outfit
+    Returns saved entry with metadata.
+    """
+    data = request.json
+    image_url = data.get("image_url")
+    colours = data.get("colours")
+    theme = data.get("theme")
+
+    # Validate required fields to prevent saving incomplete data
+    if not image_url or not colours:
+        return jsonify({"error": "Missing imageUrl or colours fields"}), 400
+    
+    # Save ourfit via service layer (keeps routes thin & clean)
+    entry = outfit_service.save_outfit(image_url, colours, theme)
+    return jsonify({"message": "Outfit saved", "entry": entry}), 201
+
+@bp.route("/recent", methods=["GET"])
+def get_recent_outfits():
+    """
+    Fetch the most recent outfits.
+    Accepts optional query param:
+    - limit: number of outfits to return (default 5)
+    """
+    limit = int(request.args.get("limit", 5))
+    outfits = outfit_service.get_recent_outfits(limit=limit)
+    return jsonify({"outfits": outfits})

@@ -37,7 +37,7 @@ def _save_outfit(image_url, colours, theme):
     - theme: matched them result
     Each entry is timestamped to maintain history.
     """
-    outfits - _load_outfits()
+    outfits = _load_outfits()
     entry = {
         "timestamp": datetime.utcnow().isoformat(), # New: track when the outfit was saved
         "image_url": image_url,

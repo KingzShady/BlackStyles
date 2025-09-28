@@ -1,9 +1,8 @@
 // frontend/src/components/UploadForm.jsx
 import React, { useState } from "react";
-import { saveOutfit } from "../utils/api"; // ✅ New: persistence layer for outfits
+import { saveOutfit } from "../utils/api";
 import ColourSwatches from "./ColourSwatches";
 import axios from "axios";
-// Add the RecentOutfits component back as your App.jsx expects it to be rendered separately.
 import RecentOutfits from "./RecentOutfits"; 
 
 const UploadForm = () => {
@@ -11,6 +10,7 @@ const UploadForm = () => {
   const [loading, setLoading] = useState(false); // Track upload state
   const [error, setError] = useState(null); // Error feedback for user
   const [palette, setPalette] = useState([]); // Colours extracted from backend
+  const [caption, setCaption] = useState(""); // ✅ NEW: store optional caption text
 
   // Handle form submit: upload image, extract palette, persist to backend
   const handleSubmit = async (e) => {
@@ -39,11 +39,11 @@ const UploadForm = () => {
       const extractedPalette = response.data.palette;
       setPalette(extractedPalette); // Use the data from the API response
 
-      // ✅ KEEP: Assign placeholder theme (will later come from backend theme matcher)
+      // Assign placeholder theme (will later come from backend theme matcher)
       const theme = "Autumn";
 
-      // ✅ Save outfit (image + palette + theme) to backend persistence API
-      await saveOutfit(URL.createObjectURL(file), extractedPalette, theme);
+      // ✅ UPDATED: Persist outfit with caption as well
+      await saveOutfit(URL.createObjectURL(file), extractedPalette, theme, caption);
       
     } catch (err){
       console.error("Upload error:", err); // Keep: Log the error for debugging
@@ -59,6 +59,16 @@ const UploadForm = () => {
     <form onSubmit={handleSubmit}>
       {/* File input for selecting an outfit image */}
       <input type="file" name="fileInput" accept="image/*" />
+
+      {/* ✅ NEW: input field to allow users to add caption for the outfit*/}
+      <input
+        type="text"
+        placeholder="Add a caption (optional)"
+        value={caption}
+        onChange={(e) => setCaption(e.target.value)}
+      />
+
+      {/* Submit button, disabled while loading */}
       <button type="submit" disabled={loading}>
         {loading ? "Uploading..." : "Upload"}
       </button>

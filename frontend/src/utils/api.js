@@ -2,20 +2,26 @@
 
 import axios from "axios";
 
-// ✅ Updated: use consistent API base with '/api' prefix
+// ✅ Consistent API base with '/api' prefix
 const API_BASE = "http://localhost:5000/api";
 
 /**
  * Save an outfit entry to the backend persistence layer.
- * - Why: Palettes evolve into "outfits" with theme + colours + image.
- * - Returns saved outfit object with timestamp.
+ * - Why: Outfits now support optional user-provided captions for richer context.
+ * - Arguments:
+ *  - image_url: URL of the uploaded outfit image
+ *  - colours: extracted colour palette (list of hex values)
+ *  - theme: detected theme (e.g., "casual", "formal")
+ *  - caption: (optional) short text description provided by user
+ * - Returns saved outfit object with timestamp + caption.
  */
 
-export async function saveOutfit(imageUrl, colours, theme){
+export async function saveOutfit(imageUrl, colours, theme, caption = ""){
     const res = await axios.post(`${API_BASE}/outfits/save`, {
         image_url: imageUrl,
         colours,
         theme,
+        caption, // ✅ NEW: caption now included in payload
     });
     return res.data;
 }

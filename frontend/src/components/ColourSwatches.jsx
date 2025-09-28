@@ -1,56 +1,38 @@
-// React is the core library for building UI components
+//frontend/src/components/ColourSwatches.jsx
 import React, {useState} from 'react';
 
-/*
-  Simplified ColourSwatches Component
-  -----------------------------------
-  - Props: `colours` (array of hex strings e.g. ['#aabbcc', '#ff0000'])
-  - Displays each swatch as a coloured box with its hex code below.
-  - Includes a Copy button to copy hex values to clipboard.
-  - Simplified design: smaller swatches, minimal styling, and uses a direct alert for feedback.
-*/
-
 const ColourSwatches = ({ colours }) => {
-    // Handle copying colour hex code to clipboard
+    const [copiedHex, setCopiedHex] = useState(null); // Track which hex was last copied
+
+    // Copy hex to clipboard and show temporary feedback
     const copyToClipboard = (hex) => {
-        navigator.clipboard.writeText(hex); // Modern API support only
-        alert(`Copied ${hex} to clipboard!`); // Quick feedback
+        navigator.clipboard.writeText(hex);
+        setCopiedHex(hex); // Highlight copied swatch
+        setTimeout(() => setCopiedHex(null), 1500); // Reset after 1.5 seconds
     };
 
-    // Guard: render nothing if colours array is empty
-    if (!colours || colours.length === 0) return null;
+    if (!colours || colours.length === 0) return null; // Guard clause
 
     return (
         <div style={{ display: "flex", gap: "8px", marginTop: "8px", flexWrap: "wrap" }}>
             {colours.map((hex, index) => (
                 <div key={index} style={{ textAlign: "center"}}>
-                    {/* Swatch box */}
+                    {/* Swatch box clickable for copying*/}
                     <div
                         style={{
                             width: "40px",
                             height: "40px",
                             backgroundColor: hex,
                             borderRadius: "4px",
-                            border: "1px solid #ccc",
+                            cursor: "pointer", // Indicate clickable
                         }}
-                    />
-                    {/* Hex code text */}
-                    <div style={{ marginTop: 4, fontSize: 12, fontFamily: "monospace"}}>
-                        {hex}
-                    </div>
-                    {/* Copy button */}
-                    <button
                         onClick={() => copyToClipboard(hex)}
-                        style={{
-                            marginTop: 4,
-                            fontSize: 12,
-                            padding: "2px 6px",
-                            borderRadius: 4,
-                            cursor: "pointer",
-                        }}
-                    >
-                        Copy
-                    </button>
+                        title="Click to copy"
+                    />
+                    {/* Hex code display */}
+                    <div style={{ marginTop: 4, fontSize: 12, fontFamily: "monospace"}}>{hex}</div>
+                    {/* ✅ Show "Copied!" feedback temporarily */}
+                    {copiedHex === hex && <div style={{ color: "green", fontSize: 12}}>Copied!</div>}
                 </div>
             ))}
         </div>

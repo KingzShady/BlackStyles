@@ -10,6 +10,10 @@ const OutfitCard = ({ outfit }) => {
                 alt="Outfit"
                 style={{ width: "100px", borderRadius: "4px" }}
             />
+
+            {/* ✅ NEW: Only render caption if it exists to avoid empty lines */}
+            {outfit.caption && <p><em>{outfit.caption}</em></p>}
+
             <p>Theme: {outfit.theme}</p>
             <ColourSwatches colours={outfit.colours} />
         </div>

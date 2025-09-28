@@ -11,7 +11,8 @@
 ## Step 1 — Start Backend + Frontend
 # Backend
 cd backend
-flask run
+venv\Scripts\activate
+python run.py
 
 # Frontend
 cd frontend

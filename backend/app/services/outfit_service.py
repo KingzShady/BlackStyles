@@ -7,42 +7,37 @@ from datetime import datetime
 DATA_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "..", "data", "outfits.json")
 
 def _load_outfits():
-    """
-    Load all outfits from JSON file.
-    Return [] if file is missing or unreadable.
-    This makes the service fault-tolerant for first-time use.
-    """
+    """Load all outfits from JSON; safe fallback to [] if file missing or corrupted."""
     if not os.path.exists(DATA_FILE):
         return []
     try:
         with open(DATA_FILE, "r") as f:
             return json.load(f)
     except Exception:
-        # If file is corrupted or unreadable, return empty list instead of crashing
         return []
     
 def _save_outfits(outfits):
-    """
-    Save all outfits back to JSON file.
-    Keep JSON indented for easier debugging and inspection.
-    """
+    """Persist outfits back to JSON file with indentation for readablity."""
     with open(DATA_FILE, "w") as f:
         json.dump(outfits, f, indent=2)
-    
-def _save_outfit(image_url, colours, theme):
+
+# 🔄 CHANGED: Added optional `caption` parameter (default empty string)
+def _save_outfit(image_url, colours, theme, caption=None):
     """
     Save a new outfit consisting of:
     - image_url: where the outfit image is stored
     - colours: extracted palette
     - theme: matched them result
-    Each entry is timestamped to maintain history.
+    - caption: (optional) user-provided description
+    Each entry is timestamped and inserted at the front for recency.
     """
     outfits = _load_outfits()
     entry = {
         "timestamp": datetime.utcnow().isoformat(), # New: track when the outfit was saved
         "image_url": image_url,
         "colours": colours,
-        "theme": theme
+        "theme": theme,
+        "caption": caption or ""  # ✅ New: supports caption, (default to empty string)
     }
     outfits.insert(0, entry)  # New: Insert at the beginning so newest is always first
     _save_outfits(outfits)

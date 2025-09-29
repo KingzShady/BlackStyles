@@ -20,7 +20,19 @@ const OutfitCard = ({ outfit }) => {
             {outfit.tags && outfit.tags.length > 0 && (
                 <p className="tags">
                     {outfit.tags.map((tag, i) => (
-                        <span key={i} className="tag">{tag}</span>
+                        <span 
+                            key={i} 
+                            className="tag"
+                            style={{ 
+                                marginRight: '6px',
+                                border: '1px solid #ccc',
+                                padding: '2px 4px',
+                                borderRadius: '4px',
+                                display: 'inline-block',
+                            }}
+                        >
+                            {tag}
+                        </span>
                     ))}
                 </p>
             )}

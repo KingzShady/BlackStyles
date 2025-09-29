@@ -1,3 +1,19 @@
 [
-  
+  {
+    "timestamp": "2025-09-29T16:16:33.334528",
+    "image_url": "blob:http://localhost:5173/5b350ba4-8baa-4bdb-81b3-8522a13f8662",
+    "colours": [
+      "#323946",
+      "#7e8794",
+      "#23252d",
+      "#505868",
+      "#bbc2c9"
+    ],
+    "theme": "Autumn",
+    "caption": "Old Money Outerwear #1",
+    "tags": [
+      "Formal",
+      "Workwear"
+    ]
+  }
 ]

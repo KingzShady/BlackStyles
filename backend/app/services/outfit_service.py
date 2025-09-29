@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 
-# New: Define path where outfits data will will be persisted (inside backend/data/)
+# Path where outfits will be stored (inside backend/data/outfits.json)
 DATA_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), "..", "data", "outfits.json")
 
 def _load_outfits():
@@ -21,25 +21,33 @@ def _save_outfits(outfits):
     with open(DATA_FILE, "w") as f:
         json.dump(outfits, f, indent=2)
 
-# 🔄 CHANGED: Added optional `caption` parameter (default empty string)
-def _save_outfit(image_url, colours, theme, caption=None):
+# ✅ UPDATED: Added optional `tags` parameter (default empty string)
+def _save_outfit(image_url, colours, theme, caption="", tags=None):
     """
-    Save a new outfit consisting of:
-    - image_url: where the outfit image is stored
-    - colours: extracted palette
-    - theme: matched them result
-    - caption: (optional) user-provided description
-    Each entry is timestamped and inserted at the front for recency.
+    Save a new outfit entry
+    Args:
+     image_url (str): Url of the outfit image
+     colours (list[str]): extracted  colour palette (hex codes)
+     theme (str): detected outfit theme
+     caption (str, optional): user-provided description
+     tags (list[str], optional): user-provided tags for categorization
+    Returns:
+        dict: persisted outfit entry
     """
-    outfits = _load_outfits()
+    if tags is None:
+        tags = [] # ✅ Ensure tags is always a list (avoid NoneType issues)
+
     entry = {
-        "timestamp": datetime.utcnow().isoformat(), # New: track when the outfit was saved
+        "timestamp": datetime.utcnow().isoformat(), # track when saved
         "image_url": image_url,
         "colours": colours,
         "theme": theme,
-        "caption": caption or ""  # ✅ New: supports caption, (default to empty string)
+        "caption": caption,
+        "tags": tags # ✅ New: tags now persisted
     }
-    outfits.insert(0, entry)  # New: Insert at the beginning so newest is always first
+
+    outfits = _load_outfits()
+    outfits.insert(0, entry)  # ✅Keep newest outfits at the top
     _save_outfits(outfits)
     return entry
 

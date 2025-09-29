@@ -1,0 +1,118 @@
+# 🧪 Day 10 — Testing Log
+
+## Features to Test
+
+  - **Backend:** Outfit persistence layer supports the new optional **`tags`** array field.
+  - **Frontend:** (Implied, to be done later) OutfitCard/RecentOutfits displays the tags.
+
+-----
+
+## Step 1 — Start Backend & Frontend
+
+Start both servers using your usual commands:
+
+```bash
+# Backend
+cd backend
+venv\Scripts\activate
+python run.py 
+
+# Frontend
+cd frontend
+npm run dev
+
+# URLs
+Backend: http://127.0.0.1:5000
+Frontend: http://localhost:5173
+```
+
+-----
+
+## Step 2 — Backend API Testing (Tags Feature)
+
+### **Save Outfit (Success Case - With Tags)**
+
+1.  Open Postman.
+
+2.  Create a new **POST** request.
+
+3.  Set the request URL to: `http://127.0.0.1:5000/api/outfits/save`
+
+4.  Go to the **Headers** tab and set:
+
+      - Key: `Content-Type`
+      - Value: `application/json`
+
+5.  Go to the **Body** tab, select **raw**, and choose **JSON** from the dropdown.
+
+6.  Paste the following **CORRECTED** JSON body (using **`image_url`** and **`colours`**):
+
+    ```json
+    {
+      "image_url": "http://example.com/day10.jpg",
+      "colours": ["#000000","#FFFFFF"],
+      "theme": "Winter",
+      "caption": "Business casual look",
+      "tags": ["Formal", "Workwear"]
+    }
+    ```
+
+7.  Click **Send**.
+
+8.  **✅ Verify:**
+
+      - The HTTP status code is **`201 Created`**.
+      - The response body confirms the save and includes the `tags` array:
+        ```json
+        {
+          "message": "Outfit saved",
+          "entry": {
+            "timestamp": "...",
+            "image_url": "http://example.com/day10.jpg",
+            "colours": ["#000000","#FFFFFF"],
+            "theme": "Winter",
+            "caption": "Business casual look",
+            "tags": ["Formal", "Workwear"]
+          }
+        }
+        ```
+
+-----
+
+### **Fetch Recent Outfits (Verify Tags)**
+
+1.  Create a new **GET** request in Postman.
+2.  Set the request URL to: `http://127.0.0.1:5000/api/outfits/recent?limit=1`
+3.  Click **Send**.
+4.  **✅ Verify:**
+      - The HTTP status code is **`200 OK`**.
+
+      - The response body contains the last saved outfit, and the entry successfully includes the `tags` field:
+
+        ```json
+        {
+          "outfits": [
+            {
+              // ... other fields
+              "tags": ["Formal", "Workwear"] 
+            }
+          ]
+        }
+        ```
+
+-----
+
+## Step 3 — Frontend Testing (UI)
+
+\**(These steps are placeholders for when you implement the UI changes, confirming the basic functionality is still solid.)*
+
+### **Upload Outfit**
+
+1.  Visit `http://localhost:5173`.
+2.  Select a file and click **Upload**.
+3.  **✅ Verify:** The upload completes, and the outfit appears in the **Recent Outfits** section.
+
+### **Persistence**
+
+1.  Refresh the webpage.
+2.  **✅ Verify:** All recently uploaded outfits (including the one with tags, which should still show its theme and colors) are visible.

@@ -13,15 +13,17 @@ const API_BASE = "http://localhost:5000/api";
  *  - colours: extracted colour palette (list of hex values)
  *  - theme: detected theme (e.g., "casual", "formal")
  *  - caption: (optional) short text description provided by user
+ *  - tags: (optional) array of tags for categorization
  * - Returns saved outfit object with timestamp + caption.
  */
 
-export async function saveOutfit(imageUrl, colours, theme, caption = ""){
+export async function saveOutfit(imageUrl, colours, theme, caption = "", tags = []){
     const res = await axios.post(`${API_BASE}/outfits/save`, {
         image_url: imageUrl,
         colours,
         theme,
-        caption, // ✅ NEW: caption now included in payload
+        caption, 
+        tags, // ✅ NEW:  Pass the tags
     });
     return res.data;
 }

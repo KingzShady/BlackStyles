@@ -355,3 +355,42 @@ feat(frontend): update RecentOutfits to fetch from backend
 feat(frontend): expand api.js with saveOutfit + fetchOutfits
 
 ---
+
+
+---
+
+## 📆 Daily Dev Log — Black Styles (Day 9)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Added `caption` field to outfit uploads in backend (`outfits.py`, `outfit_service.py`).
+- Updated frontend `UploadForm.jsx` to include caption input.
+- Updated `OutfitCard.jsx` to display captions.
+- Improved copy-to-clipboard UX in `ColourSwatches.jsx`.
+
+---
+
+### 🧪 What I Tested
+- Backend outfit save with/without caption.
+- Recent outfits API includes captions.
+- Upload form correctly sends caption.
+- Outfit cards display caption text.
+- Clipboard copy feedback works with tooltips.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- Early bug: caption defaulted to `null` instead of `""` → fixed in backend service.
+- Clipboard UX initially relied on `alert()` → replaced with tooltip text.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+```bash
+feat(backend): add caption support to outfits API
+feat(frontend): add caption input to UploadForm
+feat(frontend): display captions in OutfitCard
+fix(frontend): replace alert() with tooltip for copy-to-clipboard

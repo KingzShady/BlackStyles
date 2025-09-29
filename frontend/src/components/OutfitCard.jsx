@@ -11,10 +11,32 @@ const OutfitCard = ({ outfit }) => {
                 style={{ width: "100px", borderRadius: "4px" }}
             />
 
-            {/* ✅ NEW: Only render caption if it exists to avoid empty lines */}
+            {/* Render caption if it exists */}
             {outfit.caption && <p><em>{outfit.caption}</em></p>}
 
             <p>Theme: {outfit.theme}</p>
+
+            {/*✅ NEW: Display tags if any exist */}
+            {outfit.tags && outfit.tags.length > 0 && (
+                <p className="tags">
+                    {outfit.tags.map((tag, i) => (
+                        <span 
+                            key={i} 
+                            className="tag"
+                            style={{ 
+                                marginRight: '6px',
+                                border: '1px solid #ccc',
+                                padding: '2px 4px',
+                                borderRadius: '4px',
+                                display: 'inline-block',
+                            }}
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </p>
+            )}
+
             <ColourSwatches colours={outfit.colours} />
         </div>
     );

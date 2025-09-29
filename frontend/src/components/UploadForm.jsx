@@ -10,7 +10,8 @@ const UploadForm = () => {
   const [loading, setLoading] = useState(false); // Track upload state
   const [error, setError] = useState(null); // Error feedback for user
   const [palette, setPalette] = useState([]); // Colours extracted from backend
-  const [caption, setCaption] = useState(""); // ✅ NEW: store optional caption text
+  const [caption, setCaption] = useState(""); // Store optional caption text
+  const [tags, setTags] = useState(""); // ✅ NEW: store raw tags input
 
   // Handle form submit: upload image, extract palette, persist to backend
   const handleSubmit = async (e) => {
@@ -42,8 +43,22 @@ const UploadForm = () => {
       // Assign placeholder theme (will later come from backend theme matcher)
       const theme = "Autumn";
 
-      // ✅ UPDATED: Persist outfit with caption as well
-      await saveOutfit(URL.createObjectURL(file), extractedPalette, theme, caption);
+      // ✅ UPDATED: Persist outfit with caption + parsed tags
+      const payload = {
+        image_url: URL.createObjectURL(file),
+        colours: extractedPalette,
+        theme,
+        caption,
+        tags: tags.split(",").map((t) => t.trim()).filter((t) => t) // ✅ parse comma-separated
+      }
+
+      await saveOutfit(
+        payload.image_url,
+        payload.colours,
+        payload.theme,
+        payload.caption,
+        payload.tags
+      );
       
     } catch (err){
       console.error("Upload error:", err); // Keep: Log the error for debugging
@@ -60,7 +75,7 @@ const UploadForm = () => {
       {/* File input for selecting an outfit image */}
       <input type="file" name="fileInput" accept="image/*" />
 
-      {/* ✅ NEW: input field to allow users to add caption for the outfit*/}
+      {/* Caption input */}
       <input
         type="text"
         placeholder="Add a caption (optional)"
@@ -68,7 +83,16 @@ const UploadForm = () => {
         onChange={(e) => setCaption(e.target.value)}
       />
 
-      {/* Submit button, disabled while loading */}
+      {/* ✅ NEW: input field for tags */}
+      <label>Tags (comma-seperated):</label> // ✅ Added label for clarity
+      <input
+        type="text"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
+        placeholder="e.g., Formal, Streetwear"
+      />
+
+      {/* Submit button */}
       <button type="submit" disabled={loading}>
         {loading ? "Uploading..." : "Upload"}
       </button>

@@ -394,3 +394,42 @@ feat(backend): add caption support to outfits API
 feat(frontend): add caption input to UploadForm
 feat(frontend): display captions in OutfitCard
 fix(frontend): replace alert() with tooltip for copy-to-clipboard
+
+
+---
+
+## 📆 Daily Dev Log — Black Styles (Day 10)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Added `tags` field to backend outfit API (save + fetch).
+- Extended persistence (`outfits.json`) with tags support.
+- Updated `UploadForm.jsx` to allow comma-separated tags.
+- Updated `OutfitCard.jsx` to display tags visually.
+
+---
+
+### 🧪 What I Tested
+- Backend save and fetch with tags.
+- Upload form correctly parses tags.
+- Outfit cards render tags as styled labels.
+- Persistence across refresh confirmed.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [ ] Any parsing errors with tags?
+- [ ] Styling quirks in OutfitCard?
+- [ ] Edge case: empty tags input → saved as `[]`.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+```bash
+feat(backend): add tags support to outfits API
+feat(backend): persist tags in outfits.json
+feat(frontend): add tags input to UploadForm
+feat(frontend): render tags in OutfitCard

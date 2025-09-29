@@ -37,6 +37,8 @@ def _save_outfit(image_url, colours, theme, caption="", tags=None):
     if tags is None:
         tags = [] # ✅ Ensure tags is always a list (avoid NoneType issues)
 
+    outfits = _load_outfits()
+
     entry = {
         "timestamp": datetime.utcnow().isoformat(), # track when saved
         "image_url": image_url,
@@ -46,7 +48,6 @@ def _save_outfit(image_url, colours, theme, caption="", tags=None):
         "tags": tags # ✅ New: tags now persisted
     }
 
-    outfits = _load_outfits()
     outfits.insert(0, entry)  # ✅Keep newest outfits at the top
     _save_outfits(outfits)
     return entry

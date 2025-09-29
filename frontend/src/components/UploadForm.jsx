@@ -84,11 +84,12 @@ const UploadForm = () => {
       />
 
       {/* ✅ NEW: input field for tags */}
+      <label>Tags (comma-seperated):</label> // ✅ Added label for clarity
       <input
         type="text"
-        placeholder="Add tags (comma-separated)"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
+        placeholder="e.g., Formal, Streetwear"
       />
 
       {/* Submit button */}

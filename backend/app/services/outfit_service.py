@@ -45,10 +45,10 @@ def _save_outfit(image_url, colours, theme, caption="", tags=None):
         "colours": colours,
         "theme": theme,
         "caption": caption,
-        "tags": tags # ✅ New: tags now persisted
+        "tags": tags # ✅ tags now persisted
     }
 
-    outfits.insert(0, entry)  # ✅Keep newest outfits at the top
+    outfits.insert(0, entry)  # ✅ Keep newest outfits at the top
     _save_outfits(outfits)
     return entry
 
@@ -60,3 +60,19 @@ def get_recent_outfits(limit=5):
     outfits = _load_outfits()
     return outfits[:limit]
 
+# ✅ NEW: search outfits by tag
+def search_outfits_by_tag(tag):
+    """
+    Search outfits that contain a given tag.
+    Args:
+        tag (str): tag string to search for
+    Returns:
+        list[dict]: outfits whose tag list includes the given tag
+    """
+    outfits = _load_outfits()
+    
+    # Case-insensitive matching ensures "Summer" == "summer"
+    return [
+        o for o in outfits
+        if tag.lower() in [t.lower() for t in o.get("tags", [])]
+    ]

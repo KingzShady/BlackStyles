@@ -1,0 +1,112 @@
+You're ready to test the new outfit search functionality by tag\! The core of this testing requires using the new **`GET /api/outfits/search`** endpoint with a query parameter.
+
+As with previous days, I'll provide the fixed Postman steps (using the correct `image_url` and `colours` keys) and format the rest of your guide.
+
+-----
+
+# 🧪 Day 11 — Testing Log: Outfit Search
+
+## Features to Test
+
+  - **Backend:** Outfit search by tag (`/api/outfits/search?tag=...`).
+  - **Frontend:** Implement search bar logic and filtering based on the backend API.
+  - **UI/Styling:** Tags render as blue pill badges (visual verification).
+
+-----
+
+## Step 1 — Start Backend & Frontend
+
+```bash
+# Backend
+cd backend
+venv\Scripts\activate
+python run.py 
+
+# Frontend
+cd frontend
+npm run dev
+
+# URLs
+Backend: http://127.0.0.1:5000
+Frontend: http://localhost:5173
+```
+
+-----
+
+## Step 2 — Backend API Testing
+
+We need to perform three steps: save outfits to create test data, then execute the search.
+
+### **1. POST Save Outfit (Create Test Data)**
+
+This request creates an outfit tagged **"Formal"** and **"Evening"** to ensure we have data to search against.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Name** | `1. POST Save Outfit (Formal/Evening)` |
+| **Method** | `POST` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/save` |
+| **Header** | `Content-Type: application/json` |
+
+#### **Body JSON (Corrected Keys):**
+
+```json
+{
+  "image_url": "http://test.com/fit-formal.jpg",
+  "colours": ["#111111", "#999999"],
+  "theme": "Autumn",
+  "tags": ["Formal", "Evening"]
+}
+```
+
+  * **Action:** Click **Send**.
+  * **✅ Verify:** Status code is **`201 Created`**. (Repeat this step with a different image URL and different tags like `["Casual", "Weekend"]` to create non-matching data).
+
+### **2. GET Search by Tag (Success)**
+
+This test validates that searching for a single tag returns the correct subset of data.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Name** | `2. GET Search by Tag (Formal)` |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tag=Formal` |
+
+  * **Action:** Click **Send**.
+  * **✅ Verify:**
+      * Status code is **`200 OK`**.
+      * The response JSON array only contains outfits where the `tags` list includes **"Formal"**.
+      * The outfit saved in Step 1 should be included.
+
+### **3. GET Search by Tag (No Match)**
+
+This test ensures the endpoint handles a tag that doesn't exist.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Name** | `3. GET Search by Tag (Nonexistent)` |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tag=Halloween` |
+
+  * **Action:** Click **Send**.
+  * **✅ Verify:**
+      * Status code is **`200 OK`**.
+      * The response JSON body returns an empty list: `{"outfits": []}`.
+
+-----
+
+## Step 3 — Frontend Testing (UI & Logic)
+
+### **Search Functionality**
+
+1.  Visit `http://localhost:5173`.
+2.  Upload 2–3 outfits with a mix of tags (e.g., "Formal", "Casual", "Workwear").
+3.  Enter **"Formal"** into the new search bar, and click **Search**.
+4.  **✅ Verify:** Only outfits whose tags include **"Formal"** are displayed in the Recent Outfits section.
+5.  Clear the text from the search bar (or click a **Clear** button if one is implemented).
+6.  **✅ Verify:** All saved outfits are displayed again (no filter applied).
+
+### **Tag Styling (Visual Check)**
+
+1.  Inspect any outfit card.
+2.  **✅ Verify:** The tags for that outfit (e.g., "Formal", "Evening") are displayed as visually distinct blue pill badges or buttons (as per the UI requirement).

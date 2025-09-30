@@ -82,7 +82,6 @@ feat(backend): initialize Flask app with create_app factory and enable CORS
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
 feat(backend): add image upload route to handle image file POSTs
 feat(backend): implement color palette extraction logic with OpenCV and KMeans
 feat(frontend): connect UploadForm to image upload endpoint and log palette response
@@ -124,7 +123,6 @@ feat(frontend): connect UploadForm to image upload endpoint and log palette resp
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
 feat(backend): add CORS and upload POST route with file validation
 feat(backend): restrict file types to images only for uploads
 chore(backend): add request logging to upload route
@@ -160,8 +158,6 @@ fix(backend): handle image read/processing failure gracefully
 - Styling polish (Tailwind integration).
 
 ---
-
-# Black Styles — Day 5 & Project Documentation
 
 ## 📆 Day 5 — Testing Log
 
@@ -214,12 +210,6 @@ fix(backend): handle image read/processing failure gracefully
 
 ---
 
-
----
-
-# **📆 Daily Dev Log — Day 6**
-
-```markdown
 ## 📆 Daily Dev Log — Black Styles (Day 6)
 
 ### ✅ What I Implemented Today
@@ -251,18 +241,11 @@ fix(backend): handle image read/processing failure gracefully
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
+
 feat(backend+frontend): add palette persistence and recent outfits UI
 
----
 
-
----
-
-# 📆 Daily Dev Log — Day 7
-
-```markdown
-## 📆 Daily Dev Log — Black Styles
+## 📆 Daily Dev Log — Black Styles (Day 7)
 
 A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
 
@@ -299,7 +282,7 @@ A React + Flask AI fashion app for culturally rich and body-aware style recommen
 
 ### 💬 Git Commits Made (Conventional Format)
 
-```bash
+
 feat(frontend): add color swatches component with hex display
 feat(frontend): implement loading indicator during uploads
 feat(frontend): add error handling UI for failed uploads
@@ -308,9 +291,6 @@ style(frontend): adjust CSS for swatch layout and hex labels
 
 ---
 
-# 📆 Day 8 Daily Dev Log
-
-```markdown
 ## 📆 Daily Dev Log — Black Styles (Day 8)
 
 A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
@@ -346,16 +326,13 @@ A React + Flask AI fashion app for culturally rich and body-aware style recommen
 ---
 
 ### 💬 Git Commits (Conventional Format)
-```bash
+
 feat(backend): add outfit service with JSON persistence
 feat(backend): create outfits routes for save + recent
 feat(frontend): extend UploadForm to save outfits
 feat(frontend): add OutfitCard component for displaying outfits
 feat(frontend): update RecentOutfits to fetch from backend
 feat(frontend): expand api.js with saveOutfit + fetchOutfits
-
----
-
 
 ---
 
@@ -389,12 +366,21 @@ A React + Flask AI fashion app for culturally rich and body-aware style recommen
 ---
 
 ### 💬 Git Commits Made (Conventional Format)
-```bash
+
 feat(backend): add caption support to outfits API
 feat(frontend): add caption input to UploadForm
 feat(frontend): display captions in OutfitCard
 fix(frontend): replace alert() with tooltip for copy-to-clipboard
 
+### Black Styles — Day 9
+**Focus:** UX Improvements (Captions + Clipboard Feedback)
+
+- Implemented captions for outfits:
+  - Users can add custom captions when uploading.
+  - Captions stored in backend and displayed in Recent Outfits.
+- Improved copy-to-clipboard:
+  - Replaced intrusive alert popups with inline tooltip confirmation.
+- Technologies: React, Flask, Axios, JSON persistence.
 
 ---
 
@@ -428,8 +414,64 @@ A React + Flask AI fashion app for culturally rich and body-aware style recommen
 ---
 
 ### 💬 Git Commits Made (Conventional Format)
-```bash
+
 feat(backend): add tags support to outfits API
 feat(backend): persist tags in outfits.json
 feat(frontend): add tags input to UploadForm
 feat(frontend): render tags in OutfitCard
+
+### Black Styles — Day 10
+**Focus:** Outfit Tagging & Categorization
+
+- Extended outfit model with **tags** (Formal, Streetwear, Workwear, etc.).
+- Tags added via frontend form, persisted in backend JSON.
+- Outfits now display tags as styled badges under captions.
+- Enables future **filtering & search** by tags.
+
+---
+
+## 📆 Daily Dev Log — Black Styles (Day 11)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Added new backend route: `GET /api/outfits/search?tag=<tag>`.
+- Implemented tag-based filtering in backend service.
+- Added search bar to `RecentOutfits.jsx`.
+- Refined `OutfitCard.jsx` with styled tag badges.
+
+---
+
+### 🧪 What I Tested
+- Backend outfit search by tag (case-insensitive).
+- Frontend search bar functionality.
+- Tag badge styling across multiple outfits.
+- Edge cases: empty search, non-matching tag.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [ ] Search input didn’t clear results until refresh (fixed by fallback logic).
+- [ ] Tag badge styling alignment needed minor CSS tweaks.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+
+feat(backend): add search route for outfits by tag
+feat(backend): implement search_outfits_by_tag service
+feat(frontend): add search bar to RecentOutfits
+style(frontend): refine tag badges in OutfitCard
+
+### Black Styles — Day 11
+**Focus:** Outfit Filtering by Tags
+
+- Added **tag-based search** for outfits.
+- Backend supports `GET /api/outfits/search?tag=<tag>`.
+- Frontend includes a search bar to filter outfits dynamically.
+- Tags styled as modern pill badges for readability.
+- Enables scalable categorization (Formal, Casual, Streetwear, etc.).
+
+---

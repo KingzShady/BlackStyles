@@ -11,18 +11,17 @@ const OutfitCard = ({ outfit }) => {
                 style={{ width: "100px", borderRadius: "4px" }}
             />
 
-            {/* Render caption if it exists */}
             {outfit.caption && <p><em>{outfit.caption}</em></p>}
 
             <p>Theme: {outfit.theme}</p>
 
-            {/*✅ NEW: Display tags if any exist */}
+            {/* 🔹 Refined tag styling using Tailwind-like classes */}
             {outfit.tags && outfit.tags.length > 0 && (
                 <p className="tags">
                     {outfit.tags.map((tag, i) => (
                         <span 
                             key={i} 
-                            className="tag"
+                            className="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
                             style={{ 
                                 marginRight: '6px',
                                 border: '1px solid #ccc',

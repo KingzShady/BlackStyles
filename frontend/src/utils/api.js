@@ -31,15 +31,6 @@ export async function fetchOutfits(limit = 5){
 }
 
 /**
- * Fetch recently saved outfits from backend
- * - Why: Users need persistence across sessions/devices.
- */
-export async function fetchOutfits(limit = 5){
-    const res = await axios.get(`${API_BASE}/outfits/recent?limit=${limit}`);
-    return res.data;
-}
-
-/**
  * Search outfits by tags.
  * - Why: Allows users to filter outfits dynamically by category.
  * - Example: searchOutfitsByTag("summer")

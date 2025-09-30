@@ -1,0 +1,71 @@
+Before Day 11:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py              # Register new routes
+│   │   ├── routes/
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # Modified: ✅ tags support added
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   └── outfit_service.py    # Modified: ✅ tags persisted
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # Store outfits + now includes tags
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadForm.jsx        # Modified: ✅ tags input
+│   │   │   ├── ColorSwatches.jsx     # Shows swatches (unchanged from Day 7 fix)
+│   │   │   ├── RecentOutfits.jsx     # Modified: ✅ fetch tags
+│   │   │   └── OutfitCard.jsx        # Modified: ✅ display tags
+│   │   └── utils/
+│   │       ├── localStorageUtils.js  # Keep for offline fallback
+│   │       └── api.js                # Modified: tags in saveOutfit
+│   └── App.jsx                       # Render RecentOutfits
+
+After Day 11:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py              # Register new routes
+│   │   ├── routes/
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # Modified: ✅ now supports /search
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   └── outfit_service.py    # Modified: ✅ add search_outfits_by_tag
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # Store outfits + now includes tags
+│   └── run.py
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadForm.jsx        # ✅ tags input
+│   │   │   ├── ColorSwatches.jsx     # Shows swatches (unchanged from Day 7 fix)
+│   │   │   ├── RecentOutfits.jsx     # Modified: ✅ includes search bar
+│   │   │   └── OutfitCard.jsx        # Modified: ✅ styled tags
+│   │   └── utils/
+│   │       ├── localStorageUtils.js  # Keep for offline fallback
+│   │       └── api.js                # Modified: ✅ searchOutfitsByTag
+│   └── App.jsx                       # Render RecentOutfits

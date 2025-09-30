@@ -22,13 +22,13 @@ def save_outfit():
     colours = data.get("colours")
     theme = data.get("theme")
     caption = data.get("caption", "")
-    tags = data.get("tags", []) # ✅ NEW: allow tags persistence
+    tags = data.get("tags", []) # ✅ allow tags persistence
 
     # Validate required fields to prevent saving incomplete data
     if not image_url or not colours:
         return jsonify({"error": "Missing imageUrl or colours fields"}), 400
     
-    # ✅ UPDATED: pass tags into service layer
+    # ✅ pass tags into service layer
     entry = outfit_service._save_outfit(image_url, colours, theme, caption, tags)
     return jsonify({"message": "Outfit saved", "entry": entry}), 201
 
@@ -42,3 +42,18 @@ def get_recent_outfits():
     limit = int(request.args.get("limit", 5))
     outfits = outfit_service.get_recent_outfits(limit=limit)
     return jsonify({"outfits": outfits})
+
+# ✅ NEW: search outfits by tag
+@outfits_bp.route("/search", methods=["GET"])
+def search_outfits():
+    """
+    Search outfits by tag.
+    Accepts query param:
+    - tag: (required) filter outfits by specific tag
+    Returns a list of matching outfits.
+    """
+    tag = request.args.get("tag", "").strip()
+
+    # Delegate to service layer for filtering logic
+    results = outfit_service.search_outfits_by_tag(tag)
+    return jsonify({"outfits": results}), 200

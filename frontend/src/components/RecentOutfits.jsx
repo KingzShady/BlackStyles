@@ -1,43 +1,66 @@
 // frontend/src/components/RecentOutfits.jsx
 import React, { useEffect, useState } from "react";
-import { fetchOutfits } from "../utils/api"; // ✅ New: Fetch outfits from backend persistence API
-import OutfitCard from "./OutfitCard"; // Reusable card component to render a single outfit
+import { fetchOutfits, searchOutfitsByTag } from "../utils/api"; // ✅ New: Added search API import
+import OutfitCard from "./OutfitCard";
 
 /*
  RecentOutfits Component
-* - Fetches recently saved outfits from backend (persistence layer)
-* - Delegates rendering of each outfit to OutfitCard (keeps this component focused on data + layout)
-* - Why: moving rendering into OutfitCard Keeps code DRY and makes UI easier to test and style
+* - Fetches and display recently saved outfits
+* - Adds: a search bar to filter outfits by tags
+* - Why: Improves UX by letting users quicly find specific outfits
 */
 const RecentOutfits = () => {
-    const [outfits, setOutfits] = useState([]);
+    const [outfits, setOutfits] = useState([]); // all outfits from backend
+    const [searchTag, setSearchTag] = useState(""); // 🔹 New: track user input for search
+    const [filteredOutfits, setFilteredOutfits] = useState([]); // 🔹 New: filtered results
 
     useEffect(() => {
         // load recent outfits when component mounts
         const loadOutfits = async () => {
             try {
-                // fetchOutfits is expected to call the backend /api/outfits/recent and return {outfits: [...]}
                 const data = await fetchOutfits();
                 setOutfits(data.outfits || []);
             } catch (err){
-                // Log to console for developers and keep UI silent (could add user-facing error later)
                 console.error("Failed to fetch outfits:", err);
             }
         };
         loadOutfits();
     }, []);
 
+    // 🔹 New: handler for search button click
+    const handleSearch = async () => {
+        if (!searchTag.trim()) return; // skip empty input
+        try{
+            const results = await searchOutfitsByTag(searchTag.trim()); // call API
+            setFilteredOutfits(results || []); // store filtered results 
+        }
+        catch (err){
+            console.error("Search failed:", err);
+        }
+    };
+
     return (
         <div style={{ padding: 12}}>
             <h2>Recent Outfits</h2>
 
-            {/* graceful empty state for first-time users */}
-            {outfits.length === 0 ? (
+            {/* 🔹 New: Search bar UI */}
+            <div className="search-bar" style={{ marginBottom: 12 }}>
+                <input
+                    type="text"
+                    value={searchTag}
+                    onChange={(e) => setSearchTag(e.target.value)}
+                    placeholder="Search by tag (e.g., casual, formal)"
+                />
+                <button onClick={handleSearch}>Search</button>
+            </div>
+
+            {/* graceful empty state */}
+            {(filteredOutfits.length === 0 || outfits.length === 0) ? (
                 <p style={{color: "#666" }}>No outfits saved yet.</p>
             ) : (
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap"}}>
-                    {outfits.map((o, idx) => (
-                        // OutfitCard handles thumbnail, theme, colours swatches rendering
+                    {/* 🔹 Show filtered results if present, otherwise all outfits */}
+                    {(filteredOutfits.length > 0 ? filteredOutfits : outfits).map((o, idx) => (
                         <OutfitCard key={idx} outfit={o} />
                     ))}
                 </div>

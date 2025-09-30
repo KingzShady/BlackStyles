@@ -1,5 +1,19 @@
 [
   {
+    "timestamp": "2025-09-30T21:14:20.105715",
+    "image_url": "http://test.com/fit-formal.jpg",
+    "colours": [
+      "#111111",
+      "#999999"
+    ],
+    "theme": "Autumn",
+    "caption": "",
+    "tags": [
+      "Formal",
+      "Evening"
+    ]
+  },
+  {
     "timestamp": "2025-09-29T16:19:57.530211",
     "image_url": "blob:http://localhost:5173/2a4aa3bb-6196-4354-9004-e011131cec79",
     "colours": [

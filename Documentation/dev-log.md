@@ -474,4 +474,55 @@ style(frontend): refine tag badges in OutfitCard
 - Tags styled as modern pill badges for readability.
 - Enables scalable categorization (Formal, Casual, Streetwear, etc.).
 
+
 ---
+
+## 2. Daily Dev Log
+
+## 📆 Daily Dev Log — Black Styles (Day 12)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Extended backend search route to support multiple tags (`/api/outfits/search?tags=...`).
+- Added `search_outfits_by_tags(tags)` in `outfit_service.py`.
+- Updated frontend `RecentOutfits.jsx`:
+  - Multi-select dropdown of popular tags.
+  - Hooked into new multi-tag API.
+- Refined outfit display with responsive grid layout.
+
+---
+
+### 🧪 What I Tested
+- Backend multi-tag search with 2–3 sample outfits.
+- Dropdown tag selection in frontend.
+- Grid layout responsiveness.
+- Edge cases: no tags, lowercase tags, non-existent tags.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [ ] Dropdown initially allowed duplicates → fixed with unique tag state.
+- [ ] Grid layout needed min-width adjustment for smaller screens.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+
+feat(backend): extend search to support multiple tags
+feat(backend): add search_outfits_by_tags service method
+feat(frontend): add multi-select dropdown for tags
+style(frontend): implement responsive grid layout for outfits
+
+
+---
+
+### Black Styles — Day 12
+**Focus:** Multi-Tag Search & Grid Layout
+
+- Backend: extended outfit search to support multiple tags (`?tags=Formal,Casual`).
+- Frontend: multi-select dropdown of popular tags, wired to new API.
+- Added responsive **grid layout** for outfit cards, improving UI clarity.
+- Strengthens categorization and browsing experience for users.

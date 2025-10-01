@@ -35,7 +35,7 @@ export async function fetchOutfits(limit = 5){
  * - Why: Enablrd advanced filtering so users can refine results (e.g., "summer, casual").
  * - Example: searchOutfitsByTag(["summer", "casual"])
  */
-export async function searchOutfitsByTag(tag){
+export async function searchOutfitsByTag(tags){
     // ✅ Backend expects tags as a comma-separated string (e.g., "summer,casual")
     // ✅ Using axios `params` safely encodes query strings to avoid injection issues
     const res = await axios.get(`${API_BASE}/outfits/search`, { 

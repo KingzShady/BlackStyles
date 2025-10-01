@@ -1,5 +1,52 @@
 [
   {
+    "timestamp": "2025-10-01T20:10:07.566205",
+    "image_url": "blob:http://localhost:5173/cc5777a5-18a1-4941-9bb7-69a1f4760db5",
+    "colours": [
+      "#23252d",
+      "#7e8794",
+      "#323946",
+      "#505868",
+      "#bbc2c9"
+    ],
+    "theme": "Autumn",
+    "caption": "Summer",
+    "tags": [
+      "Formal",
+      "Workwear"
+    ]
+  },
+  {
+    "timestamp": "2025-10-01T20:06:14.177681",
+    "image_url": "[http://example.com/fit2.jpg](http://example.com/fit2.jpg)",
+    "colours": [
+      "#abcdef",
+      "#f2f2f2"
+    ],
+    "theme": "Summer",
+    "caption": "",
+    "tags": [
+      "Casual",
+      "Streetwear",
+      "White"
+    ]
+  },
+  {
+    "timestamp": "2025-10-01T20:05:28.578288",
+    "image_url": "[http://example.com/fit1.jpg](http://example.com/fit1.jpg)",
+    "colours": [
+      "#123456",
+      "#000000"
+    ],
+    "theme": "Winter",
+    "caption": "",
+    "tags": [
+      "Formal",
+      "Workwear",
+      "Black"
+    ]
+  },
+  {
     "timestamp": "2025-09-30T21:14:20.105715",
     "image_url": "http://test.com/fit-formal.jpg",
     "colours": [

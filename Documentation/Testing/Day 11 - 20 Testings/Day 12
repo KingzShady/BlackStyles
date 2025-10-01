@@ -1,0 +1,182 @@
+🧪 Day 12 — Testing Log: Multi-Tag Search
+Goal
+
+Validate the new backend functionality that allows filtering outfits by multiple tags simultaneously. The search logic must perform an intersection (AND), meaning only outfits containing all specified tags are returned.
+Step 1 — Start Backend & Frontend
+
+# Backend
+cd backend
+venv\Scripts\activate
+python run.py 
+
+# Frontend
+cd frontend
+npm run dev
+
+
+Step 2 — Backend API Testing (Postman/cURL)
+
+First, we create two distinct outfits to ensure the search correctly filters for the intersection of tags.
+1. POST Save Outfit 1 (Formal, Workwear)
+
+Detail
+	
+
+Setting
+
+Name
+	
+
+1. POST Save Outfit (Formal/Workwear)
+
+Method
+	
+
+POST
+
+URL
+	
+
+http://127.0.0.1:5000/api/outfits/save
+
+Header
+	
+
+Content-Type: application/json
+
+Body JSON (Uses image_url and colours):
+
+{
+  "image_url": "[http://example.com/fit1.jpg](http://example.com/fit1.jpg)",
+  "colours": ["#123456", "#000000"],
+  "theme": "Winter",
+  "tags": ["Formal", "Workwear", "Black"]
+}
+
+    Action: Click Send.
+
+    ✅ Verify: Status code is 201 Created.
+
+2. POST Save Outfit 2 (Casual, Streetwear)
+
+Detail
+	
+
+Setting
+
+Name
+	
+
+2. POST Save Outfit (Casual/Streetwear)
+
+Method
+	
+
+POST
+
+URL
+	
+
+http://127.0.0.1:5000/api/outfits/save
+
+Header
+	
+
+Content-Type: application/json
+
+Body JSON (Uses image_url and colours):
+
+{
+  "image_url": "[http://example.com/fit2.jpg](http://example.com/fit2.jpg)",
+  "colours": ["#abcdef", "#f2f2f2"],
+  "theme": "Summer",
+  "tags": ["Casual", "Streetwear", "White"]
+}
+
+    Action: Click Send.
+
+    ✅ Verify: Status code is 201 Created.
+
+3. GET Search by Multiple Tags (Intersection Success)
+
+This test ensures that a query for multiple tags returns only the outfit that has both.
+
+Detail
+	
+
+Setting
+
+Name
+	
+
+3. GET Search by Tags (Formal, Workwear)
+
+Method
+	
+
+GET
+
+URL
+	
+
+http://127.0.0.1:5000/api/outfits/search?tags=Formal,Workwear
+
+    Action: Click Send.
+
+    ✅ Expected:
+
+        Status code is 200 OK.
+
+        The response JSON array must contain only the first outfit (fit1.jpg).
+
+        The response length should be 1.
+
+4. GET Search by Non-matching Tags (Intersection Failure)
+
+This test ensures the AND logic correctly returns zero results when no outfit contains all requested tags.
+
+Detail
+	
+
+Setting
+
+Name
+	
+
+4. GET Search by Tags (Workwear, Casual)
+
+Method
+	
+
+GET
+
+URL
+	
+
+http://127.0.0.1:5000/api/outfits/search?tags=Workwear,Casual
+
+    Action: Click Send.
+
+    ✅ Expected:
+
+        Status code is 200 OK.
+
+        The response JSON body must return an empty list: {"outfits": []}.
+
+Step 3 — Frontend Testing (UI Logic)
+
+    Visit the app at http://localhost:5173.
+
+    Upload 2–3 outfits with varying tags (or ensure the test data from Step 2 is visible).
+
+    Enter Formal, Workwear into the search bar.
+
+    ✅ Verify: Only the outfit tagged with both "Formal" and "Workwear" is displayed.
+
+    Enter Workwear, Casual into the search bar.
+
+    ✅ Verify: The Recent Outfits section is empty, confirming the AND filtering logic is working correctly in the frontend.
+
+    Clear the search bar.
+
+    ✅ Verify: All outfits are displayed.

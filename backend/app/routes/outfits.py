@@ -43,17 +43,24 @@ def get_recent_outfits():
     outfits = outfit_service.get_recent_outfits(limit=limit)
     return jsonify({"outfits": outfits})
 
-# ✅ NEW: search outfits by tag
+# 🔹 UPDATED: search outfits by mutiple tags instead of a single tag
 @outfits_bp.route("/search", methods=["GET"])
 def search_outfits():
     """
-    Search outfits by tag.
+    Search outfits by one or more tags.
     Accepts query param:
-    - tag: (required) filter outfits by specific tag
+    - tag: (required) comma-separated list of tags (e.g. "casual,blue")
     Returns a list of matching outfits.
     """
-    tag = request.args.get("tag", "").strip()
+    tags_param = request.args.get("tags", "").strip()
+
+    # ✅ Validate that query param exists
+    if not tags_param:
+        return jsonify({"error": "Missing tags"}), 400
+    
+    # ✅ Support mutiple tags by splitting on commas and trimming whitespace
+    tags = [t.strip() for t in tags_param.split(",") if t.strip()]
 
     # Delegate to service layer for filtering logic
-    results = outfit_service.search_outfits_by_tag(tag)
+    results = outfit_service.search_outfits_by_tag(tags)
     return jsonify({"outfits": results}), 200

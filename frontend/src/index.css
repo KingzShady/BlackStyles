@@ -66,3 +66,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Outfit grif layout for RecentOutfits and similar components*/
+.outfit-grid {
+  display: grid; /* Outfit grid layout for RecentOutfits and similar components*/
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Responsive 220px min, expand to fill row*/
+  gap: 16px; /* Space between cards*/
+}

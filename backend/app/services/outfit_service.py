@@ -60,19 +60,23 @@ def get_recent_outfits(limit=5):
     outfits = _load_outfits()
     return outfits[:limit]
 
-# ✅ NEW: search outfits by tag
-def search_outfits_by_tag(tag):
+def search_outfits_by_tag(tags):
     """
     Search outfits that contain a given tag.
     Args:
-        tag (str): tag string to search for
+        tags (list[str]): list of tags to filter outfits by
     Returns:
         list[dict]: outfits whose tag list includes the given tag
     """
     outfits = _load_outfits()
+    results = []
     
-    # Case-insensitive matching ensures "Summer" == "summer"
-    return [
-        o for o in outfits
-        if tag.lower() in [t.lower() for t in o.get("tags", [])]
-    ]
+    for o in outfits:
+        # Normalize stored tags to lowercase for case-insensitive matching
+        outfits_tags = [t.lower() for t in o.get("tags", [])]
+
+        # ✅ Ensure All search tags must be present in the outfit's tags list
+        if all(tag.lower() in outfits_tags for tag in tags):
+            results.append(o)
+
+    return results

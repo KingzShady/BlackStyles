@@ -31,12 +31,17 @@ export async function fetchOutfits(limit = 5){
 }
 
 /**
- * Search outfits by tags.
- * - Why: Allows users to filter outfits dynamically by category.
- * - Example: searchOutfitsByTag("summer")
+ * Search outfits by mutiple tags.
+ * - Why: Enablrd advanced filtering so users can refine results (e.g., "summer, casual").
+ * - Example: searchOutfitsByTag(["summer", "casual"])
  */
 export async function searchOutfitsByTag(tag){
-    // ✅ Using `params` ensures safe query string handling
-    const res = await axios.get(`${API_BASE}/outfits/search`, { params: { tag } });
-    return res.data.outfits; // Only return the outfits array for cleaner usage
-}
+    // ✅ Backend expects tags as a comma-separated string (e.g., "summer,casual")
+    // ✅ Using axios `params` safely encodes query strings to avoid injection issues
+    const res = await axios.get(`${API_BASE}/outfits/search`, { 
+        params: { tags: tags.join(",") }, // Join array into a single string
+    });
+
+    // ✅ Return only the outfits array to keep UI consumption simple
+    return res.data.outfits;
+};

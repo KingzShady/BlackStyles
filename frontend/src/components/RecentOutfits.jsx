@@ -1,6 +1,6 @@
 // frontend/src/components/RecentOutfits.jsx
 import React, { useEffect, useState } from "react";
-import { fetchOutfits, searchOutfits, searchOutfitsByTag } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
+import { fetchOutfits, searchOutfits } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
 import OutfitCard from "./OutfitCard";
 
 /*

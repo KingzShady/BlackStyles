@@ -1,0 +1,158 @@
+# 🧪 Day 13 — Testing Log: Combined Theme and Multi-Tag Search
+
+**Goal:** Validate that the Outfit Search API (`/api/outfits/search`) correctly handles combined filtering using both the **theme** and the intersection of **multiple tags** (AND logic).
+
+---
+
+## Step 1: Start Backend & Frontend
+
+### Backend
+
+cd backend
+venv\Scripts\activate
+python run.py 
+
+
+### Frontend
+
+
+cd frontend
+npm run dev
+
+
+-----
+
+## Step 2: Backend Data Setup (Postman/cURL)
+
+First, we create three distinct outfits to ensure we have data to test single and combined filters.
+
+### 1\. POST Outfit A (Full Match)
+
+This is the target outfit for the full combined search test: **Winter**, **Formal**, **Workwear**.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `POST` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/save` |
+| **Header** | `Content-Type: application/json` |
+| **Body JSON** | \`\`\`json
+{
+"image\_url": "[http://example.com/outfit\_a.jpg](http://example.com/outfit_a.jpg)",
+"colours": ["\#111111", "\#999999"],
+"theme": "Winter",
+"tags": ["Formal", "Workwear", "Black"]
+}
+
+|
+| **Action** | Click **Send**. |
+| **✅ Verify** | Status code is **201 Created**. |
+
+### 2. POST Outfit B (Theme & Tags Mismatch)
+This outfit will test theme-only and tag-only filtering but should fail a combined search with Outfit A's criteria.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `POST` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/save` |
+| **Header** | `Content-Type: application/json` |
+| **Body JSON** | json
+{
+  "image_url": "[http://example.com/outfit_b.jpg](http://example.com/outfit_b.jpg)",
+  "colours": ["#FFFFFF", "#00FF00"],
+  "theme": "Summer",
+  "tags": ["Casual", "Streetwear", "Green"]
+}
+ |
+| **Action** | Click **Send**. |
+| **✅ Verify** | Status code is **201 Created**. |
+
+### 3. POST Outfit C (Partial Tag Match)
+This outfit shares some criteria with Outfit A (Formal) but fails the combined search due to theme and the second tag.
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `POST` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/save` |
+| **Header** | `Content-Type: application/json` |
+| **Body JSON** | json
+{
+  "image_url": "[http://example.com/outfit_c.jpg](http://example.com/outfit_c.jpg)",
+  "colours": ["#552200", "#AA4400"],
+  "theme": "Autumn",
+  "tags": ["Formal", "Black"]
+}
+ |
+| **Action** | Click **Send**. |
+| **✅ Verify** | Status code is **201 Created**. |
+
+---
+
+## Step 3: Backend API Testing (Combined Search)
+
+We now test the `GET /api/outfits/search` endpoint with various combinations.
+
+### 4. GET Search by Theme Only
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?theme=Winter` |
+| **Action** | Click **Send**. |
+| **✅ Expected** | Status code **200 OK**. Response array length is **1** (Outfit A). |
+
+### 5. GET Search by Tags Only (Intersection)
+*Note: Outfit C is excluded because it is missing the "Workwear" tag, confirming **AND** logic for tags.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tags=Formal,Workwear` |
+| **Action** | Click **Send**. |
+| **✅ Expected** | Status code **200 OK**. Response array length is **1** (Outfit A). |
+
+### 6. GET Search by Combined Filters (Success)
+*This is the primary test: only the outfit matching both the theme **AND** all tags should be returned.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tags=Formal,Workwear&theme=Winter` |
+| **Action** | Click **Send**. |
+| **✅ Expected** | Status code **200 OK**. Response array length is **1** (Outfit A). |
+
+### 7. GET Search by Combined Filters (Theme Mismatch)
+*Test where the tags match, but the theme fails the check.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tags=Formal,Workwear&theme=Summer` |
+| **Action** | Click **Send**. |
+| **✅ Expected** | Status code **200 OK**. Response array length is **0** (`{"outfits": []}`). |
+
+---
+
+## Step 4: Frontend Testing (UI Logic)
+
+Visit the app at `http://localhost:5173`. Ensure Outfit A, B, and C are displayed in the recent outfits list.
+
+### Test 4.1: Combined Filter Success
+* In the sidebar/search UI, select **"Winter"** theme and enter tags **Formal**, **Workwear**.
+* ✅ **Verify:** Only **Outfit A** appears in the results grid.
+
+### Test 4.2: Tags Only
+* Clear the theme selection. Keep tags as **Formal**, **Workwear**.
+* ✅ **Verify:** Only **Outfit A** appears (tag filter only).
+
+### Test 4.3: Theme Only
+* Clear the tags input. Select **"Summer"** theme.
+* ✅ **Verify:** Only **Outfit B** appears (theme filter only).
+
+### Test 4.4: Combined Filter Failure
+* Select **"Winter"** theme and enter tags **Workwear**, **Casual**.
+* ✅ **Verify:** The results grid is **empty**, confirming the combined **AND** logic is working.
+
+### Test 4.5: Persistence
+* ✅ **Verify:** Ensure the selected theme and entered tags remain in the sidebar/search UI until the user explicitly clears them or starts a new search.
+
+### Test 4.6: Grid Display
+* ✅ **Verify:** The results grid shows the filtered outfits neatly, and each card displays the correct image, theme, and all associated tags.

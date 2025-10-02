@@ -526,3 +526,53 @@ style(frontend): implement responsive grid layout for outfits
 - Frontend: multi-select dropdown of popular tags, wired to new API.
 - Added responsive **grid layout** for outfit cards, improving UI clarity.
 - Strengthens categorization and browsing experience for users.
+
+
+---
+
+## 2. Daily Dev Log
+
+## 📆 Daily Dev Log — Black Styles (Day 13)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Extended backend search to support both tags and theme filters.
+- Added `search_outfits_by_tags_and_theme` service method.
+- Updated frontend with a sidebar filter:
+  - Multi-select dropdown for tags.
+  - Theme dropdown (Winter, Summer, Autumn, Spring).
+- Combined filters used to fetch and display outfits in a grid.
+
+---
+
+### 🧪 What I Tested
+- Backend queries for tags, theme, and combined filtering.
+- Frontend sidebar filtering workflow.
+- Edge cases (empty filters, lowercase input, non-existent filters).
+- Grid display consistency with filtered results.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [ ] Sidebar dropdown initially reset after search → fixed by preserving state.
+- [ ] Needed case-insensitive match for themes (implemented in service).
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+bash
+feat(backend): extend search route with theme parameter
+feat(backend): add search_outfits_by_tags_and_theme service
+feat(frontend): implement sidebar filter for tags + theme
+style(frontend): maintain grid layout for filtered outfits
+
+### Black Styles — Day 13
+**Focus:** Theme-Based Filtering + Sidebar UI
+
+- Backend: extended outfit search to support **tags + theme** combined filters.
+- Frontend: added **filter sidebar** with multi-tag dropdown and theme selector.
+- Outfits displayed in responsive **grid layout** with swatches, captions, and styled tags.
+- Enables refined browsing (e.g., "Formal + Winter" or "Casual + Summer").

@@ -84,7 +84,7 @@ const UploadForm = () => {
       />
 
       {/* ✅ NEW: input field for tags */}
-      <label>Tags (comma-seperated):</label> // ✅ Added label for clarity
+      <label>Tags (comma-seperated):</label>
       <input
         type="text"
         value={tags}

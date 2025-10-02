@@ -1,6 +1,6 @@
 // frontend/src/components/RecentOutfits.jsx
 import React, { useEffect, useState } from "react";
-import { fetchOutfits, searchOutfits, searchOutfitsByTag } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
+import { fetchOutfits, searchOutfits } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
 import OutfitCard from "./OutfitCard";
 
 /*
@@ -50,11 +50,14 @@ const RecentOutfits = () => {
     return (
         <div className="flex" style={{ padding: 12}}>
             {/* Sidebar Filters */}
-            <div className="w-1/4 p-4 border-r" style={{ marginBottom: 12 }}>
+            <div className="w-1/4 p-4 border-r flex flex-col gap-4" style={{ marginBottom: 12 }}>
             <h3>Filter Outfits</h3>
-            {/* Tag Filter */}
-            <label>Tags:</label>
+
+            {/* Tag Filter  Group*/}
+            <div className="filter-group flex flex-col">
+            <label htmlFor="tag-select">Tags:</label>
             <select
+                    id="tag-select"
                     multiple
                     value={searchTags}
                     onChange={(e) =>
@@ -67,10 +70,13 @@ const RecentOutfits = () => {
                         </option>
                     ))}
                 </select>
+            </div>
 
-            {/* Theme Filter */}
-            <label>Theme:</label>
+            {/* Theme Filter Group*/}
+            <div className="filter-group flex flex-col">
+            <label htmlFor="theme-select">Theme:</label>
             <select
+                    id="theme-select"
                     value={searchTheme}
                     onChange={(e) => setSearchTheme(e.target.value)}
                 >
@@ -81,10 +87,12 @@ const RecentOutfits = () => {
                         </option>
                     ))}
                 </select>
+            </div>
 
-                <button onClick={handleSearch}>
+                <button onClick={handleSearch} className="mt-2">
                     Search
                 </button>
+                
             </div>
             {/* Outfit Display Area */}
             <div className="w-3/4 p-4 outfit-grid flex flex-wrap gap-4">

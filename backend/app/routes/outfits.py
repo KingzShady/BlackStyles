@@ -58,8 +58,8 @@ def search_outfits():
     theme = request.args.get("theme", "").strip()
 
     # ✅ Validate that query param exists
-    if not tags_param:
-        return jsonify({"error": "Missing tags"}), 400
+    if not tags_param and not theme:
+        return jsonify({"error": "Missing tags or theme filter"}), 400
     
     # ✅ Parse tags safely into a list
     tags = [t.strip() for t in tags_param.split(",") if t.strip()] if tags_param else []

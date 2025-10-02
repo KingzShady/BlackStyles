@@ -1,49 +1,5 @@
 [
   {
-    "timestamp": "2025-10-02T20:56:22.576701",
-    "image_url": "[http://example.com/outfit_c.jpg](http://example.com/outfit_c.jpg)",
-    "colours": [
-      "#552200",
-      "#AA4400"
-    ],
-    "theme": "Autumn",
-    "caption": "",
-    "tags": [
-      "Formal",
-      "Black"
-    ]
-  },
-  {
-    "timestamp": "2025-10-02T20:56:12.202476",
-    "image_url": "[http://example.com/outfit_b.jpg](http://example.com/outfit_b.jpg)",
-    "colours": [
-      "#FFFFFF",
-      "#00FF00"
-    ],
-    "theme": "Summer",
-    "caption": "",
-    "tags": [
-      "Casual",
-      "Streetwear",
-      "Green"
-    ]
-  },
-  {
-    "timestamp": "2025-10-02T20:56:01.865046",
-    "image_url": "[http://example.com/outfit_a.jpg](http://example.com/outfit_a.jpg)",
-    "colours": [
-      "#111111",
-      "#999999"
-    ],
-    "theme": "Winter",
-    "caption": "",
-    "tags": [
-      "Formal",
-      "Workwear",
-      "Black"
-    ]
-  },
-  {
     "timestamp": "2025-10-01T20:10:07.566205",
     "image_url": "blob:http://localhost:5173/cc5777a5-18a1-4941-9bb7-69a1f4760db5",
     "colours": [

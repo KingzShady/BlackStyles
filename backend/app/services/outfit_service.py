@@ -60,13 +60,14 @@ def get_recent_outfits(limit=5):
     outfits = _load_outfits()
     return outfits[:limit]
 
-def search_outfits_by_tag(tags):
+def search_outfits_by_tags_and_theme(tags, theme):
     """
-    Search outfits that contain a given tag.
+    Search outfits by tags and optionally filter by theme.
     Args:
         tags (list[str]): list of tags to filter outfits by
+        theme (str, optional): theme filter (case-insensitive). If empty/None, theme filter is skipped.
     Returns:
-        list[dict]: outfits whose tag list includes the given tag
+        list[dict]: outfits that match the given tags (all tags must be present) and theme (if provided).
     """
     outfits = _load_outfits()
     results = []
@@ -75,8 +76,13 @@ def search_outfits_by_tag(tags):
         # Normalize stored tags to lowercase for case-insensitive matching
         outfits_tags = [t.lower() for t in o.get("tags", [])]
 
-        # ✅ Ensure All search tags must be present in the outfit's tags list
-        if all(tag.lower() in outfits_tags for tag in tags):
+        # ✅ Theme filter: passes if no theme provided or matches outfit theme
+        theme_match = not theme or o.get("theme", "").lower() == theme.lower()
+
+        # ✅ Tags filter: only include outfit if All search tags are present
+        tags_match = all(tag.lower() in outfits_tags for tag in tags)
+
+        if tags_match and theme_match:
             results.append(o)
 
     return results

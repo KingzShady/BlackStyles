@@ -2,7 +2,6 @@
 from flask import Blueprint, request, jsonify
 from app.services import outfit_service
 
-# Define a Flask Blueprint for outfit-related API routes
 outfits_bp = Blueprint("outfits", __name__, url_prefix="/api/outfits")
 
 @outfits_bp.route("/save", methods=["POST"])
@@ -47,20 +46,25 @@ def get_recent_outfits():
 @outfits_bp.route("/search", methods=["GET"])
 def search_outfits():
     """
-    Search outfits by one or more tags.
+    Extend search API endpoint.
     Accepts query param:
-    - tag: (required) comma-separated list of tags (e.g. "casual,blue")
-    Returns a list of matching outfits.
+    - tags: (required) comma-separated list of tags (e.g. "casual,blue")
+    - theme: (optional) outfit theme to filter by (e.g. "summer")
+
+    Returns a list of outfits matching any of the given tags AND/OR theme.
     """
+    # Extract query params
     tags_param = request.args.get("tags", "").strip()
+    theme = request.args.get("theme", "").strip()
 
     # ✅ Validate that query param exists
     if not tags_param:
         return jsonify({"error": "Missing tags"}), 400
     
-    # ✅ Support mutiple tags by splitting on commas and trimming whitespace
-    tags = [t.strip() for t in tags_param.split(",") if t.strip()]
+    # ✅ Parse tags safely into a list
+    tags = [t.strip() for t in tags_param.split(",") if t.strip()] if tags_param else []
 
-    # Delegate to service layer for filtering logic
-    results = outfit_service.search_outfits_by_tag(tags)
+    #✅ New: Delegate to a service function that handles combined filtering
+    results = outfit_service.search_outfits_by_tags_and_theme(tags, theme)
+    
     return jsonify({"outfits": results}), 200

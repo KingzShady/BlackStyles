@@ -1,3 +1,4 @@
+/* frontend/src/index.css */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -67,9 +68,9 @@ button:focus-visible {
   }
 }
 
-/* Outfit grif layout for RecentOutfits and similar components*/
+/* Outfit grid layout for RecentOutfits and similar components */
 .outfit-grid {
-  display: grid; /* Outfit grid layout for RecentOutfits and similar components*/
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Responsive 220px min, expand to fill row*/
-  gap: 16px; /* Space between cards*/
+  display: grid; /* Enables responsive grid for outfit cards */
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Minimum card width 220px, expand to fill row */
+  gap: 16px; /* Gap between cards for spacing */
 }

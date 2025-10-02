@@ -1,18 +1,19 @@
 // frontend/src/components/RecentOutfits.jsx
 import React, { useEffect, useState } from "react";
-import { fetchOutfits, searchOutfitsByTag } from "../utils/api"; // ✅ New: Updated import for multi-tag search
+import { fetchOutfits, searchOutfits, searchOutfitsByTag } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
 import OutfitCard from "./OutfitCard";
 
 /*
  RecentOutfits Component
 * - Fetches and display recently saved outfits
-* - Adds: multi-tag dropdown search for outfits
-* - Why: Allows more powerful filtering (e.g., by "Formal" + "Casual")
+* - Adds: sidebar filters for tags + themes
+* - Why: Provides more precise filtering and better UX
 */
 const RecentOutfits = () => {
     const [outfits, setOutfits] = useState([]); // All outfits from backend
-    const [searchTags, setSearchTags] = useState([]); // 🔹 UPDATED: now stores mutiple tags
-    const [filteredOutfits, setFilteredOutfits] = useState([]); // Filtered results
+    const [searchTags, setSearchTags] = useState([]); // User-selected tags
+    const [searchTheme, setSearchTheme] = useState(""); // User-selected theme
+    const [filteredOutfits, setFilteredOutfits] = useState([]); // Results after filter applied
 
     useEffect(() => {
         // Load recent outfits when component mounts
@@ -27,37 +28,33 @@ const RecentOutfits = () => {
         loadOutfits();
     }, []);
 
-    // 🔹 New: handler for multi-tag search
+    // 🔹 Updated: search now supports tags + theme
     const handleSearch = async () => {
-        // If no tags are selected, clear the filter and return
-        if (searchTags.length === 0){
-            setFilteredOutfits([]);
-            return; // Stops the API call if search is empty
-        }
-        try{
-            const results = await searchOutfitsByTag(searchTags); // Updated API call
-            setFilteredOutfits(results || []); // store filtered results 
-        }
-        catch (err){
+        try {
+            const results = await searchOutfits(searchTags, searchTheme);
+            setFilteredOutfits(results || []);
+        } catch (err){
             console.error("Search failed:", err);
         }
     };
 
-    // ✅ New: Dropdown list of popular tags for convenience
-    const popularTags = ["Formal", "Casual", "Streetwear", "Workwear", "Sportswear"];
+    // ✅ New: Sidebar filter Options
+    const popularTags = ["Formal", "Casual", "Streetwear", "Workwear", "Sportswear", "Vintage", "Beachwear", "Party", "Bohemian", "Festival"];
+    const themes = ["Summer", "Winter", "Spring", "Autumn"];
 
     // Determine which list to render: filetered results if present, otherwise the main list
-    const outfitsToDisplay = filteredOutfits.length > 0 || searchTags.length > 0 
+    const outfitsToDisplay = filteredOutfits.length > 0 || searchTags.length > 0 || searchTheme
         ? filteredOutfits 
         : outfits;
 
     return (
-        <div style={{ padding: 12}}>
-            <h2>Recent Outfits</h2>
-
-            {/* ✅ New: Multi-tag dropdown */}
-            <div className="search-bar" style={{ marginBottom: 12 }}>
-                <select
+        <div className="flex" style={{ padding: 12}}>
+            {/* Sidebar Filters */}
+            <div className="w-1/4 p-4 border-r" style={{ marginBottom: 12 }}>
+            <h3>Filter Outfits</h3>
+            {/* Tag Filter */}
+            <label>Tags:</label>
+            <select
                     multiple
                     value={searchTags}
                     onChange={(e) =>
@@ -70,27 +67,39 @@ const RecentOutfits = () => {
                         </option>
                     ))}
                 </select>
-                <button onClick={handleSearch}>Search</button>
-            </div>
 
-            {/* ✅ UPDATED: Only show "No Outfits saved yet" if the *main* list is empty */}
-            {outfits.length === 0 ? (
-                <p style={{color: "#666" }}>No outfits saved yet.</p>
+            {/* Theme Filter */}
+            <label>Theme:</label>
+            <select
+                    value={searchTheme}
+                    onChange={(e) => setSearchTheme(e.target.value)}
+                >
+                    <option value="">All</option>
+                    {themes.map((t) => (
+                        <option key={t} value={t}>
+                            {t}
+                        </option>
+                    ))}
+                </select>
+
+                <button onClick={handleSearch}>
+                    Search
+                </button>
+            </div>
+            {/* Outfit Display Area */}
+            <div className="w-3/4 p-4 outfit-grid flex flex-wrap gap-4">
+            {outfitsToDisplay.length === 0 ? (
+                <p style={{ color: "#666" }}>
+                    {outfits.length === 0
+                        ? "No outfits saved yet."
+                        : "No outfits match the selected filters."}
+                </p>
             ) : (
-                
-                <div className="outfit-grid" style={{ display: "flex", gap: 12, flexWrap: "wrap"}}>
-                    {/* Check if a search was performed and returned no results */}
-                    {outfitsToDisplay.length === 0 && searchTags.length > 0 ? (
-                        <p style={{ color: "#666" }}>No outfits match the selected tags.</p>
-                    ) : (
-                        /* Show determined list of Outfits */
-                        outfitsToDisplay.map((o, idx) => (
-                            <OutfitCard key={idx} outfit={o} />
-                        ))
-                    )}
-                </div>
+                outfitsToDisplay.map((o, idx) => <OutfitCard key={idx} outfit={o} />)
             )}
         </div>
+    </div>
     );
 };
+
 export default RecentOutfits;

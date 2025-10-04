@@ -32,7 +32,7 @@ const RecentOutfits = () => {
     // 🔹 UPDATED: Seach includes sorting parameter
     const handleSearch = async () => {
         try {
-            const results = await searchOutfits(searchTags, searchTheme, so);
+            const results = await searchOutfits(searchTags, searchTheme, sortOption);
             setFilteredOutfits(results || []);
         } catch (err){
             console.error("Search failed:", err);
@@ -44,7 +44,7 @@ const RecentOutfits = () => {
 
     // Determine which list to render: filetered results if present, otherwise the main list
     const outfitsToDisplay = filteredOutfits.length > 0 || searchTags.length > 0 || searchTheme
-        ? filteredOutfits 
+         ? filteredOutfits 
         : outfits;
 
     return (

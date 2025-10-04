@@ -1,6 +1,6 @@
 // frontend/src/components/RecentOutfits.jsx
 import React, { useEffect, useState } from "react";
-import { fetchOutfits, searchOutfits } from "../utils/api"; // ✅ Updated: now using combined search (tags + theme)
+import { fetchOutfits, searchOutfits } from "../utils/api";
 import OutfitCard from "./OutfitCard";
 
 /*
@@ -11,12 +11,13 @@ import OutfitCard from "./OutfitCard";
 */
 const RecentOutfits = () => {
     const [outfits, setOutfits] = useState([]); // All outfits from backend
-    const [searchTags, setSearchTags] = useState([]); // User-selected tags
-    const [searchTheme, setSearchTheme] = useState(""); // User-selected theme
-    const [filteredOutfits, setFilteredOutfits] = useState([]); // Results after filter applied
+    const [searchTags, setSearchTags] = useState([]); // Selected tags
+    const [searchTheme, setSearchTheme] = useState(""); // Selected theme
+    const [sortOption, setSortOption] = useState(""); // 🆕 ADDED: Sort option state
+    const [sidebarOpen, setSidebarOpen] = useState(true); // 🆕 ADDED: Collapsible sidebar state
+    const [filteredOutfits, setFilteredOutfits] = useState([]); // Filtered search results
 
     useEffect(() => {
-        // Load recent outfits when component mounts
         const loadOutfits = async () => {
             try {
                 const data = await fetchOutfits();
@@ -28,17 +29,16 @@ const RecentOutfits = () => {
         loadOutfits();
     }, []);
 
-    // 🔹 Updated: search now supports tags + theme
+    // 🔹 UPDATED: Seach includes sorting parameter
     const handleSearch = async () => {
         try {
-            const results = await searchOutfits(searchTags, searchTheme);
+            const results = await searchOutfits(searchTags, searchTheme, so);
             setFilteredOutfits(results || []);
         } catch (err){
             console.error("Search failed:", err);
         }
     };
 
-    // ✅ New: Sidebar filter Options
     const popularTags = ["Formal", "Casual", "Streetwear", "Workwear", "Sportswear", "Vintage", "Beachwear", "Party", "Bohemian", "Festival"];
     const themes = ["Summer", "Winter", "Spring", "Autumn"];
 
@@ -48,56 +48,74 @@ const RecentOutfits = () => {
         : outfits;
 
     return (
-        <div className="flex" style={{ padding: 12}}>
-            {/* Sidebar Filters */}
-            <div className="w-1/4 p-4 border-r" style={{ marginBottom: 12 }}>
-            <h3>Filter Outfits</h3>
+        <div className="flex relative" style={{ padding: 12}}>
+            {/* 🆕 Collapsible Sidebar */}
+            {sidebarOpen && (
+            <div className="w-1/4 p-4 border-r bg-gray-50 shadow-md rounded-lg" style={{ marginBottom: 12 }}>
+            <h3 className="font-bold mb-2">Filter Outfits</h3>
+            
             {/* Tag Filter */}
-            <label>Tags:</label>
+            <label className="block font-semibold mt-2">Tags:</label>
             <select
-                    multiple
-                    value={searchTags}
-                    onChange={(e) =>
-                        setSearchTags(Array.from(e.target.selectedOptions, (opt) => opt.value))
-                    }
-                >
-                    {popularTags.map((tag) => (
-                        <option key={tag} value={tag}>
-                            {tag}
-                        </option>
-                    ))}
-                </select>
+                multiple
+                value={searchTags}
+                onChange={(e) =>
+                    setSearchTags(Array.from(e.target.selectedOptions, (opt) => opt.value))
+                }
+                className="border rounded w-full p-1"
+            >
+                {popularTags.map((tag) => (
+                    <option key={tag} value={tag}>{tag}</option>
+                ))}
+            </select>
 
             {/* Theme Filter */}
-            <label>Theme:</label>
+            <label className="block font-semibold mt-2">Theme:</label>
             <select
-                    value={searchTheme}
-                    onChange={(e) => setSearchTheme(e.target.value)}
-                >
-                    <option value="">All</option>
-                    {themes.map((t) => (
-                        <option key={t} value={t}>
-                            {t}
-                        </option>
-                    ))}
-                </select>
+                value={searchTheme}
+                onChange={(e) => setSearchTheme(e.target.value)}
+                className="border rounded w-full p-1"
+            >
+                <option value="">All</option>
+                {themes.map((t) => <option key={t} value={t}>{t}</option>)}
+            </select>
 
-                <button onClick={handleSearch}>
-                    Search
-                </button>
-            </div>
-            {/* Outfit Display Area */}
-            <div className="w-3/4 p-4 outfit-grid flex flex-wrap gap-4">
-            {outfitsToDisplay.length === 0 ? (
-                <p style={{ color: "#666" }}>
-                    {outfits.length === 0
-                        ? "No outfits saved yet."
-                        : "No outfits match the selected filters."}
-                </p>
-            ) : (
-                outfitsToDisplay.map((o, idx) => <OutfitCard key={idx} outfit={o} />)
-            )}
+            {/* 🆕 Sort Options */}
+            <label className="block font-semibold mt-2">Sort:</label>
+            <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="border rounded w-full p-1"
+            >
+                <option value="">Default</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="alphabetical">Alphabetical</option>
+            </select>
+
+            <button 
+                onClick={handleSearch}
+                className="mt-3 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+            >
+                Search
+            </button>
         </div>
+    )}
+
+    {/* 🆕 Sidebar Toggle Button */}
+    <button
+        className="absolute left-2 top-2 bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 transition"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+    >
+        {sidebarOpen ? "Hide Filters" : "Show Filters"}
+    </button>
+
+    {/* Outfit Grid Display*/}
+    <div className="w-3/4 p-4 outfit-grid">
+        {(filteredOutfits.length > 0 ? filteredOutfits : outfits).map((outfit, i) => (
+            <OutfitCard key={i} outfit={outfit} />
+        ))}
+    </div>
     </div>
     );
 };

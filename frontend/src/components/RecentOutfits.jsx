@@ -44,7 +44,7 @@ const RecentOutfits = () => {
 
     // Determine which list to render: filetered results if present, otherwise the main list
     const outfitsToDisplay = filteredOutfits.length > 0 || searchTags.length > 0 || searchTheme
-         ? filteredOutfits 
+        ? filteredOutfits 
         : outfits;
 
     return (

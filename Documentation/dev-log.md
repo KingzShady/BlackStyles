@@ -576,3 +576,49 @@ style(frontend): maintain grid layout for filtered outfits
 - Frontend: added **filter sidebar** with multi-tag dropdown and theme selector.
 - Outfits displayed in responsive **grid layout** with swatches, captions, and styled tags.
 - Enables refined browsing (e.g., "Formal + Winter" or "Casual + Summer").
+
+
+---
+
+## 📆 Daily Dev Log — Black Styles (Day 14)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- Extended backend to support sorting in `/api/outfits/search`.
+- Implemented `sort_outfits` in `outfit_service.py` (newest, oldest, alphabetical).
+- Updated frontend `RecentOutfits.jsx`:
+  - Added sorting dropdown.
+  - Made sidebar collapsible (toggle show/hide).
+- Introduced colored tag badges for improved UX.
+
+---
+
+### 🧪 What I Tested
+- Backend sorting logic for all three parameters.
+- Frontend sidebar collapsibility and persistent state.
+- Visual consistency of tag badges.
+- Combined filtering and sorting behavior (tags + theme + order).
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [ ] Sidebar animation flickered on toggle → adjusted state render timing.
+- [ ] Missing `created_at` field in some JSON entries → fallback handled.
+- [ ] Sorting on captions now ignores case for consistent results.
+
+### 💬 Git Commits Made (Conventional Format)
+feat(backend): add sort param for outfit search
+feat(backend): implement sort_outfits helper in outfit_service.py
+feat(frontend): add sorting dropdown and collapsible sidebar UI
+style(frontend): add colored tag badges for better visual distinction
+
+### Black Styles — Day 14
+**Focus:** Sorting + Sidebar UX Enhancement
+
+- **Backend:** Added sorting support (`newest`, `oldest`, `alphabetical`) to outfit search API.
+- **Frontend:** Improved browsing with collapsible filter sidebar and sorting dropdown.
+- **UI Polish:** Introduced colored tag badges for a refined visual identity.
+- Enhanced user experience for navigating culturally grounded fashion recommendations.

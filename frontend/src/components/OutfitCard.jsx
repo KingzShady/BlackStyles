@@ -2,37 +2,55 @@
 import React from "react";
 import ColourSwatches from "./ColourSwatches";
 
+// Helper function to capitalize the first letter for CSS class matching
+const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
 const OutfitCard = ({ outfit }) => {
     return (
-        <div style={{ border: "1px solid #ccc", padding: "10px", margin: "10px"}}>
+        <div 
+            style={{ 
+                border: "1px solid white", 
+                padding: "15px", 
+                margin: "10px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}
+        >
             <img
                 src={outfit.image_url}
                 alt="Outfit"
-                style={{ width: "100px", borderRadius: "4px" }}
+                style={{ 
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: "8px",
+                    objectFit: "cover",
+                    marginBottom: "10px",
+
+                }}
             />
 
             {outfit.caption && <p><em>{outfit.caption}</em></p>}
 
-            <p>Theme: {outfit.theme}</p>
+            <p style={{ fontWeight: 'bold' }}>Theme: {outfit.theme}</p>
 
             {/* 🔹 Refined tag styling using Tailwind-like classes */}
             {outfit.tags && outfit.tags.length > 0 && (
-                <p className="tags">
-                    {outfit.tags.map((tag, i) => (
-                        <span 
-                            key={i} 
-                            className="inline-block bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded"
-                            style={{ 
-                                marginRight: '6px',
-                                border: '1px solid #ccc',
-                                padding: '2px 4px',
-                                borderRadius: '4px',
-                                display: 'inline-block',
-                            }}
-                        >
-                            {tag}
-                        </span>
-                    ))}
+                <p lassName="tags" style={{ minHeight: '30px' }}>
+                    {outfit.tags.map((tag, i) => {
+                        const tagClassName = capitalize(tag);
+                        return (
+                            <span
+                                key={i}
+                                className={`tag-badge ${tagClassName}`}
+                            >
+                                {tag}
+                            </span>
+                        );
+                    })}
                 </p>
             )}
 
@@ -40,5 +58,4 @@ const OutfitCard = ({ outfit }) => {
         </div>
     );
 };
-
 export default OutfitCard;

@@ -86,3 +86,30 @@ def search_outfits_by_tags_and_theme(tags, theme):
             results.append(o)
 
     return results
+
+def sort_outfits(outfits, sort_key):
+    """
+    Sort outfits based on the selected key.
+    Args:
+        outfits (list[dict]): list of outfit entries to sort.
+        sort_key (str): sorting criterion ("newest", "oldest", "alphabetical").
+    Returns:
+        list[dict]: sorted list of outfits.
+    """
+    # 🆕 ADDED: sorting utility for different view if outfit data.
+    # Sorting provides better UX when viewing outfits by user preferences.
+
+    if sort_key == "newest":
+        # Sort by newest first (decending by timestamp)
+        return sorted(outfits, key=lambda o: o.get("timestamp", ""), reverse=True)
+    
+    if sort_key == "oldest":
+        # Sort by oldest first (ascending by timestamp)
+        return sorted(outfits, key=lambda o: o.get("timestamp", ""))
+    
+    if sort_key == "alphabetical":
+        # Sort alphabetically by caption (case-insensitive)
+        return sorted(outfits, key=lambda o: o.get("caption", "").lower())
+    
+    # Default: return unsorted list if invalid sort key provided
+    return outfits

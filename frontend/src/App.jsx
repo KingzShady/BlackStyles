@@ -12,7 +12,14 @@ import RecentOutfits from "./components/RecentOutfits"; // ✅ Added new compone
 function App() {
   return (
     // ✅ Clean container, base styling can be centralized later in CSS
-    <div style={{ fontFamily: "system-ui, sans-serif", padding: 24}}>
+    <div 
+      style={{ 
+        fontFamily: "system-ui, sans-serif", 
+        padding: 24,
+        maxWidth: '1200px',
+        margin: '0 auto'  // Center the app horizontally
+      }
+      }>
       
       {/* App title */}
       <h1>Black Styles</h1>

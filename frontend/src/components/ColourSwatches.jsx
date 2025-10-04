@@ -23,6 +23,7 @@ const ColourSwatches = ({ colours }) => {
                             width: "40px",
                             height: "40px",
                             backgroundColor: hex,
+                            border: "1px solid white",
                             borderRadius: "4px",
                             cursor: "pointer", // Indicate clickable
                         }}

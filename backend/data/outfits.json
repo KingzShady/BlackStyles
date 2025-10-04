@@ -1,5 +1,22 @@
 [
   {
+    "timestamp": "2025-10-04T17:41:03.354589",
+    "image_url": "blob:http://localhost:5173/f02b7632-5782-4cc3-87d8-31b965a88c1a",
+    "colours": [
+      "#323946",
+      "#7e8794",
+      "#23252d",
+      "#bbc2c9",
+      "#505868"
+    ],
+    "theme": "Autumn",
+    "caption": "Old Money Outerwear #4",
+    "tags": [
+      "Formal",
+      "Streetwear"
+    ]
+  },
+  {
     "timestamp": "2025-10-01T20:10:07.566205",
     "image_url": "blob:http://localhost:5173/cc5777a5-18a1-4941-9bb7-69a1f4760db5",
     "colours": [
@@ -27,8 +44,7 @@
     "caption": "",
     "tags": [
       "Casual",
-      "Streetwear",
-      "White"
+      "Streetwear"
     ]
   },
   {
@@ -42,8 +58,7 @@
     "caption": "",
     "tags": [
       "Formal",
-      "Workwear",
-      "Black"
+      "Workwear"
     ]
   },
   {
@@ -56,8 +71,7 @@
     "theme": "Autumn",
     "caption": "",
     "tags": [
-      "Formal",
-      "Evening"
+      "Formal"
     ]
   },
   {

@@ -1,0 +1,89 @@
+# 🧪 Day 14 — Testing Log: Search, Sorting, and UI Responsiveness
+
+**Goal:** Validate the functionality of search sorting options (newest, oldest, alphabetical) on the Outfit Search API and verify basic UI responsiveness features (sidebar collapse/expand) and tag badge styling.
+
+---
+
+## Step 1: Start Backend & Frontend
+
+### Backend
+
+cd backend
+venv\Scripts\activate
+python run.py 
+
+
+### Frontend
+
+cd frontend
+npm run dev
+
+---
+
+## Step 2: Backend API Testing (Sorting)
+
+We test the `GET /api/outfits/search` endpoint to verify that the `sort` parameter works correctly, both standalone and when combined with a filter.
+
+### 1. GET Search + Sort Newest
+*Tests combining a filter (`theme=Winter`) with the `sort` parameter.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?theme=Winter&sort=newest` |
+| **cURL** | ```bash
+curl "[http://127.0.0.1:5000/api/outfits/search?theme=Winter&sort=newest](http://127.0.0.1:5000/api/outfits/search?theme=Winter&sort=newest)"
+``` |
+| **✅ Expected** | Status code **200 OK**. Outfits matching the "Winter" theme are returned, ordered by **most recent creation date first**. |
+
+### 2. GET Sort Oldest
+*Tests the `oldest` sorting parameter without other filters.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?sort=oldest` |
+| **cURL** | ```bash
+curl "[http://127.0.0.1:5000/api/outfits/search?sort=oldest](http://127.0.0.1:5000/api/outfits/search?sort=oldest)"
+``` |
+| **✅ Expected** | Status code **200 OK**. All outfits are returned, ordered by **oldest creation date first**. |
+
+### 3. GET Sort Alphabetical
+*Tests the `alphabetical` sorting parameter, likely based on the outfit's caption or title.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?sort=alphabetical` |
+| **cURL** | ```bash
+curl "[http://127.0.0.1:5000/api/outfits/search?sort=alphabetical](http://127.0.0.1:5000/api/outfits/search?sort=alphabetical)"
+``` |
+| **✅ Expected** | Status code **200 OK**. All outfits are returned, ordered **A–Z by their primary text identifier (e.g., caption or title)**. |
+
+---
+
+## Step 3: Frontend Testing (UI/UX)
+
+Visit the app at `http://localhost:5173`. Ensure outfits with distinct timestamps and captions are visible.
+
+### Test 3.1: Sorting Functionality
+Use the sorting dropdown/controls in the sidebar:
+
+* **Sort: "Newest"**
+    * ✅ **Verify:** The outfit grid immediately updates, displaying the **latest uploaded outfit first**.
+* **Sort: "Oldest"**
+    * ✅ **Verify:** The outfit grid immediately updates, displaying the **earliest uploaded outfit first**.
+* **Sort: "Alphabetical"**
+    * ✅ **Verify:** The outfit grid immediately updates, displaying outfits sorted **A–Z** based on their caption/title.
+
+### Test 3.2: Sidebar Responsiveness
+
+* **Collapse Sidebar:** Locate and click the collapse/hide sidebar button.
+    * ✅ **Verify:** The filter controls become hidden, and the main outfit grid **expands** to occupy the newly available space.
+* **Expand Sidebar:** Locate and click the expand/show sidebar button.
+    * ✅ **Verify:** The filter controls become visible again, and the main outfit grid **returns** to its original size/position.
+
+### Test 3.3: Tag Badge Styling
+
+* **Visual Check:** Inspect the tag badges displayed on the outfit cards.
+    * ✅ **Verify:** Tag badges have a visually appealing design and display **distinct background colors** for different tag values to improve scannability.

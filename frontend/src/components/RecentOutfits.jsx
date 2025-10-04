@@ -32,7 +32,7 @@ const RecentOutfits = () => {
     // 🔹 UPDATED: Seach includes sorting parameter
     const handleSearch = async () => {
         try {
-            const results = await searchOutfits(searchTags, searchTheme, so);
+            const results = await searchOutfits(searchTags, searchTheme, sortOption);
             setFilteredOutfits(results || []);
         } catch (err){
             console.error("Search failed:", err);

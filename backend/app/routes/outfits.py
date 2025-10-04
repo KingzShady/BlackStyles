@@ -48,23 +48,25 @@ def search_outfits():
     """
     Extend search API endpoint.
     Accepts query param:
-    - tags: (required) comma-separated list of tags (e.g. "casual,blue")
+    - tags: (optional) comma-separated list of tags (e.g. "casual,blue")
     - theme: (optional) outfit theme to filter by (e.g. "summer")
+    - sort: (optional) sorting criteria (e.g. "date_desc", "theme asc")
 
-    Returns a list of outfits matching any of the given tags AND/OR theme.
+    Returns a list of outfits matching the filters amd sorted requested.
     """
-    # Extract query params
+    # ✅ Extract query params
     tags_param = request.args.get("tags", "").strip()
     theme = request.args.get("theme", "").strip()
-
-    # ✅ Validate that query param exists
-    if not tags_param:
-        return jsonify({"error": "Missing tags"}), 400
+    sort = request.args.get("sort", "").strip()  # 🆕 Added: new sorting param
     
     # ✅ Parse tags safely into a list
     tags = [t.strip() for t in tags_param.split(",") if t.strip()] if tags_param else []
 
-    #✅ New: Delegate to a service function that handles combined filtering
+    # ✅ Fetch results from service layer (filtered by tags + theme)
     results = outfit_service.search_outfits_by_tags_and_theme(tags, theme)
+
+    # 🆕 ADDED: Apply sorting logic only if 'sort' param exists
+    if sort:
+        results = outfit_service.sort_outfits(results, sort)
     
     return jsonify({"outfits": results}), 200

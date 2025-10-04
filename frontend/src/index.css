@@ -74,3 +74,25 @@ button:focus-visible {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Minimum card width 220px, expand to fill row */
   gap: 16px; /* Gap between cards for spacing */
 }
+
+/* 🆕 ADDED: Coloured tag badges for outfit labels */
+.tag-badge {
+  display: inline-block; /* Keep tags inline but block-style for spacing */
+  padding: 0.2em 0.6em; /* Compact tag padding */
+  border-radius: 12px; /* Rounded pill shape for smooth visuals */
+  font-size: 0.8em; /* Small, subtle tag text */
+  margin: 0.2em; /* Small Space between badges */
+  font-weight: 500; /* Slightly bolder text for readability */
+}
+
+/* 🎨 Individual tag colour themes */
+.tag-badge.Formal { background-color: #4a90e2; color: white; } /* Blue tone for Formal outfits*/
+.tag-badge.Casual { background-color: #7ed321; color: white; } /* Green tone for Casual outfits*/
+.tag-badge.Streetwear { background-color: #d0021b; color: white; } /* Red tone for Streetwear outfits*/
+.tag-badge.Workwear { background-color: #f5a623; color: white; } /* Orange tone for Workwear outfits*/
+.tag-badge.Sportswear { background-color: #f8e71c; color: white; } /* Yellow tone for Sportswear outfits*/
+.tag-badge.Vintage { background-color: #9b59b6; color: white; } /* Purple tone for Vintage outfits*/
+.tag-badge.Beachwear { background-color: #00bcd4; color: white; } /* Aqua tone for Beachwear outfits*/
+.tag-badge.Party { background-color: #34495e; color: white; } /* Dark tone for Party outfits*/
+.tag-badge.Bohemian { background-color: #e91e63; color: white; } /* Pink tone for Bohemian outfits*/
+.tag-badge.Festival { background-color: #8e44ad; color: white; } /* Violet tone for Festival outfits*/

@@ -12,7 +12,7 @@ const RecentOutfits = () => {
     const [page, setPage] = useState(1); // 🆕 Pagination state
     const [outfits, setOutfits] = useState([]); 
     const [sidebarOpen, setSidebarOpen] = useState(true); 
-    const [filteredOutfits, setFilteredOutfits] = useState([]); 
+    const [filteredOutfits, setFilteredOutfits] = useState([]);
 
     // Load inital outfits on mount
     useEffect(() => {

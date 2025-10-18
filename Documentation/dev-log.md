@@ -622,3 +622,60 @@ style(frontend): add colored tag badges for better visual distinction
 - **Frontend:** Improved browsing with collapsible filter sidebar and sorting dropdown.
 - **UI Polish:** Introduced colored tag badges for a refined visual identity.
 - Enhanced user experience for navigating culturally grounded fashion recommendations.
+
+---
+
+## 📆 Daily Dev Log — Day 15
+```markdown
+## 📆 Daily Dev Log — Black Styles (Day 15)
+
+A React + Flask AI fashion app for culturally rich and body-aware style recommendations.
+
+---
+
+### ✅ What I Implemented Today
+- **MongoDB Integration:** Added `mongo_service.py` with `init_mongo()` connection handler.  
+- **Pagination:** Backend `/api/outfits/search` now supports `page` and `limit`.  
+- **Frontend UX:**
+  - Added sorting/filter persistence using `localStorage`.
+  - Added favorites system (`FavoriteButton.jsx` + `favoritesUtils.js`).
+  - Implemented pagination UI with Prev/Next buttons.
+
+---
+
+### 🧪 What I Tested
+- MongoDB connection detection and fallback to JSON.
+- Pagination behavior across multiple pages.
+- Frontend persistence of filters after reload.
+- Local favorites storage (toggle & persist).
+- Smooth pagination transitions and UI sync.
+
+---
+
+### 🧠 Any Issues or Bugs Encountered
+- [x] MongoDB URI env variable required; fallback confirmed when missing.
+- [x] Pagination required adjusting index range in JSON fallback.
+- [x] Favorites button initially flickered → fixed by adding unique `outfitId`.
+
+---
+
+### 💬 Git Commits Made (Conventional Format)
+```bash
+feat(backend): integrate MongoDB persistence with JSON fallback
+feat(backend): add pagination to outfit search API
+feat(frontend): persist sorting and filters using localStorage
+feat(frontend): add favorites button and pagination controls
+fix(frontend): handle unique outfit IDs for favorites toggle
+
+---
+
+## 💼 Portfolio Snippet
+```markdown
+### Black Styles — Day 15
+**Focus:** MongoDB Persistence, Pagination, and Favorites
+
+- **Backend:** Introduced MongoDB integration with graceful fallback to JSON.
+- **Frontend:** Added local persistence for filters, sorting, and favorites.
+- **UX:** Implemented pagination with Prev/Next controls.
+- Enhanced scalability and user personalization while maintaining speed and reliability.
+

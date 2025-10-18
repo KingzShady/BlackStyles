@@ -1,0 +1,81 @@
+Before Day 15:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py              # Register new routes
+│   │   ├── routes/
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # Modified: ✅ extended with sort param
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   └── outfit_service.py    # Modified: ✅ new sort_outfits method
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # Store outfits + now includes tags
+│   └── run.py
+└── frontend/
+    ├── public/
+    └── src/
+        ├── components/
+        │   ├── UploadForm.jsx        # ✅ improved UX
+        │   ├── ColorSwatches.jsx     # ✅ improved UX
+        │   ├── RecentOutfits.jsx     # Modified: ✅ added sorting + collapsible sidebar
+        │   └── OutfitCard.jsx        # Styled: ✅ improved UX
+        └── utils/
+            ├── localStorageUtils.js  # Keep for offline fallback
+            ├── api.js                # Modified: ✅ supports sort param
+            ├── main.jsx              # New: ✅ entry point for React 18
+            ├── index.css             # New: ✅ global styles
+            ├── App.css               # New: ✅ styles for App component
+            └── App.jsx               # Render RecentOutfits
+
+
+After Day 15:
+black-styles/
+│
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py              # Register new routes
+│   │   ├── routes/
+│   │   │   ├── image.py             # Upload + new save/recent routes
+│   │   │   ├── palettes.py          # Routes to save/fetch palettes
+│   │   │   ├── test.py              # Expanded tests for palettes
+|   |   |   ├── theme.py             # Theme logic remains here
+|   |   |   └── outfits.py           # Modified: ✅ pagination + Mongo integration
+│   │   ├── services/
+│   │   │   ├── color_palette.py     # Extract colors
+│   │   │   ├── theme_matcher.py     # Theme logic
+│   │   │   ├── palette_service.py   # handles DB/JSON persistence
+│   │   │   ├── outfit_service.py    # Modified: ✅ pagination + Mongo fallback
+│   │   │   └── mongo_service.py     # Added: ✅ new Mongo handler
+│   │   └── utils/
+│   │       └── image_utils.py       # Cropping + helpers
+│   ├── data/                        
+│   │   └── palettes.json            # Store palettes
+│   │   └── outfits.json             # Store outfits + now includes tags
+│   └── run.py
+└── frontend/
+    ├── public/
+    └── src/
+        ├── components/
+        │   ├── UploadForm.jsx        # ✅ improved UX
+        │   ├── ColorSwatches.jsx     # ✅ improved UX
+        │   ├── RecentOutfits.jsx     # Modified: ✅ pagination, filter persistence
+        │   ├── FavoriteButton.jsx    # Added: ✅ favorite outfits component    
+        │   └── OutfitCard.jsx        # ✅ improved UX
+        └── utils/
+            ├── localStorageUtils.js  # Modified: ✅ filter persistence
+            ├── favoritesUtils.js     # Added: ✅ manage favorite outfits           
+            ├── api.js                # Modified: ✅ supports pagination params
+            ├── main.jsx              # ✅ entry point for React 18
+            ├── index.css             # ✅ global styles
+            ├── App.css               # ✅ styles for App component
+            └── App.jsx               # Render RecentOutfits

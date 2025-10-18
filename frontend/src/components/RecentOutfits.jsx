@@ -133,6 +133,13 @@ const RecentOutfits = () => {
             onClick={() => setPage(page - 1)}
             className="px-3, py-1, bg-gray-200 rounded hover:bg-gray-300 transition"
         >
+            Prev
+        </button>
+        <span>Page {page}</span>
+        <button
+            onClick={ () => setPage(page + 1)}
+            className="px-3, py-1, bg-gray-200 rounded hover:bg-gray-300 transition"
+        >
             Next
         </button>
     </div>

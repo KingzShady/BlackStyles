@@ -21,6 +21,7 @@ export async function saveOutfit(imageUrl, colours, theme, caption = "", tags = 
 
 /**
  * Fetch recently saved outfits from backend.
+ * @param {number} limit - The Number of outfits to return.
  */
 export async function fetchOutfits(limit = 5){
     const res = await axios.get(`${API_BASE}/outfits/recent?limit=${limit}`);
@@ -28,20 +29,19 @@ export async function fetchOutfits(limit = 5){
 }
 
 /**
- * 🔄 Updated: Search outfits by tags, theme, and sort order.
- * - Why: Adds more sorting control to enhance search usability (newest, oldest, alphabetical).
- * - Example: searchOutfits(["streetwear"], "urban", "newest")
+ * 🔄 Updated: Search outfits by tags, theme, sort order and page number.
+ * - Example: searchOutfits(["streetwear"], "urban", "newest", 2)
  */
-export async function searchOutfits(tags = [], theme = "", sort = ""){
-    // ✅ ADDED: `sort` param to allow backend sorting of search results
+export async function searchOutfits(tags = [], theme = "", sort = "", page = 1, limit = 10){
+    // ✅ Ensure page is passed correctly, default limit is 10
     const res = await axios.get(`${API_BASE}/outfits/search`, { 
         params: { 
-            tags: tags.join(","), // Convert array into comma-separated string
-            theme, // Optional theme filter
-            sort, // 🆕 NEW: sort parameter for ordering results
+            tags: tags.join(","),
+            theme,
+            sort,
+            page,
+            limit
         }, 
     });
-
-    // ✅ Keeps return consistent for frontend rendering
     return res.data.outfits;
 };

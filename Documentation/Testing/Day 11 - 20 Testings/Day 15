@@ -1,0 +1,131 @@
+# 🧪 Testing Log: Search, Sorting, Pagination, and Persistence
+
+-----
+
+## Step 1: Start Backend & Frontend
+
+```bash
+# Backend
+cd backend
+venv\Scripts\activate
+python run.py
+
+# Frontend
+cd frontend
+npm run dev
+
+# URLs
+Backend: http://127.0.0.1:5000
+Frontend: http://localhost:5173
+```
+
+-----
+
+## Step 2: Backend API Testing (MongoDB & Pagination)
+
+We verify the MongoDB connection status and the correct functioning of the pagination parameters on the search endpoint.
+
+### 1\. MongoDB Connection Test
+
+| Detail | Setting |
+| :--- | :--- |
+| **Command** | `python -m backend.app.services.mongo_service` |
+| **✅ Expected** | If `MONGO_URI` is set: Logs **`MongoDB connected successfully.`** |
+| **⚠️ Fallback** | If `MONGO_URI` is missing: Logs **`⚠️ MongoDB URI not found; using JSON fallback.`** |
+
+### 2\. Search Pagination (Limit 5, Page 1)
+
+*Tests fetching the first page of results with a limit of 5.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?page=1&limit=5` |
+| **cURL** | `bashcurl "http://127.0.0.1:5000/api/outfits/search?page=1&limit=5"` |
+| **✅ Expected** | Status code **200 OK**. Response body contains **5 outfits** (or fewer if total is \< 5). The response metadata shows **`"page": 1`**, **`"limit": 5`**, and accurate `total` and `total_pages` counts. |
+
+### 3\. Search Pagination (Limit 5, Page 2)
+
+*Tests fetching the subsequent page to ensure the `start` index is calculated correctly.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?page=2&limit=5` |
+| **cURL** | `bashcurl "http://127.0.0.1:5000/api/outfits/search?page=2&limit=5"` |
+| **✅ Expected** | Status code **200 OK**. The outfits returned are a **different set** from Page 1 (i.e., indices 5 through 9). The response metadata shows **`"page": 2`**. |
+
+-----
+
+## Step 3: Backend API Testing (Sorting & Filtering)
+
+We test the `GET /api/outfits/search` endpoint to verify the `sort` and `tags` parameters.
+
+### 1\. GET Search + Sort Newest + Filter by Tag
+
+*Tests combining a filter (`tags=Casual`) with the `sort=newest` parameter.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?tags=Casual&sort=newest` |
+| **cURL** | `bashcurl "http://127.0.0.1:5000/api/outfits/search?tags=Casual&sort=newest"` |
+| **✅ Expected** | Status code **200 OK**. Outfits matching the "Casual" tag are returned, ordered by **most recent creation date first**. |
+
+### 2\. GET Sort Oldest
+
+*Tests the `oldest` sorting parameter without other filters.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?sort=oldest` |
+| **cURL** | `bashcurl "http://127.0.0.1:5000/api/outfits/search?sort=oldest"` |
+| **✅ Expected** | Status code **200 OK**. All outfits are returned, ordered by **oldest creation date first** (ascending timestamp). |
+
+### 3\. GET Sort Alphabetical
+
+*Tests the `alphabetical` sorting parameter.*
+
+| Detail | Setting |
+| :--- | :--- |
+| **Method** | `GET` |
+| **URL** | `http://127.0.0.1:5000/api/outfits/search?sort=alphabetical` |
+| **cURL** | `bashcurl "http://127.0.0.1:5000/api/outfits/search?sort=alphabetical"` |
+| **✅ Expected** | Status code **200 OK**. All outfits are returned, ordered **A–Z** based on their **caption**. |
+
+-----
+
+## Step 4: Frontend Testing (UI/UX)
+
+Visit the app at `http://localhost:5173`.
+
+### Test 4.1: Filter, Sort, and Persistence
+
+1.  **Apply Filters:** In the sidebar, select a **Tag** (e.g., "Formal"), a **Theme** (e.g., "Winter"), and a **Sort** option (e.g., "Newest").
+2.  **Run Search:** Click the **`Search`** button.
+      * ✅ **Verify:** The displayed outfits match **all** selected criteria (Tag + Theme) and are correctly **sorted**.
+3.  **Refresh:** **Refresh the entire browser page.**
+      * ✅ **Verify:** The sidebar still shows the **Tag**, **Theme**, and **Sort** options you previously selected (`loadFilters` from `localStorageUtils.js`).
+      * ✅ **Verify:** The main outfit grid still displays the **filtered and sorted results** (as `RecentOutfits.jsx` loads and applies persisted filters on mount).
+
+### Test 4.2: Favourites Functionality
+
+1.  **Favourite:** Locate an outfit and click the **`☆ Add to Favourites`** button next to it.
+      * ✅ **Verify:** The button immediately changes text and color to **`★ Favourite`** and **red** (`FavouriteButton.jsx`).
+2.  **Refresh:** **Refresh the entire browser page.**
+      * ✅ **Verify:** The button for that specific outfit **remains** as **`★ Favourite`** (state is persisted via `favouritesUtils.js` and `localStorage`).
+3.  **Un-favourite:** Click the **`★ Favourite`** button.
+      * ✅ **Verify:** The button immediately changes text and color back to **`☆ Add to Favourites`** and **gray**.
+
+### Test 4.3: Pagination and Sidebar Controls
+
+1.  **Change Page:** Click the **`Next`** button under the `Pagination Controls`.
+      * ✅ **Verify:** The displayed outfits change to the next set of results, and the page number updates (e.g., **`Page 2`**).
+2.  **Go Back:** Click the **`Prev`** button.
+      * ✅ **Verify:** The displayed outfits return to the previous page's set.
+      * ✅ **Verify:** The **`Prev`** button is **disabled** when on `Page 1`.
+3.  **Sidebar Toggle:** Click the **`Hide Filters`** button.
+      * ✅ **Verify:** The entire filter sidebar is hidden.
+4.  **Sidebar Toggle Back:** Click the **`Show Filters`** button.
+      * ✅ **Verify:** The filter sidebar reappears, and its state (filters applied) is preserved.

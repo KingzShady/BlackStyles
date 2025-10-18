@@ -12,7 +12,7 @@ const RecentOutfits = () => {
     const [page, setPage] = useState(1); // 🆕 Pagination state
     const [outfits, setOutfits] = useState([]); 
     const [sidebarOpen, setSidebarOpen] = useState(true); 
-    const [filteredOutfits, setFilteredOutfits] = useState([]); 
+    const [filteredOutfits, setFilteredOutfits] = useState([]);
 
     // Load inital outfits on mount
     useEffect(() => {
@@ -131,6 +131,13 @@ const RecentOutfits = () => {
         <button
             disabled={page === 1}
             onClick={() => setPage(page - 1)}
+            className="px-3, py-1, bg-gray-200 rounded hover:bg-gray-300 transition"
+        >
+            Prev
+        </button>
+        <span>Page {page}</span>
+        <button
+            onClick={ () => setPage(page + 1)}
             className="px-3, py-1, bg-gray-200 rounded hover:bg-gray-300 transition"
         >
             Next

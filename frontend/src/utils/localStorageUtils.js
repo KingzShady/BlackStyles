@@ -1,44 +1,68 @@
 // frontend/src/utils/localStorageUtils.js
-// Small helper to manage saved outfits in localStorage
+// ✅ Added persistence utilities for filters & sorting preferences
 
-const STORAGE_KEY = "black_styles_outfits"; // Unque key to avoid clashes with other apps in the browser
+const STORAGE_KEY = "black_styles_outfits"; // Existing storage key for saved outfits
+
+// ------------------------------------------
+// 🆕 NEW SECTION: Filter & Sort Persistence
+// ------------------------------------------
+
+/**
+ * Save user's selected filters and sorting options to localStorage.
+ * Why: Allows the app to remember the user's filter/sporting preferences
+ * even after a page reload or session restart.
+ */
+export const saveFilters = (filters) => {
+    try {
+        // Use a distinct key to avoid overwriting saved outfits
+        localStorage.setItem("blackstyles-filters", JSON.stringify(filters));
+    } catch (e) {
+        console.error("Failed to save filters:", e);
+    }
+};
+
+/**
+ * Load user's filters and sort settings from localStorage.
+ * If not found, returns default structure with empty values.
+ * Why: Keeps UI consistent with user's last used settings.
+ */
+export const loadFilters = () => {
+    try{
+        const data = localStorage.getItem("blackstyles-filters");
+        return data ? JSON.parse(data) : { tags: [], theme: "", sort: "" };
+    } catch (e){
+        console.error("Failed to load filters:", e);
+        return { tags: [], theme: "", sort: "" };
+    }
+};
 
 
-// Get saved outfits array (or empty array if nothing is stored)
+// -----------------------------------------
+// 🧩 Existing outfit save utilities
+// -----------------------------------------
 export function getSavedOutfits() {
 try{
     const raw = localStorage.getItem(STORAGE_KEY); 
     return raw ? JSON.parse(raw) : [];
 } catch (e){
-    console.error("localStorage read error:", e); // Log error without crashing app
+    console.error("localStorage read error:", e);
     return [];
   }
 }
 
-/**
- * Save outfits to localStorage.
- * - Newest outfits are placed at the start of the array.
- * - Caps stored outfits at 20 to avoid unbounded growth.
- * Outfits shape: {id, imageData, palette, theme, savedAt}
- */
 export function saveOutfit(outfit){
     const arr = getSavedOutfits();
-    arr.unshift(outfit); // Add new outfit to the start
-    if (arr.length > 20) arr.pop(); // Keep size capped at 20
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); // Save back to localStorage
+    arr.unshift(outfit);
+    if (arr.length > 20) arr.pop();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
 }
 
-/**
- * Delete a single outfit by unique ID.
- */
+
 export function deleteOutfit(id) {
-    const arr = getSavedOutfits().filter((o) => o.id !== id); // Filter out the outfit with the given ID
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); // Save the updated array back to localStorage
+    const arr = getSavedOutfits().filter((o) => o.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
 }
 
-/**
- * Delete all saved outfits.
- */
 export function clearSavedOutfits() {
-    localStorage.removeItem(STORAGE_KEY); // Remove the entire key
+    localStorage.removeItem(STORAGE_KEY);
 }

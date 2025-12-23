@@ -1,47 +1,43 @@
 // frontend/src/utils/api.js
 
 import axios from "axios";
-
-// ✅ Consistent API base with '/api' prefix
-const API_BASE = "http://localhost:5000/api";
+import { getToken } from "./auth"; // 🆕 ADDED: Centralized JWT access
 
 /**
- * Save an outfit entry to the backend persistence layer.
+ * Centralized Axios instance
+ * --------------------------
+ * WHY:
+ * - Avoid repeating base URLs, and headers across the app
+ * - Makes authentication, logging and error handling global
  */
-export async function saveOutfit(imageUrl, colours, theme, caption = "", tags = []){
-    const res = await axios.post(`${API_BASE}/outfits/save`, {
-        image_url: imageUrl,
-        colours,
-        theme,
-        caption, 
-        tags,
-    });
-    return res.data;
-}
+
+const api = axios.create({
+    baseURL: "https://127.0.0.1:5000/api", // 🔄 UPDATED: Single source of API truth
+});
 
 /**
- * Fetch recently saved outfits from backend.
- * @param {number} limit - The Number of outfits to return.
+ * Request Interceptor
+ * -------------------
+ * WHY:
+ * - Automatically attaches JWT to every outgoing request
+ * - Keeps auth logic out of components and API calls
+ * - Ensures protected endpoints always recieve credentials
  */
-export async function fetchOutfits(limit = 5){
-    const res = await axios.get(`${API_BASE}/outfits/recent?limit=${limit}`);
-    return res.data;
-}
 
-/**
- * 🔄 Updated: Search outfits by tags, theme, sort order and page number.
- * - Example: searchOutfits(["streetwear"], "urban", "newest", 2)
- */
-export async function searchOutfits(tags = [], theme = "", sort = "", page = 1, limit = 10){
-    // ✅ Ensure page is passed correctly, default limit is 10
-    const res = await axios.get(`${API_BASE}/outfits/search`, { 
-        params: { 
-            tags: tags.join(","),
-            theme,
-            sort,
-            page,
-            limit
-        }, 
-    });
-    return res.data.outfits;
-};
+api.interceptors.request.use(
+    (config) => {
+        const token = getToken(); // 🔐 Fetch token from auth utility
+        
+        if (token){
+            // 🆕 ADDED: Attach Authorization header only if token exists
+            config.headers.Authorization = `Bearer $(token)`;
+        }
+        return config;
+    },
+    (error) => {
+        // Forward request errors (network/config issues)
+        return Promise.reject(error);
+    }
+);
+
+export default api;
